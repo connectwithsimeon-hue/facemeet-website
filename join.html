@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Create Your FaceMeet Profile — FaceMeet</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0807;--surface:#141110;--surface2:#1f1a17;--surface3:#2a2420;
+  --coral:#e8503a;--coral-light:#ff6f56;--coral-dim:rgba(232,80,58,0.12);
+  --gold:#d4a847;--gold-dim:rgba(212,168,71,0.12);
+  --green:#06d6a0;--green-dim:rgba(6,214,160,0.1);
+  --cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.65);--muted:#8a7e72;
+  --border:rgba(245,240,232,0.06);--border2:rgba(245,240,232,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+
+/* Nav */
+nav#navbar{position:sticky;top:0;z-index:50;background:rgba(10,8,7,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(245,240,232,.06);box-shadow:0 4px 32px rgba(0,0,0,.3)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav-logo{text-decoration:none;font-size:20px;font-weight:700;color:var(--cream);display:flex;align-items:center;gap:12px}
+.nav-logo span{color:var(--coral);}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{color:rgba(245,240,232,.7);text-decoration:none;font-size:14px;font-weight:400;padding:8px 14px;border-radius:8px;transition:all .2s}
+.nav-link:hover{color:var(--cream);background:rgba(245,240,232,.06)}
+.nav-link.active{color:var(--coral)}
+.nav-cta{background:var(--coral);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:30px;margin-left:8px;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
+.nav-cta:hover{background:#ff6f56;box-shadow:0 6px 20px rgba(232,80,58,.35)}
+.mob-btn{display:none;background:rgba(245,240,232,.08);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:8px 12px;color:var(--cream);font-size:18px;cursor:pointer}
+
+/* Hero */
+.hero{padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(232,80,58,0.08) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:700px;margin:0 auto;position:relative;}
+
+.founding-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid rgba(212,168,71,0.3);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:8px 20px;border-radius:20px;margin-bottom:28px;}
+
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,68px);font-weight:700;line-height:1.0;letter-spacing:-2px;margin-bottom:20px;}
+.hero-title em{font-style:italic;color:var(--coral);}
+.hero-title .gold{color:var(--gold);}
+
+.hero-sub{font-size:17px;color:var(--cream-dim);max-width:520px;margin:0 auto 40px;line-height:1.75;}
+.hero-sub strong{color:var(--cream);font-weight:500;}
+
+/* Spots counter */
+.spots-wrap{margin-bottom:40px;}
+.spots-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.spots-bar-wrap{max-width:400px;margin:0 auto;background:var(--surface);border:1px solid var(--border2);border-radius:50px;height:12px;overflow:hidden;position:relative;}
+.spots-bar{height:100%;background:linear-gradient(90deg,var(--coral),var(--coral-light));border-radius:50px;transition:width 1s ease;}
+.spots-numbers{display:flex;justify-content:space-between;max-width:400px;margin:10px auto 0;font-size:13px;}
+.spots-filled{color:var(--coral);font-weight:600;}
+.spots-total{color:var(--muted);}
+
+/* Perks */
+.perks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:700px;margin:0 auto 48px;}
+.perk{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;}
+.perk-icon{font-size:28px;margin-bottom:10px;display:block;}
+.perk-title{font-size:14px;font-weight:600;color:var(--cream);margin-bottom:6px;}
+.perk-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* Form */
+.form-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:40px;max-width:560px;margin:0 auto 60px;}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;}
+.form-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+
+.form-group{margin-bottom:18px;}
+.form-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 18px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(232,80,58,0.5);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-select{cursor:pointer;appearance:none;}
+.form-select option{background:var(--surface2);color:var(--cream);}
+.form-textarea{height:90px;resize:none;line-height:1.6;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.submit-btn{width:100%;background:var(--coral);color:white;border:none;border-radius:50px;padding:16px;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:8px;letter-spacing:0.3px;}
+.submit-btn:hover{background:var(--coral-light);box-shadow:0 10px 28px rgba(232,80,58,0.35);transform:translateY(-1px);}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6;}
+.form-note span{color:var(--coral);}
+#form-card,#success-card{display:none!important;}
+.download-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:34px;max-width:620px;margin:0 auto 60px;text-align:center;}
+.download-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:10px;}
+.download-sub{font-size:15px;color:var(--cream-dim);line-height:1.7;margin-bottom:24px;}
+.download-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0;}
+.download-btn{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:50px;padding:15px 18px;text-decoration:none;font-weight:700;transition:all .2s;}
+.download-btn.ios{background:var(--coral);color:white;}
+.download-btn.android{background:var(--surface2);border:1px solid var(--border2);color:var(--cream);}
+.download-btn:hover{transform:translateY(-2px);}
+.qr-frame{width:180px;height:180px;background:#fff;border-radius:18px;padding:12px;margin:0 auto 16px;}
+.qr-frame img{width:100%;height:100%;object-fit:contain;}
+
+/* Success state */
+.success-card{display:none;background:var(--surface);border:1px solid rgba(6,214,160,0.2);border-radius:24px;padding:48px 40px;max-width:560px;margin:0 auto 60px;text-align:center;}
+.success-icon{font-size:56px;margin-bottom:20px;display:block;}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:12px;}
+.success-sub{font-size:15px;color:var(--cream-dim);line-height:1.7;margin-bottom:28px;}
+.success-position{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;color:var(--coral);line-height:1;margin-bottom:6px;}
+.success-pos-label{font-size:13px;color:var(--muted);margin-bottom:28px;}
+
+/* Share section */
+.share-section{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.share-title{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px;}
+.share-desc{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+.share-link-pill{background:var(--surface);border:1px solid var(--border2);border-radius:50px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;}
+.share-link-text{font-size:13px;color:var(--cream-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.copy-btn{background:var(--coral);color:white;border:none;border-radius:50px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;transition:all 0.2s;flex-shrink:0;}
+.copy-btn:hover{background:var(--coral-light);}
+
+.share-btns{display:flex;gap:10px;}
+.share-btn{flex:1;padding:12px;border-radius:12px;font-size:13px;font-weight:600;text-decoration:none;text-align:center;transition:all 0.2s;cursor:pointer;border:none;font-family:'Outfit',sans-serif;}
+.share-btn.wa{background:#25D366;color:white;}
+.share-btn.wa:hover{background:#22c55e;}
+.share-btn.more{background:var(--surface);border:1px solid var(--border2);color:var(--cream);}
+.share-btn.more:hover{border-color:var(--coral);color:var(--coral);}
+
+/* Invite perks */
+.invite-perks{margin-top:16px;}
+.invite-perk-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.invite-perk-row:last-child{border-bottom:none;}
+.invite-num{width:28px;height:28px;background:var(--coral-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--coral);flex-shrink:0;}
+.invite-perk-text{color:var(--cream-dim);}
+.invite-perk-text strong{color:var(--cream);font-weight:500;}
+
+/* How it works */
+.how-section{max-width:700px;margin:0 auto 60px;padding:0 24px;}
+.how-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1px;text-align:center;margin-bottom:32px;}
+.how-title em{font-style:italic;color:var(--coral);}
+.how-steps{display:flex;flex-direction:column;gap:14px;}
+.how-step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:16px;}
+.how-step-num{width:36px;height:36px;background:var(--coral);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:white;flex-shrink:0;}
+.how-step-title{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:4px;}
+.how-step-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* Timeline */
+.timeline{max-width:700px;margin:0 auto 60px;padding:0 24px;}
+.timeline-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;letter-spacing:-1px;text-align:center;margin-bottom:32px;}
+.timeline-title em{font-style:italic;color:var(--coral);}
+.timeline-items{position:relative;}
+.timeline-items::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--coral),rgba(232,80,58,0.1));}
+.timeline-item{display:flex;gap:20px;padding:0 0 28px 0;position:relative;}
+.timeline-dot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;z-index:1;}
+.timeline-dot.active{background:var(--coral);box-shadow:0 0 0 4px rgba(232,80,58,0.2);}
+.timeline-dot.upcoming{background:var(--surface);border:2px solid var(--border2);}
+.timeline-dot.vip{background:var(--gold);box-shadow:0 0 0 4px rgba(212,168,71,0.2);}
+.timeline-content{}
+.timeline-date{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+.timeline-date.gold{color:var(--gold);}
+.timeline-event{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:4px;}
+.timeline-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+
+footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:24px;text-align:left;color:var(--muted);font-size:13px;}
+.footer-logo{font-size:18px;font-weight:700;color:var(--cream);}
+.footer-logo span{color:var(--coral);}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s;}
+.footer-links a:hover{color:var(--cream);}
+.footer-copy{font-size:12px;color:var(--muted);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.a1{animation:fadeUp 0.6s both;}
+.a2{animation:fadeUp 0.6s 0.1s both;}
+.a3{animation:fadeUp 0.6s 0.2s both;}
+
+@media(max-width:768px){
+  .nav-inner{padding:14px 20px;}
+  .mob-btn{display:flex;align-items:center}
+  .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,8,7,.97);flex-direction:column;justify-content:center;align-items:center;gap:8px;z-index:998}
+  .nav-links.open{display:flex}
+  .nav-link{font-size:20px;padding:14px 28px;width:260px;text-align:center}
+  .nav-cta{font-size:16px;padding:14px 32px;margin:8px 0 0;width:260px;text-align:center}
+  .hero{padding:60px 20px 40px;}
+  .perks-grid{grid-template-columns:1fr;}
+  .form-card,.success-card{padding:28px 20px;margin:0 16px 40px;}
+  .form-row{grid-template-columns:1fr;}
+  .share-btns{flex-direction:column;}
+  .how-section,.timeline{padding:0 20px;}
+  footer{padding:28px 20px;flex-direction:column;text-align:center;}
+  .footer-links{justify-content:center;gap:18px;}
+}
+</style>
+<meta name="theme-color" content="#0a0807">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="mobile-app.css?v=2">
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Face<span>Meet</span></a>
+    <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
+      <a href="index.html#install" class="nav-link" onclick="closeMob()">How to Install</a>
+      <a href="index.html#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
+      <a href="/events" class="nav-link" onclick="closeMob()">Events</a>
+      <a href="creators.html" class="nav-link" onclick="closeMob()">Creators</a>
+      <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
+      <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
+    </div>
+    <a class="nav-cta" href="https://app.facemeet.app" onclick="closeMob()">Use on Desktop</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner a1">
+    <div class="founding-badge">⭐ FaceMeet is now open</div>
+    <h1 class="hero-title">
+      Create your<br>
+      video profile <em>today.</em>
+    </h1>
+    <p class="hero-sub">
+      FaceMeet is now open. Create your video profile now, share your link with friends, and get ready for real chemistry before your first Spark Session.
+    </p>
+
+    <!-- Spots counter -->
+    <div class="spots-wrap">
+      <div class="spots-label">Members creating profiles</div>
+      <div class="spots-bar-wrap">
+        <div class="spots-bar" id="spots-bar" style="width:21.3%"></div>
+      </div>
+      <div class="spots-numbers">
+        <span class="spots-filled"><span id="spots-filled">135</span> members joined</span>
+        <span class="spots-total">Profile upload live</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Founding member perks -->
+<div style="max-width:700px;margin:0 auto 48px;padding:0 24px;" class="a2">
+  <div class="perks-grid">
+    <div class="perk">
+      <span class="perk-icon">⚡</span>
+      <div class="perk-title">Now open</div>
+      <div class="perk-desc">Open FaceMeet and get your video profile ready before your first Spark.</div>
+    </div>
+    <div class="perk">
+      <span class="perk-icon">⭐</span>
+      <div class="perk-title">Profile Upload is live</div>
+      <div class="perk-desc">Record your real 20-second profile so people can meet your face first.</div>
+    </div>
+    <div class="perk">
+      <span class="perk-icon">🎟️</span>
+      <div class="perk-title">Referral rewards</div>
+      <div class="perk-desc">Invite friends to create profiles and bring more real people into your city.</div>
+    </div>
+    <div class="perk">
+      <span class="perk-icon">💰</span>
+      <div class="perk-title">Launch momentum</div>
+      <div class="perk-desc">The more real profiles ready on launch day, the better FaceMeet feels.</div>
+    </div>
+    <div class="perk">
+      <span class="perk-icon">🎯</span>
+      <div class="perk-title">Real video-first dating</div>
+      <div class="perk-desc">20-second video profiles and 3-minute sparks before messaging.</div>
+    </div>
+    <div class="perk">
+      <span class="perk-icon">🔐</span>
+      <div class="perk-title">Ready before launch</div>
+      <div class="perk-desc">Meet real people through video profiles, Mutual Sparks, and 3-minute Spark Dates.</div>
+    </div>
+  </div>
+</div>
+
+<div class="download-card a2">
+  <div class="qr-frame">
+    <img alt="Scan to open FaceMeet" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fapp.facemeet.app">
+  </div>
+  <div class="download-title">Open FaceMeet</div>
+  <p class="download-sub">Create your video profile now and get ready for real video-first dating, live Spark Sessions, and invite-only event drops.</p>
+  <div class="download-actions">
+    <a class="download-btn ios" href="https://app.facemeet.app">Open FaceMeet</a>
+    <a class="download-btn android" href="https://facemeet.app/#install">How to Install</a>
+  </div>
+  <div style="font-size:12px;color:var(--muted);">Video profile setup, Spark Sessions, and event access live inside FaceMeet.</div>
+</div>
+
+<!-- APPLICATION FORM -->
+<div class="form-card a2" id="form-card">
+  <div class="form-title">Create Your Profile</div>
+  <div class="form-sub">FaceMeet is now open. Tell us a bit about you and create momentum in your city.</div>
+
+  <div class="form-group">
+    <label class="form-label">Full name</label>
+    <input type="text" class="form-input" id="f-name" placeholder="Your first and last name" />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input type="email" class="form-input" id="f-email" placeholder="you@email.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nearest city or metro area</label>
+      <select class="form-select" id="f-city" onchange="toggleOtherCity('f-city','f-city-other')">
+        <option value="Dallas-Fort Worth">Dallas-Fort Worth — First market</option>
+        <option value="Houston">Houston</option>
+        <option value="Austin">Austin</option>
+        <option value="San Antonio">San Antonio</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="Miami / South Florida">Miami / South Florida</option>
+        <option value="New York City">New York City</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="Chicago">Chicago</option>
+        <option value="Philadelphia">Philadelphia</option>
+        <option value="Other">My area is not listed</option>
+      </select>
+      <div id="f-city-other" style="display:none;grid-template-columns:minmax(0,1fr) 126px;gap:10px;margin-top:10px;">
+        <input type="text" class="form-input" id="f-city-other-input" placeholder="City or metro area" />
+        <select class="form-select" id="f-state-other" data-state-select="true"><option value="">State</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Age range</label>
+      <select class="form-select" id="f-age">
+        <option value="">Select age range</option>
+        <option>18–24</option>
+        <option>25–29</option>
+        <option>30–34</option>
+        <option>35–39</option>
+        <option>40–44</option>
+        <option>45+</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">I am a</label>
+      <select class="form-select" id="f-gender">
+        <option value="">Select</option>
+        <option>Man seeking women</option>
+        <option>Woman seeking men</option>
+        <option>Man seeking men</option>
+        <option>Woman seeking women</option>
+        <option>Open to everyone</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Are you comfortable on camera?</label>
+    <select class="form-select" id="f-camera">
+      <option value="">Select</option>
+      <option>Yes — I video call all the time</option>
+      <option>Mostly yes — I can get comfortable</option>
+      <option>Nervous but willing to try</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Why should we pick you? (optional)</label>
+    <textarea class="form-textarea" id="f-why" placeholder="What frustrates you about dating apps right now? What are you looking for?"></textarea>
+  </div>
+
+  <button class="submit-btn" id="submit-btn" onclick="submitApplication()">
+    Create Your Profile →
+  </button>
+  <div class="form-note">
+    Create your video profile now. <span>No credit card.</span>
+  </div>
+</div>
+
+<!-- SUCCESS STATE -->
+<div class="success-card" id="success-card">
+  <span class="success-icon">⚡</span>
+  <div class="success-title">You're in FaceMeet.</div>
+  <p class="success-sub">Open the app, create your video profile, and invite friends so your city feels alive from day one.</p>
+
+  <div class="success-position" id="position-num">247</div>
+  <div class="success-pos-label">Founding profile spot · <span style="color:var(--coral);">invite friends and move up</span></div>
+
+  <div class="share-section">
+    <div class="share-title">⚡ Invite friends into FaceMeet</div>
+    <div class="share-desc">Share your unique link so friends can join FaceMeet, create their video profiles, and bring more real chemistry into your city.</div>
+    <div class="share-link-pill">
+      <span class="share-link-text" id="share-link">facemeet.app/join?ref=loading</span>
+      <button class="copy-btn" onclick="copyLink()">Copy</button>
+    </div>
+    <div class="share-btns">
+      <button class="share-btn wa" onclick="shareWA()">💬 Share on WhatsApp</button>
+      <button class="share-btn more" onclick="shareMore()">↗ Share more ways</button>
+    </div>
+    <div class="invite-perks">
+      <div class="invite-perk-row">
+        <div class="invite-num">1</div>
+        <div class="invite-perk-text"><strong>1 friend joins</strong> → you move up 50 spots</div>
+      </div>
+      <div class="invite-perk-row">
+        <div class="invite-num">3</div>
+        <div class="invite-perk-text"><strong>3 friends join</strong> → priority VIP consideration</div>
+      </div>
+      <div class="invite-perk-row">
+        <div class="invite-num">5</div>
+        <div class="invite-perk-text"><strong>5 friends join</strong> → bonus Spark Sessions</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section a3">
+  <h2 class="how-title">How FaceMeet<br><em>works.</em></h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div>
+        <div class="how-step-title">Open FaceMeet</div>
+        <div class="how-step-desc">FaceMeet is now open. Create your account and start building your profile now.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div>
+        <div class="how-step-title">Create your video profile</div>
+        <div class="how-step-desc">Record a real 20-second profile so people can meet your face before they message you.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div>
+        <div class="how-step-title">Meet real people first</div>
+        <div class="how-step-desc">Discover real video profiles and use Mutual Sparks to start with chemistry.</div>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">4</div>
+      <div>
+        <div class="how-step-title">Start with real chemistry</div>
+        <div class="how-step-desc">Use Mutual Sparks, 3-minute Spark Sessions, and event access to meet people in a more honest way.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline a3">
+  <h2 class="timeline-title">How FaceMeet <em>opens up.</em></h2>
+  <div class="timeline-items">
+    <div class="timeline-item">
+      <div class="timeline-dot active">📋</div>
+      <div class="timeline-content">
+        <div class="timeline-date">Now</div>
+        <div class="timeline-event">FaceMeet is open</div>
+        <div class="timeline-desc">Create your account and set up your profile.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot vip">⭐</div>
+      <div class="timeline-content">
+        <div class="timeline-date gold">Rolling review</div>
+        <div class="timeline-event">Video profiles go first</div>
+        <div class="timeline-desc">Create your 20-second profile so people can meet the real you first.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot upcoming">🎥</div>
+      <div class="timeline-content">
+        <div class="timeline-date">Now</div>
+        <div class="timeline-event">Invite friends</div>
+        <div class="timeline-desc">Share FaceMeet so more real profiles and better chemistry show up in your city.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot upcoming">🚀</div>
+      <div class="timeline-content">
+        <div class="timeline-date">Next</div>
+        <div class="timeline-event">Spark Sessions and event access</div>
+        <div class="timeline-desc">Mutual Sparks, live Spark Sessions, and curated event drops open up inside the app.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Face<span>Meet</span></div>
+  <div class="footer-links">
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="creators.html">Creators</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="child-safety.html">Child Safety</a>
+    <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
+    <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
+  </div>
+  <div class="footer-copy">© 2026 FaceMeet. See them before you swipe.</div>
+</footer>
+
+<div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+    <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+    <div style="font-size:44px;margin-bottom:18px;">✉️</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Get in touch</h2>
+    <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Have a question or feedback? We read every email and reply within 24 hours.</p>
+    <a href="mailto:hello@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">hello@facemeet.app</a>
+  </div>
+</div>
+
+<div id="support-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+    <button onclick="document.getElementById('support-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+    <div style="font-size:44px;margin-bottom:18px;">🛟</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Support</h2>
+    <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Having an issue? Email our support team. We reply within 24 hours.</p>
+    <a href="mailto:support@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">support@facemeet.app</a>
+  </div>
+</div>
+
+<script>
+// Shared spots counter
+const FOUNDING_BASE = 135
+const FOUNDING_MAX = 500
+let foundingCount = FOUNDING_BASE
+
+function setFoundingCount(n) {
+  const parsed = Number(n)
+  foundingCount = Number.isFinite(parsed) ? Math.max(FOUNDING_BASE, Math.min(FOUNDING_MAX, parsed)) : FOUNDING_BASE
+  const filled = document.getElementById('spots-filled')
+  const bar = document.getElementById('spots-bar')
+  if (filled) filled.textContent = foundingCount
+  if (bar) bar.style.width = (foundingCount / FOUNDING_MAX * 100).toFixed(1) + '%'
+}
+
+async function loadFoundingCount() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_founding_application_count`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: '{}'
+    })
+    if (!res.ok) throw new Error(await res.text())
+    const savedApplications = Number(await res.json())
+    setFoundingCount(FOUNDING_BASE + (Number.isFinite(savedApplications) ? savedApplications : 0))
+  } catch(e) {
+    console.warn('Founding count unavailable:', e)
+    setFoundingCount(foundingCount || FOUNDING_BASE)
+  }
+}
+
+window.addEventListener('load', () => {
+  populateStateSelects()
+  setFoundingCount(FOUNDING_BASE)
+  loadFoundingCount()
+})
+
+// Generate a simple ref code from email
+function makeRefCode(email) {
+  let hash = 0
+  for (let i = 0; i < email.length; i++) {
+    hash = ((hash << 5) - hash) + email.charCodeAt(i)
+    hash |= 0
+  }
+  return Math.abs(hash).toString(36).substring(0, 8)
+}
+
+let userRefCode = ''
+let userPosition = 247
+const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w'
+let creatorReferralVisitRecorded = false
+
+function getReferredBy() {
+  const params = new URLSearchParams(window.location.search)
+  const ref = (params.get('ref') || '').trim()
+  if (ref) {
+    localStorage.setItem('fm_ref', ref)
+    document.cookie = `fm_ref=${encodeURIComponent(ref)}; path=/; max-age=2592000; SameSite=Lax`
+  }
+  const cookieRef = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('fm_ref='))
+    ?.split('=')[1] || ''
+  const stored = ref || localStorage.getItem('fm_ref') || decodeURIComponent(cookieRef || '')
+  recordCreatorReferralVisit(stored)
+  return stored
+}
+
+async function recordCreatorReferralVisit(referralCode) {
+  if (!referralCode || creatorReferralVisitRecorded) return
+  creatorReferralVisitRecorded = true
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/rpc/record_creator_referral_visit`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        p_referral_code: referralCode,
+        p_path: window.location.pathname || '/join'
+      })
+    })
+  } catch(e) {
+    console.warn('Creator referral visit tracking skipped:', e)
+  }
+}
+
+const US_STATES = [
+  ['AL','Alabama'], ['AK','Alaska'], ['AZ','Arizona'], ['AR','Arkansas'], ['CA','California'],
+  ['CO','Colorado'], ['CT','Connecticut'], ['DE','Delaware'], ['FL','Florida'], ['GA','Georgia'],
+  ['HI','Hawaii'], ['ID','Idaho'], ['IL','Illinois'], ['IN','Indiana'], ['IA','Iowa'],
+  ['KS','Kansas'], ['KY','Kentucky'], ['LA','Louisiana'], ['ME','Maine'], ['MD','Maryland'],
+  ['MA','Massachusetts'], ['MI','Michigan'], ['MN','Minnesota'], ['MS','Mississippi'], ['MO','Missouri'],
+  ['MT','Montana'], ['NE','Nebraska'], ['NV','Nevada'], ['NH','New Hampshire'], ['NJ','New Jersey'],
+  ['NM','New Mexico'], ['NY','New York'], ['NC','North Carolina'], ['ND','North Dakota'], ['OH','Ohio'],
+  ['OK','Oklahoma'], ['OR','Oregon'], ['PA','Pennsylvania'], ['RI','Rhode Island'], ['SC','South Carolina'],
+  ['SD','South Dakota'], ['TN','Tennessee'], ['TX','Texas'], ['UT','Utah'], ['VT','Vermont'],
+  ['VA','Virginia'], ['WA','Washington'], ['WV','West Virginia'], ['WI','Wisconsin'], ['WY','Wyoming'],
+  ['DC','Washington, DC']
+]
+
+function populateStateSelects() {
+  document.querySelectorAll('[data-state-select="true"]').forEach(select => {
+    if (select.dataset.ready === 'true') return
+    US_STATES.forEach(([code, name]) => {
+      const option = document.createElement('option')
+      option.value = code
+      option.textContent = `${name} (${code})`
+      select.appendChild(option)
+    })
+    select.dataset.ready = 'true'
+  })
+}
+
+function toggleOtherCity(selectId, containerId) {
+  const select = document.getElementById(selectId)
+  const container = document.getElementById(containerId)
+  if (!select || !container) return
+  const isOther = select.value === 'Other'
+  container.style.display = isOther ? 'grid' : 'none'
+  if (!isOther) {
+    container.querySelectorAll('input, select').forEach(field => { field.value = '' })
+  }
+}
+
+function getSelectedCity(selectId, cityInputId, stateSelectId) {
+  const selected = document.getElementById(selectId).value || ''
+  if (selected !== 'Other') return selected
+  const city = document.getElementById(cityInputId).value.trim()
+  const state = document.getElementById(stateSelectId).value
+  return city && state ? `${city}, ${state}` : ''
+}
+
+async function archiveApplicationBackup(application) {
+  try {
+    await fetch('https://formspree.io/f/xqewygqo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'FaceMeet Join Application Backup',
+        _replyto: application.email,
+        name: application.full_name,
+        email: application.email,
+        city: application.city,
+        age: application.age_range,
+        gender: application.gender_interest,
+        camera: application.camera_comfort,
+        why: application.why_join,
+        source: application.source_page,
+        referral_code: application.referral_code,
+        referred_by: application.referred_by,
+        applied_at: new Date().toISOString()
+      })
+    })
+  } catch(e) {
+    console.warn('Backup application archive failed:', e)
+  }
+}
+
+async function saveApplication(application) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/founding_applications`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(application)
+    })
+
+    if (!res.ok) {
+      const errText = await res.text()
+      console.error('Founding application failed:', res.status, errText)
+      await archiveApplicationBackup(application)
+    }
+  } catch(e) {
+    console.error('Founding application failed:', e)
+    await archiveApplicationBackup(application)
+  }
+}
+
+function showSuccess(email) {
+  userRefCode = makeRefCode(email)
+  userPosition = Math.min(FOUNDING_MAX, (foundingCount || FOUNDING_BASE) + 1)
+
+  document.getElementById('form-card').style.display = 'none'
+  document.getElementById('success-card').style.display = 'block'
+  document.getElementById('position-num').textContent = userPosition
+  document.getElementById('share-link').textContent = `facemeet.app/join?ref=${userRefCode}`
+
+  setFoundingCount(userPosition)
+
+  localStorage.setItem('fm_founding_ref', userRefCode)
+  localStorage.setItem('fm_founding_pos', userPosition)
+}
+
+async function submitApplication() {
+  const name = document.getElementById('f-name').value.trim()
+  const email = document.getElementById('f-email').value.trim()
+  const city = getSelectedCity('f-city', 'f-city-other-input', 'f-state-other')
+  const age = document.getElementById('f-age').value
+  const gender = document.getElementById('f-gender').value
+  const camera = document.getElementById('f-camera').value
+  const why = document.getElementById('f-why').value.trim()
+
+  if (!name || !email || !city || !age || !gender) {
+    alert('Please fill in all required fields.')
+    return
+  }
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address.')
+    return
+  }
+
+  const btn = document.getElementById('submit-btn')
+  btn.textContent = 'Submitting...'
+  btn.disabled = true
+
+  try {
+    const referralCode = makeRefCode(email)
+    await saveApplication({
+      full_name: name,
+      email,
+      city,
+      age_range: age,
+      gender_interest: gender,
+      camera_comfort: camera || null,
+      why_join: why || null,
+      referral_code: referralCode,
+      referred_by: getReferredBy() || null,
+      referral_source: getReferredBy() || null,
+      status: 'pending',
+      source_page: 'join'
+    })
+
+  } catch(e) {
+    console.error('Application archive failed:', e)
+  }
+
+  showSuccess(email)
+}
+
+function copyLink() {
+  const link = `https://facemeet.app/join?ref=${userRefCode}`
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.querySelector('.copy-btn')
+    btn.textContent = 'Copied!'
+    setTimeout(() => btn.textContent = 'Copy', 2000)
+  })
+}
+
+function shareWA() {
+  const link = `https://facemeet.app/join?ref=${userRefCode}`
+  const msg = encodeURIComponent(`FaceMeet is open. Create your video profile and meet real people through Spark Sessions: ${link}`)
+  window.open(`https://wa.me/?text=${msg}`, '_blank')
+}
+
+function shareMore() {
+  const link = `https://facemeet.app/join?ref=${userRefCode}`
+  const msg = `FaceMeet is open. Create your video profile and meet real people through Spark Sessions: ${link}`
+  if (navigator.share) {
+    navigator.share({ title: 'FaceMeet', text: msg, url: link })
+  } else {
+    copyLink()
+  }
+}
+
+function toggleMob() {
+  document.getElementById('nav-links').classList.toggle('open')
+  document.getElementById('mob-btn').textContent = document.getElementById('nav-links').classList.contains('open') ? '✕' : '☰'
+}
+
+function closeMob() {
+  const links = document.getElementById('nav-links')
+  const btn = document.getElementById('mob-btn')
+  if (links) links.classList.remove('open')
+  if (btn) btn.textContent = '☰'
+}
+
+// Check if already applied
+window.addEventListener('load', () => {
+  const savedRef = localStorage.getItem('fm_founding_ref')
+  const savedPos = localStorage.getItem('fm_founding_pos')
+  if (savedRef && savedPos) {
+    userRefCode = savedRef
+    userPosition = savedPos
+    document.getElementById('form-card').style.display = 'none'
+    document.getElementById('success-card').style.display = 'block'
+    document.getElementById('position-num').textContent = savedPos
+    document.getElementById('share-link').textContent = `facemeet.app/join?ref=${savedRef}`
+  }
+})
+</script>
+<nav class="mobile-tabbar" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="events.html">Events</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="faq.html">FAQ</a>
+  <a href="join.html" aria-current="page">Join</a>
+</nav>
+</body>
+</html>

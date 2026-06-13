@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Creators — FaceMeet</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile-app.css?v=2">
+  <style>
+    :root{--bg:#0b0908;--surface:#141110;--surface2:#1c1816;--cream:#f5f0e8;--cream-dim:#c8bdb2;--muted:#8a7e72;--coral:#e8503a;--gold:#d4a847;--border:rgba(245,240,232,0.08);--border2:rgba(245,240,232,0.14);}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--cream);line-height:1.6;min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(232,80,58,.12),transparent 28%),radial-gradient(circle at 85% 5%,rgba(212,168,71,.10),transparent 30%);pointer-events:none;}
+    nav#navbar{position:sticky;top:0;z-index:50;background:rgba(10,8,7,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(245,240,232,.06);box-shadow:0 4px 32px rgba(0,0,0,.3)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-text{font-size:20px;font-weight:700;color:var(--cream)}
+    .logo-text span{color:var(--coral)}
+    .nav-links{display:flex;align-items:center;gap:8px}
+    .nav-link{color:rgba(245,240,232,.7);text-decoration:none;font-size:14px;font-weight:400;padding:8px 14px;border-radius:8px;transition:all .2s}
+    .nav-link:hover{color:var(--cream);background:rgba(245,240,232,.06)}
+    .nav-link.active{color:var(--coral)}
+    .nav-cta{background:var(--coral);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:30px;margin-left:8px;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
+    .nav-cta:hover{background:#ff6f56;box-shadow:0 6px 20px rgba(232,80,58,.35)}
+    .mob-btn{display:none;background:rgba(245,240,232,.08);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:8px 12px;color:var(--cream);font-size:18px;cursor:pointer}
+    main{position:relative;z-index:1;}
+    .hero{padding:96px 48px 54px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr .9fr;gap:56px;align-items:start;}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--coral);margin-bottom:18px}
+    h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,86px);line-height:.94;letter-spacing:-2px;margin-bottom:22px}
+    h1 em{color:var(--gold);font-style:italic}
+    .sub{font-size:19px;color:var(--cream-dim);max-width:640px;margin-bottom:22px}
+    .offer{display:grid;gap:14px;margin-top:28px}
+    .offer-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px}
+    .offer-card strong{color:var(--cream)}
+    .form-card{background:linear-gradient(180deg,rgba(245,240,232,.05),rgba(245,240,232,.025));border:1px solid var(--border2);border-radius:24px;padding:28px;box-shadow:0 24px 90px rgba(0,0,0,.35)}
+    .form-title{font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1;margin-bottom:8px}
+    .form-sub{font-size:14px;color:var(--muted);margin-bottom:22px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:13px 14px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14px;outline:none;margin-bottom:12px;}
+    textarea{min-height:110px;resize:vertical}.full{grid-column:1/-1}
+    label.checkbox{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--cream-dim);line-height:1.45;margin:4px 0 16px}.checkbox input{width:auto;margin:3px 0 0;accent-color:var(--coral)}
+    button{width:100%;border:0;border-radius:999px;background:var(--coral);color:#fff;padding:15px 20px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;cursor:pointer}
+    .success{display:none;background:rgba(6,214,160,.08);border:1px solid rgba(6,214,160,.22);border-radius:18px;padding:24px;color:var(--cream-dim)}
+    section{padding:54px 48px;max-width:1180px;margin:0 auto;position:relative;z-index:1}
+    h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);line-height:1;margin-bottom:18px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px}.card h3{font-size:16px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:24px}
+    .footer-logo{font-size:18px;font-weight:700;color:var(--cream)}
+    .footer-logo span{color:var(--coral)}
+    .footer-links{display:flex;gap:28px;flex-wrap:wrap}
+    .footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}
+    .footer-links a:hover{color:var(--cream)}
+    .footer-copy{font-size:12px;color:var(--muted)}
+    @media(max-width:850px){.hero{grid-template-columns:1fr;padding:58px 20px 36px}.grid,.cards{grid-template-columns:1fr}section{padding:42px 20px}}
+    @media(max-width:768px){.nav-inner{padding:14px 20px}.mob-btn{display:flex;align-items:center}.nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,8,7,.97);flex-direction:column;justify-content:center;align-items:center;gap:8px;z-index:998}.nav-links.open{display:flex}.nav-link{font-size:20px;padding:14px 28px;width:260px;text-align:center}.nav-cta{font-size:16px;padding:14px 32px;margin:8px 0 0;width:260px;text-align:center}footer{padding:28px 20px;flex-direction:column;text-align:center}.footer-links{justify-content:center;gap:18px}}
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="logo-text">Face<span>Meet</span></span></a>
+      <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
+        <a href="index.html#install" class="nav-link" onclick="closeMob()">How to Install</a>
+        <a href="index.html#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
+        <a href="/events" class="nav-link" onclick="closeMob()">Events</a>
+        <a href="creators.html" class="nav-link active" onclick="closeMob()">Creators</a>
+        <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
+        <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
+      </div>
+      <a class="nav-cta" href="https://app.facemeet.app" onclick="closeMob()">Use on Desktop</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Creators · launch partners</div>
+        <h1>Become a FaceMeet <em>City Founding Partner</em></h1>
+        <p class="sub">FaceMeet is now open. We are selecting creators to drive verified member signups, real video profile creation, and early city momentum through trackable referral links.</p>
+        <p class="sub" style="font-size:16px;">If your audience is a fit for FaceMeet, we want content that helps real people join, show up on video, and discover a different kind of dating product before the first city expansions accelerate.</p>
+        <div class="offer">
+          <div class="offer-card"><strong>$50</strong> per approved TikTok or Reel</div>
+          <div class="offer-card"><strong>$1</strong> per verified signup after the first 50 verified signups</div>
+          <div class="offer-card"><strong>$250</strong> launch momentum bonus for high-quality verified signups</div>
+          <div class="offer-card"><strong>12 months FaceMeet Gold</strong> if you drive 300 verified signups</div>
+          <div class="offer-card"><strong>After launch:</strong> 40% of the first paid subscription from users you refer</div>
+        </div>
+      </div>
+
+      <div class="form-card" id="creator-form-card">
+        <div class="form-title">Apply as a Creator</div>
+        <p class="form-sub">If approved, we will send your unique referral link and campaign details.</p>
+        <div class="grid">
+          <input id="cr-name" placeholder="Full name" />
+          <input id="cr-email" type="email" placeholder="Email" />
+          <input id="cr-phone" type="tel" placeholder="Phone number" />
+          <select id="cr-city">
+            <option value="">City</option>
+            <option>Dallas-Fort Worth</option><option>Houston</option><option>Austin</option><option>San Antonio</option><option>Los Angeles</option><option>Miami / South Florida</option><option>New York City</option><option>Atlanta</option><option>Chicago</option><option>Philadelphia</option><option>Other</option>
+          </select>
+          <input id="cr-tiktok" placeholder="TikTok handle" />
+          <input id="cr-instagram" placeholder="Instagram handle" />
+          <select id="cr-platform">
+            <option value="">Primary platform</option>
+            <option>TikTok</option><option>Instagram</option><option>Both</option>
+          </select>
+          <input id="cr-tiktok-followers" placeholder="TikTok follower count" />
+          <input id="cr-instagram-followers" placeholder="Instagram follower count" />
+          <input id="cr-average-views" placeholder="Average views" />
+          <input id="cr-niche" placeholder="Content niche" />
+          <input id="cr-audience-location" placeholder="Audience location" />
+          <textarea class="full" id="cr-why" placeholder="Why do you want to promote FaceMeet?"></textarea>
+          <input class="full" id="cr-payout" placeholder="Payout preference" />
+        </div>
+        <label class="checkbox"><input type="checkbox" id="cr-agreement" /> <span>I understand that submission does not guarantee approval. If approved, I will receive a unique referral link and must follow FaceMeet’s creator guidelines to qualify for payouts.</span></label>
+        <button id="cr-submit" onclick="submitCreatorApplication()">Submit Creator Application</button>
+      </div>
+
+      <div class="success" id="creator-success">
+        <strong>Thanks for applying to become a FaceMeet City Founding Partner.</strong><br>
+        If approved, we’ll send your referral link and campaign details.
+      </div>
+    </div>
+
+    <section>
+      <div class="eyebrow">What creators help build</div>
+      <h2>A video-first dating movement.</h2>
+      <div class="cards">
+        <div class="card"><h3>Verified member demand</h3><p>Your content drives real signups and real profile creation in the cities where FaceMeet is gaining momentum.</p></div>
+        <div class="card"><h3>Trackable referrals</h3><p>Approved creators receive unique links so verified signups and launch referrals can be attributed properly.</p></div>
+        <div class="card"><h3>Real dating, less guessing</h3><p>FaceMeet uses 20-second video profiles and 3-minute Spark Sessions before messaging to reduce fake profiles and wasted dates.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Face<span>Meet</span></div>
+    <div class="footer-links">
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ</a>
+      <a href="creators.html">Creators</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="child-safety.html">Child Safety</a>
+      <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
+      <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
+    </div>
+    <div class="footer-copy">© 2026 FaceMeet. See them before you swipe.</div>
+  </footer>
+
+  <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+      <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+      <div style="font-size:44px;margin-bottom:18px;">✉️</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Get in touch</h2>
+      <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Have a question or feedback? We read every email and reply within 24 hours.</p>
+      <a href="mailto:hello@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">hello@facemeet.app</a>
+    </div>
+  </div>
+
+  <div id="support-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+      <button onclick="document.getElementById('support-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+      <div style="font-size:44px;margin-bottom:18px;">🛟</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Support</h2>
+      <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Having an issue? Email our support team. We reply within 24 hours.</p>
+      <a href="mailto:support@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">support@facemeet.app</a>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+
+    function toggleMob() {
+      document.getElementById('nav-links').classList.toggle('open');
+      document.getElementById('mob-btn').textContent = document.getElementById('nav-links').classList.contains('open') ? '✕' : '☰';
+    }
+    function closeMob() {
+      document.getElementById('nav-links').classList.remove('open');
+      document.getElementById('mob-btn').textContent = '☰';
+    }
+
+    function required(id) { return (document.getElementById(id)?.value || '').trim(); }
+    async function submitCreatorApplication() {
+      const payload = {
+        full_name: required('cr-name'),
+        email: required('cr-email'),
+        phone: required('cr-phone'),
+        city: required('cr-city'),
+        tiktok_handle: required('cr-tiktok') || null,
+        instagram_handle: required('cr-instagram') || null,
+        primary_platform: required('cr-platform'),
+        tiktok_followers: required('cr-tiktok-followers') || null,
+        instagram_followers: required('cr-instagram-followers') || null,
+        average_views: required('cr-average-views') || null,
+        content_niche: required('cr-niche'),
+        audience_location: required('cr-audience-location'),
+        why_promote: required('cr-why'),
+        payout_preference: required('cr-payout'),
+        agreement_accepted: document.getElementById('cr-agreement')?.checked === true,
+        status: 'pending'
+      };
+
+      if (!payload.full_name || !payload.email || !payload.phone || !payload.city || !payload.primary_platform || !payload.content_niche || !payload.audience_location || !payload.why_promote || !payload.payout_preference) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      if (!payload.email.includes('@')) {
+        alert('Please enter a valid email.');
+        return;
+      }
+      if (!payload.agreement_accepted) {
+        alert('Please accept the creator agreement checkbox.');
+        return;
+      }
+
+      const btn = document.getElementById('cr-submit');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/creator_applications`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error(await res.text());
+        document.getElementById('creator-form-card').style.display = 'none';
+        document.getElementById('creator-success').style.display = 'block';
+      } catch(e) {
+        console.error('Creator application failed:', e);
+        alert('We could not submit your application. Please email support@facemeet.app.');
+        btn.disabled = false;
+        btn.textContent = 'Submit Creator Application';
+      }
+    }
+  </script>
+
+  <nav class="mobile-tabbar" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="events.html">Events</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</body>
+</html>

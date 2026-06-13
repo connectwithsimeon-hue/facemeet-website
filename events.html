@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FaceMeet Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile-app.css?v=2">
+  <style>
+    :root{
+      --bg:#090806;--surface:#12100d;--surface2:#1a1512;--surface3:#241d18;
+      --coral:#e8503a;--coral-light:#ff7b61;--gold:#d4a847;--green:#06d6a0;
+      --cream:#f5f0e8;--cream-dim:rgba(245,240,232,.7);--muted:#8d8271;
+      --border:rgba(245,240,232,.08);--border2:rgba(245,240,232,.14);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Outfit',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
+    a{text-decoration:none}
+    nav#navbar{position:sticky;top:0;z-index:50;background:rgba(10,8,7,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(245,240,232,.06);box-shadow:0 4px 32px rgba(0,0,0,.3)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-text{font-size:20px;font-weight:700;color:var(--cream)}
+    .logo-text span{color:var(--coral)}
+    .nav-links{display:flex;align-items:center;gap:8px}
+    .nav-link{color:rgba(245,240,232,.7);text-decoration:none;font-size:14px;font-weight:400;padding:8px 14px;border-radius:8px;transition:all .2s}
+    .nav-link:hover{color:var(--cream);background:rgba(245,240,232,.06)}
+    .nav-link.active{color:var(--coral)}
+    .nav-cta{background:var(--coral);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:30px;margin-left:8px;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
+    .nav-cta:hover{background:var(--coral-light);box-shadow:0 6px 20px rgba(232,80,58,.35)}
+    .mob-btn{display:none;background:rgba(245,240,232,.08);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:8px 12px;color:var(--cream);font-size:18px;cursor:pointer}
+    .hero{padding:88px 24px 54px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:auto auto 0 50%;transform:translateX(-50%);width:960px;height:960px;background:radial-gradient(circle,rgba(232,80,58,.12) 0%,transparent 65%);pointer-events:none}
+    .hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:24px;position:relative;z-index:1}
+    .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:18px}
+    .title{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,7vw,74px);font-weight:700;line-height:.95;letter-spacing:-2px;margin:0 0 18px}
+    .title em{font-style:italic;color:var(--coral)}
+    .sub{font-size:16px;line-height:1.8;color:var(--cream-dim);max-width:580px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none}
+    .btn.primary{background:var(--coral);color:white}
+    .btn.secondary{background:var(--surface2);color:var(--cream);border:1px solid var(--border2)}
+    .hero-side{background:linear-gradient(135deg,rgba(36,15,13,.96),rgba(17,15,13,.92));border:1px solid rgba(232,80,58,.18);border-radius:28px;padding:26px}
+    .hero-side h3{margin:0 0 12px;font-size:24px;font-family:'Cormorant Garamond',serif}
+    .hero-side p{margin:0 0 14px;color:var(--cream-dim);font-size:14px;line-height:1.75}
+    .section{max-width:1200px;margin:0 auto;padding:0 24px 72px}
+    .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .event-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;min-height:100%}
+    .event-hero{height:180px;background:linear-gradient(135deg,rgba(232,80,58,.24),rgba(17,15,13,.95));background-size:cover;background-position:center;position:relative}
+    .event-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(9,8,6,.88),rgba(9,8,6,.12))}
+    .event-badges{position:absolute;left:16px;bottom:16px;z-index:1;display:flex;flex-wrap:wrap;gap:8px}
+    .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(9,8,6,.62);border:1px solid rgba(245,240,232,.12);font-size:11px;font-weight:700;color:var(--cream)}
+    .pill.featured{background:rgba(212,168,71,.18);color:var(--gold);border-color:rgba(212,168,71,.32)}
+    .event-body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
+    .event-title{font-size:22px;font-weight:700;margin:0}
+    .event-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+    .event-copy{font-size:14px;line-height:1.75;color:var(--cream-dim);margin:0}
+    .event-flags{display:flex;flex-wrap:wrap;gap:8px}
+    .event-access-note{padding:12px 14px;border-radius:16px;background:var(--surface2);border:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--cream-dim)}
+    .event-footer{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+    .btn.disabled,.btn[aria-disabled="true"]{background:var(--surface3);color:var(--muted);border:1px solid var(--border2);pointer-events:none;cursor:not-allowed}
+    .event-helper{font-size:12px;color:var(--muted)}
+    .empty-state,.lead-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px}
+    .empty-state h2,.lead-card h2{margin:0 0 12px;font-size:32px;font-family:'Cormorant Garamond',serif}
+    .empty-state p,.lead-card p{margin:0;color:var(--cream-dim);line-height:1.8;font-size:14px}
+    .lead-layout{display:grid;grid-template-columns:minmax(0,.95fr) minmax(320px,.85fr);gap:18px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    .field{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;color:var(--cream);font:inherit;outline:none}
+    .field:focus{border-color:rgba(232,80,58,.45)}
+    .field.full{grid-column:1 / -1}
+    .muted{font-size:12px;color:var(--muted);line-height:1.65;margin-top:12px}
+    .success{margin-top:16px;color:var(--green);font-size:13px;font-weight:600}
+    .error{margin-top:16px;color:var(--coral-light);font-size:13px;font-weight:600}
+    footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:24px}
+    .footer-logo{font-size:18px;font-weight:700;color:var(--cream)}
+    .footer-logo span{color:var(--coral)}
+    .footer-links{display:flex;gap:28px;flex-wrap:wrap}
+    .footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}
+    .footer-links a:hover{color:var(--cream)}
+    .footer-copy{font-size:12px;color:var(--muted)}
+    @media (max-width: 980px){
+      .hero-inner,.lead-layout,.events-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .hero{padding:72px 18px 40px}
+      .section{padding:0 18px 56px}
+      .form-grid{grid-template-columns:1fr}
+      .title{font-size:50px}
+    }
+    @media (max-width: 768px){
+      .nav-inner{padding:14px 20px}
+      .mob-btn{display:flex;align-items:center}
+      .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,8,7,.97);flex-direction:column;justify-content:center;align-items:center;gap:8px;z-index:998}
+      .nav-links.open{display:flex}
+      .nav-link{font-size:20px;padding:14px 28px;width:260px;text-align:center}
+      .nav-cta{font-size:16px;padding:14px 32px;margin:8px 0 0;width:260px;text-align:center}
+      footer{padding:28px 20px;flex-direction:column;text-align:center}
+      .footer-links{justify-content:center;gap:18px}
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-text">Face<span>Meet</span></span>
+      </a>
+      <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
+        <a href="index.html#install" class="nav-link" onclick="closeMob()">How to Install</a>
+        <a href="index.html#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
+        <a href="/events" class="nav-link active" onclick="closeMob()">Events</a>
+        <a href="creators.html" class="nav-link" onclick="closeMob()">Creators</a>
+        <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
+        <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
+      </div>
+      <a class="nav-cta" href="https://app.facemeet.app" onclick="closeMob()">Use on Desktop</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Dallas first</div>
+        <h1 class="title">Request Access to<br><em>FaceMeet Events</em></h1>
+        <p class="sub">Curated in-person experiences for FaceMeet members. Limited guest lists, approval-required drops, and real chemistry offline starting in Dallas.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet to Request Invite</a>
+          <a class="btn secondary" href="index.html#install">How to install FaceMeet</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <h3>What to expect</h3>
+        <p>FaceMeet Events are built for real chemistry, not random crowds. Think rooftop mixers, Spark Socials, coffee meetups, and curated nights that feel intentional from the first hello.</p>
+        <p>Request access inside FaceMeet, complete your video profile to improve your invite priority, and step into limited guest list experiences designed for real members.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div id="events-listing">
+      <div class="empty-state">
+        <h2>Loading published events…</h2>
+        <p>We’re checking the current FaceMeet Events lineup for Dallas.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Face<span>Meet</span></div>
+    <div class="footer-links">
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ</a>
+      <a href="creators.html">Creators</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="child-safety.html">Child Safety</a>
+      <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
+      <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
+    </div>
+    <div class="footer-copy">© 2026 FaceMeet. See them before you swipe.</div>
+  </footer>
+
+  <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+      <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+      <div style="font-size:44px;margin-bottom:18px;">✉️</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Get in touch</h2>
+      <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Have a question or feedback? We read every email and reply within 24 hours.</p>
+      <a href="mailto:hello@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">hello@facemeet.app</a>
+    </div>
+  </div>
+
+  <div id="support-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
+      <button onclick="document.getElementById('support-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
+      <div style="font-size:44px;margin-bottom:18px;">🛟</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Support</h2>
+      <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Having an issue? Email our support team. We reply within 24 hours.</p>
+      <a href="mailto:support@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">support@facemeet.app</a>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+
+    function headers() {
+      return {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
+
+    function slugify(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function formatDateRange(startsAtRaw, endsAtRaw) {
+      const startsAt = startsAtRaw ? new Date(startsAtRaw) : null;
+      const endsAt = endsAtRaw ? new Date(endsAtRaw) : null;
+      if (!startsAt || Number.isNaN(startsAt.getTime())) return 'Date coming soon';
+      const date = startsAt.toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+      const startTime = startsAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      if (!endsAt || Number.isNaN(endsAt.getTime())) return `${date} · ${startTime}`;
+      const endTime = endsAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      return `${date} · ${startTime} – ${endTime}`;
+    }
+
+
+    
+    function accessModePublicMeta(mode) {
+      const normalized = String(mode || 'individual_request').trim().toLowerCase();
+      if (normalized === 'pair_priority') {
+        return {
+          label: 'Pair Priority',
+          helper: 'Matched pairs may receive priority guest-list consideration.',
+          cta: 'Request Invite',
+          disabled: false
+        };
+      }
+      if (normalized === 'match_unlocked') {
+        return {
+          label: 'Match-Unlocked Access',
+          helper: 'Unlock a mutual Match in FaceMeet to qualify for this event.',
+          cta: 'Unlock Match First',
+          disabled: true
+        };
+      }
+      if (normalized === 'invite_only') {
+        return {
+          label: 'Invite Only',
+          helper: 'Access is reserved for selected FaceMeet members.',
+          cta: 'Invite Only',
+          disabled: true
+        };
+      }
+      return {
+        label: 'Individual Access',
+        helper: 'Request access for individual guest-list consideration.',
+        cta: 'Request Invite',
+        disabled: false
+      };
+    }
+
+    function publicCtaMeta(event, guestList, accessMode) {
+      if (guestList.disabled) {
+        return {
+          cta: guestList.cta,
+          disabled: true
+        };
+      }
+      if (accessMode.disabled) {
+        return {
+          cta: accessMode.cta,
+          disabled: true
+        };
+      }
+      return {
+        cta: guestList.cta,
+        disabled: false
+      };
+    }
+
+function guestListPublicMeta(status) {
+      const normalized = String(status || 'open').trim().toLowerCase();
+      if (normalized === 'limited') {
+        return {
+          label: 'Limited Guest List',
+          tone: 'featured',
+          cta: 'Request Invite',
+          helper: 'Limited spots remain. Invite requests are reviewed individually.',
+          disabled: false
+        };
+      }
+      if (normalized === 'finalizing') {
+        return {
+          label: 'Guest List Finalizing',
+          tone: 'featured',
+          cta: 'Join Waitlist',
+          helper: 'The guest list is being finalized. Waitlist requests are still open.',
+          disabled: false
+        };
+      }
+      if (normalized === 'full') {
+        return {
+          label: 'Guest List Full',
+          tone: 'featured',
+          cta: 'Join Waitlist',
+          helper: 'The guest list is full. Join the waitlist for possible access.',
+          disabled: false
+        };
+      }
+      if (normalized === 'closed') {
+        return {
+          label: 'Access Closed',
+          tone: '',
+          cta: 'Access Closed',
+          helper: 'Invite requests are now closed.',
+          disabled: true
+        };
+      }
+      return {
+        label: 'Access Open',
+        tone: '',
+        cta: 'Request Invite',
+        helper: 'Invite requests are reviewed individually.',
+        disabled: false
+      };
+    }
+
+    window.addEventListener('scroll', () => {
+      const nb = document.getElementById('navbar');
+      if (nb) nb.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    function toggleMob() {
+      document.getElementById('nav-links').classList.toggle('open');
+      document.getElementById('mob-btn').textContent =
+        document.getElementById('nav-links').classList.contains('open') ? '✕' : '☰';
+    }
+
+    function closeMob() {
+      document.getElementById('nav-links').classList.remove('open');
+      document.getElementById('mob-btn').textContent = '☰';
+    }
+
+    async function loadPublishedEvents() {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id,title,slug,city_name,venue_name,event_type,starts_at,ends_at,short_description,featured,visibility,status,price_cents,currency,invite_requirement,hero_image_url,capacity,guest_list_status,video_required,verification_required,access_note,access_mode&status=eq.published&visibility=not.eq.hidden&order=starts_at.asc`, {
+        headers: headers()
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const rows = await res.json();
+      return Array.isArray(rows) ? rows : [];
+    }
+
+    async function joinEventsWaitlist(payload) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_users`, {
+        method: 'POST',
+        headers: {
+          ...headers(),
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+    }
+
+    function renderEventCards(events) {
+      const sorted = [...events].sort((a, b) => {
+        const aFeatured = a.featured === true || a.visibility === 'featured';
+        const bFeatured = b.featured === true || b.visibility === 'featured';
+        if (aFeatured !== bFeatured) return aFeatured ? -1 : 1;
+        return new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime();
+      });
+
+      return `
+        <div class="events-grid">
+          ${sorted.map(event => {
+            const guestList = guestListPublicMeta(event.guest_list_status);
+            const accessMode = accessModePublicMeta(event.access_mode);
+            const ctaMeta = publicCtaMeta(event, guestList, accessMode);
+            const priceLabel = Number(event.price_cents || 0) > 0 ? `$${(Number(event.price_cents) / 100).toFixed(2)} ${escapeHtml(event.currency || 'USD')}` : 'Free';
+            const cta = ctaMeta.disabled
+              ? `<span class="btn disabled" aria-disabled="true">${escapeHtml(ctaMeta.cta)}</span>`
+              : `<a class="btn primary" href="https://app.facemeet.app">${escapeHtml(ctaMeta.cta)}</a>`;
+            return `
+            <article class="event-card">
+              <div class="event-hero" style="${event.hero_image_url ? `background-image:url('${escapeHtml(event.hero_image_url)}');` : ''}">
+                <div class="event-badges">
+                  <span class="pill">${escapeHtml(event.event_type || 'Event')}</span>
+                  <span class="pill">${escapeHtml(event.city_name || 'Dallas')}</span>
+                  ${(event.featured === true || event.visibility === 'featured') ? '<span class="pill featured">Featured Drop</span>' : ''}
+                  <span class="pill ${guestList.tone}">${escapeHtml(guestList.label)}</span>
+                  <span class="pill featured">${escapeHtml(accessMode.label)}</span>
+                  <span class="pill">${escapeHtml(event.invite_requirement === 'approval_required' ? 'Approval Required' : event.invite_requirement === 'invite_only' ? 'Invite Only' : 'Open Access')}</span>
+                  ${Number(event.capacity || 0) > 0 ? `<span class="pill">Guest List Capacity · ${escapeHtml(String(event.capacity))}</span>` : ''}
+                </div>
+              </div>
+              <div class="event-body">
+                <h2 class="event-title">${escapeHtml(event.title || 'Untitled event')}</h2>
+                <div class="event-meta">
+                  <span>${escapeHtml(formatDateRange(event.starts_at, event.ends_at))}</span>
+                  ${event.venue_name ? `<span>•</span><span>${escapeHtml(event.venue_name)}</span>` : ''}
+                  <span>•</span>
+                  <span>${priceLabel}</span>
+                </div>
+                <p class="event-copy">${escapeHtml(event.short_description || 'Curated FaceMeet experience for verified members.')}</p>
+                <div class="event-flags">
+                  ${event.video_required === true ? '<span class="pill">Video Profile Required</span>' : ''}
+                  ${event.verification_required === true ? '<span class="pill featured">Verified Members Only</span>' : ''}
+                </div>
+                ${event.access_note ? `<div class="event-access-note">${escapeHtml(event.access_note)}</div>` : ''}
+                <div class="event-footer">
+                  ${cta}
+                  <div class="event-helper">${escapeHtml(accessMode.helper)}</div>
+                  <div class="event-helper">${escapeHtml(guestList.helper)}</div>
+                </div>
+              </div>
+            </article>
+          `;}).join('')}
+        </div>
+      `;
+    }
+
+    function renderLeadForm() {
+      return `
+        <div class="lead-layout">
+          <div class="empty-state">
+            <h2>Dallas First Drop Coming Soon</h2>
+            <p>FaceMeet Events are curated, approval-required experiences for members ready to turn real video chemistry into real moments. We are preparing the first Dallas guest list now.</p>
+            <p style="margin-top:12px;">Limited guest list. Approval required. Complete your video profile inside FaceMeet to improve your invite priority.</p>
+            <div class="hero-actions" style="margin-top:20px;">
+              <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet</a>
+            </div>
+          </div>
+          <div class="lead-card">
+            <h2>Join the Dallas Events List</h2>
+            <p>Leave your details and we’ll keep you in the loop for upcoming Dallas drops, approval-required guest lists, and early access updates.</p>
+            <form id="events-lead-form" class="form-grid">
+              <input class="field full" id="lead-name" type="text" placeholder="Name" required />
+              <input class="field" id="lead-email" type="email" placeholder="Email" required />
+              <input class="field" id="lead-phone" type="tel" placeholder="Phone (optional)" />
+              <input class="field full" id="lead-city" type="text" value="Dallas-Fort Worth" placeholder="City" required />
+              <button class="btn primary full" style="width:100%;" type="submit">Join the Dallas Events List</button>
+            </form>
+            <div class="muted">This creates a lightweight events interest lead. For live access requests, open FaceMeet and complete your video profile.</div>
+            <div id="events-lead-message"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function setupLeadForm() {
+      const form = document.getElementById('events-lead-form');
+      if (!form) return;
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const name = document.getElementById('lead-name').value.trim();
+        const email = document.getElementById('lead-email').value.trim();
+        const phone = document.getElementById('lead-phone').value.trim();
+        const city = document.getElementById('lead-city').value.trim() || 'Dallas-Fort Worth';
+        const message = document.getElementById('events-lead-message');
+        const button = form.querySelector('button');
+
+        if (!name || !email || !city) {
+          message.innerHTML = '<div class="error">Please fill in your name, email, and city.</div>';
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = 'Joining…';
+        message.innerHTML = '';
+
+        try {
+          await joinEventsWaitlist({
+            full_name: name,
+            email,
+            phone: phone || null,
+            city,
+            city_slug: slugify(city)
+          });
+          form.reset();
+          document.getElementById('lead-city').value = 'Dallas-Fort Worth';
+          message.innerHTML = '<div class="success">You’re on the Dallas Events list. We’ll reach out when new invites drop.</div>';
+        } catch (error) {
+          console.error('Events waitlist failed:', error);
+          message.innerHTML = '<div class="error">We could not save your events interest right now. Please try again in a moment.</div>';
+        } finally {
+          button.disabled = false;
+          button.textContent = 'Join the Dallas Events List';
+        }
+      });
+    }
+
+    async function bootEventsPage() {
+      const container = document.getElementById('events-listing');
+      try {
+        const events = await loadPublishedEvents();
+        if (events.length === 0) {
+          container.innerHTML = renderLeadForm();
+          await setupLeadForm();
+          return;
+        }
+
+        container.innerHTML = `
+          <div class="empty-state" style="margin-bottom:18px;">
+            <h2>Curated Dallas drops for verified members</h2>
+            <p>Featured drops appear first. Open FaceMeet to request access, track your guest list status, and stay close to the next invite release.</p>
+          </div>
+          ${renderEventCards(events)}
+        `;
+      } catch (error) {
+        console.error('Events load failed:', error);
+        container.innerHTML = `
+          <div class="lead-layout">
+            <div class="empty-state">
+              <h2>Dallas First Drop Coming Soon</h2>
+              <p>FaceMeet Events are curated, approval-required experiences for members ready to turn real video chemistry into real moments. We are preparing the first Dallas guest list now.</p>
+              <p style="margin-top:12px;">Limited guest list. Approval required. Complete your video profile inside FaceMeet to improve your invite priority.</p>
+              <div class="hero-actions" style="margin-top:20px;">
+                <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet</a>
+              </div>
+            </div>
+            <div class="lead-card">
+              <h2>Join the Dallas Events List</h2>
+              <p>Leave your details and we’ll keep you posted as soon as the first invite-only experiences are ready.</p>
+              <form id="events-lead-form" class="form-grid">
+                <input class="field full" id="lead-name" type="text" placeholder="Name" required />
+                <input class="field" id="lead-email" type="email" placeholder="Email" required />
+                <input class="field" id="lead-phone" type="tel" placeholder="Phone (optional)" />
+                <input class="field full" id="lead-city" type="text" value="Dallas-Fort Worth" placeholder="City" required />
+                <button class="btn primary full" style="width:100%;" type="submit">Join the Dallas Events List</button>
+              </form>
+              <div class="muted">This creates a lightweight events interest lead. For live access requests, open FaceMeet and complete your video profile.</div>
+              <div id="events-lead-message"></div>
+            </div>
+          </div>
+        `;
+        await setupLeadForm();
+      }
+    }
+
+    bootEventsPage();
+  </script>
+  <nav class="mobile-tabbar" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="/events" aria-current="page">Events</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</body>
+</html>
