@@ -987,6 +987,26 @@ tr:hover td { background: var(--surface2); }
 .member-profile-reminder-status.success { color: var(--green); }
 .member-profile-reminder-status.error { color: var(--coral); }
 .member-profile-reminder-status.info { color: var(--muted); }
+.member-profile-enforcement-status {
+  min-height: 20px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.member-profile-enforcement-status.success { color: var(--green); }
+.member-profile-enforcement-status.error { color: var(--coral); }
+.member-profile-enforcement-status.info { color: var(--muted); }
+.member-profile-enforcement-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.action-btn.danger {
+  background: var(--coral-dim);
+  border-color: rgba(232,80,58,0.3);
+  color: var(--coral);
+}
 .member-profile-reminder-substatus {
   margin-top: 8px;
   color: var(--muted);
@@ -2414,6 +2434,10 @@ let memberProfileReminderMessage = '';
 let memberProfileReminderMessageTone = 'info';
 let memberProfileReminderSecondaryMessage = '';
 let memberProfileReminderTertiaryMessage = '';
+let memberProfileEnforcementMessage = '';
+let memberProfileEnforcementTone = 'info';
+let memberProfileEnforcementInFlight = false;
+let memberProfileEnforcementAction = '';
 let eventPairReleaseSummaryMessage = '';
 let eventPairReleaseSummaryTone = 'info';
 let editingEventId = null;
@@ -2531,6 +2555,24 @@ async function rpc(functionName, params={}) {
   }
 }
 
+async function rpcWithFallback(functionName, paramsList=[]) {
+  let lastError = null;
+  for (const params of paramsList) {
+    try {
+      return await rpc(functionName, params);
+    } catch (error) {
+      lastError = error;
+      const message = String(error?.message || error || '').toLowerCase();
+      const retryable = message.includes('could not find')
+        || message.includes('schema cache')
+        || message.includes('function')
+        || message.includes('parameter');
+      if (!retryable) break;
+    }
+  }
+  throw lastError || new Error('RPC failed');
+}
+
 function safeMemberProfileMessage(error) {
   const text = String(error?.message || error || '');
   if (text.includes('admin access required')) {
@@ -2584,6 +2626,13 @@ function resetMemberProfileReminderState(options = {}) {
   memberProfileReminderMessageTone = 'info';
   memberProfileReminderSecondaryMessage = '';
   memberProfileReminderTertiaryMessage = '';
+}
+
+function resetMemberProfileEnforcementState() {
+  memberProfileEnforcementMessage = '';
+  memberProfileEnforcementTone = 'info';
+  memberProfileEnforcementInFlight = false;
+  memberProfileEnforcementAction = '';
 }
 
 function memberProfileReminderTemplateOptions() {
@@ -2745,6 +2794,7 @@ function openMemberProfileReview(userId, source='Users Directory', eventId=null)
   memberProfileReviewEventId = eventId || null;
   memberProfileReviewData = null;
   resetMemberProfileReminderState();
+  resetMemberProfileEnforcementState();
   document.getElementById('member-profile-overlay')?.classList.add('open');
   renderMemberProfileReview();
   loadMemberProfileReview(userId);
@@ -2759,6 +2809,7 @@ function closeMemberProfileReview() {
   memberProfileReviewEventId = null;
   memberProfileReviewData = null;
   resetMemberProfileReminderState();
+  resetMemberProfileEnforcementState();
   document.getElementById('member-profile-overlay')?.classList.remove('open');
 }
 
@@ -2833,6 +2884,82 @@ function renderMemberProfileBadge(label, tone) {
   return `<span class="badge ${tone}">${escapeHtml(label)}</span>`;
 }
 
+function memberProfileHasField(profile, field) {
+  return Object.prototype.hasOwnProperty.call(profile || {}, field);
+}
+
+function renderOptionalMemberProfileRow(profile, field, label, formatter = value => value) {
+  if (!memberProfileHasField(profile, field)) return '';
+  const rawValue = profile?.[field];
+  const displayValue = rawValue == null || rawValue === ''
+    ? '—'
+    : formatter(rawValue);
+  return `<div class="member-profile-meta-row"><div class="member-profile-meta-label">${escapeHtml(label)}</div><div class="member-profile-meta-value">${escapeHtml(displayValue)}</div></div>`;
+}
+
+function memberProfileLastEnforcementReason(profile) {
+  return profile?.account_status_reason
+    || profile?.profile_hidden_reason
+    || profile?.profile_video_removed_reason
+    || profile?.moderation_reason
+    || '';
+}
+
+function memberProfileEnforcementActions() {
+  return [
+    { key: 'hide_profile', label: 'Hide Profile', rpc: 'admin_hide_profile', tone: 'danger', target: 'profile visibility' },
+    { key: 'unhide_profile', label: 'Unhide Profile', rpc: 'admin_unhide_profile', tone: 'success', target: 'profile visibility' },
+    { key: 'suspend_user', label: 'Suspend User', rpc: 'admin_suspend_user', tone: 'danger', target: 'account status' },
+    { key: 'unsuspend_user', label: 'Unsuspend User', rpc: 'admin_unsuspend_user', tone: 'success', target: 'account status' },
+    { key: 'ban_user', label: 'Ban User', rpc: 'admin_ban_user', tone: 'danger', target: 'account status' },
+    { key: 'restore_user', label: 'Restore User', rpc: 'admin_restore_user', tone: 'success', target: 'account status' },
+    { key: 'remove_profile_video', label: 'Remove Profile Video', rpc: 'admin_remove_profile_video', tone: 'danger', target: 'profile video' }
+  ];
+}
+
+async function runMemberProfileEnforcement(actionKey) {
+  if (!memberProfileReviewUserId || memberProfileEnforcementInFlight) return;
+  const action = memberProfileEnforcementActions().find(item => item.key === actionKey);
+  if (!action) return;
+
+  const reason = prompt(`${action.label} reason (required):`);
+  if (reason === null) return;
+  const trimmedReason = reason.trim();
+  if (!trimmedReason) {
+    memberProfileEnforcementMessage = 'A reason is required before this enforcement action can run.';
+    memberProfileEnforcementTone = 'error';
+    renderMemberProfileReview();
+    return;
+  }
+
+  const confirmed = window.confirm(`${action.label}?\n\nTarget: ${action.target}\nReason: ${trimmedReason}\n\nThis action uses the ${action.rpc} RPC and does not hard-delete the user.`);
+  if (!confirmed) return;
+
+  memberProfileEnforcementInFlight = true;
+  memberProfileEnforcementAction = actionKey;
+  memberProfileEnforcementMessage = `${action.label} in progress...`;
+  memberProfileEnforcementTone = 'info';
+  renderMemberProfileReview();
+
+  try {
+    await rpcWithFallback(action.rpc, [
+      { user_id: memberProfileReviewUserId, reason: trimmedReason },
+      { p_user_id: memberProfileReviewUserId, p_reason: trimmedReason }
+    ]);
+    memberProfileEnforcementMessage = `${action.label} completed. Member profile refreshed.`;
+    memberProfileEnforcementTone = 'success';
+    await loadMemberProfileReview(memberProfileReviewUserId);
+  } catch (error) {
+    memberProfileEnforcementMessage = `Could not complete ${action.label}. ${safeMemberProfileMessage(error)}`;
+    memberProfileEnforcementTone = 'error';
+    renderMemberProfileReview();
+  } finally {
+    memberProfileEnforcementInFlight = false;
+    memberProfileEnforcementAction = '';
+    renderMemberProfileReview();
+  }
+}
+
 function renderMemberProfileReview() {
   const bodyEl = document.getElementById('member-profile-body');
   const subtitleEl = document.getElementById('member-profile-subtitle');
@@ -2876,6 +3003,10 @@ function renderMemberProfileReview() {
       : moderationStatus === 'needs_review'
         ? renderMemberProfileBadge('Moderation Needs Review', 'gold-tier')
         : renderMemberProfileBadge('Moderation Pending', 'free');
+  const accountStatus = profile.account_status || 'active';
+  const profileVisibilityStatus = profile.profile_visibility_status || 'visible';
+  const lastEnforcementReason = memberProfileLastEnforcementReason(profile);
+  const enforcementActions = memberProfileEnforcementActions();
 
   bodyEl.innerHTML = `
     <div class="member-profile-grid">
@@ -2896,7 +3027,30 @@ function renderMemberProfileReview() {
           ${hasVideo ? renderMemberProfileBadge('Video Uploaded', 'approved') : renderMemberProfileBadge('Video Missing', 'pending')}
           ${isVerified ? renderMemberProfileBadge('Verified Member', 'approved') : renderMemberProfileBadge('Not Verified', 'free')}
           ${moderationBadge}
+          ${renderMemberProfileBadge(`Account Status: ${formatSource(accountStatus)}`, accountStatus === 'active' || accountStatus === 'restored' ? 'approved' : 'pending')}
+          ${renderMemberProfileBadge(`Profile Visibility: ${formatSource(profileVisibilityStatus)}`, profileVisibilityStatus === 'visible' ? 'approved' : 'pending')}
         </div>
+      </div>
+      <div class="member-profile-card full">
+        <h4>Admin Enforcement</h4>
+        <div class="member-profile-meta" style="margin-bottom:14px;">
+          ${renderOptionalMemberProfileRow(profile, 'account_status', 'Account Status', value => formatSource(value))}
+          ${renderOptionalMemberProfileRow(profile, 'account_status_reason', 'Account Status Reason')}
+          ${renderOptionalMemberProfileRow(profile, 'account_status_updated_at', 'Account Status Updated At', value => formatDateTime(value))}
+          ${renderOptionalMemberProfileRow(profile, 'profile_visibility_status', 'Profile Visibility', value => formatSource(value))}
+          ${renderOptionalMemberProfileRow(profile, 'profile_hidden_reason', 'Profile Hidden Reason')}
+          ${renderOptionalMemberProfileRow(profile, 'profile_hidden_at', 'Profile Hidden At', value => formatDateTime(value))}
+          ${renderOptionalMemberProfileRow(profile, 'profile_video_removed_at', 'Profile Video Removed At', value => formatDateTime(value))}
+          ${renderOptionalMemberProfileRow(profile, 'profile_video_removed_reason', 'Profile Video Removed Reason')}
+          <div class="member-profile-meta-row"><div class="member-profile-meta-label">Last Enforcement Reason</div><div class="member-profile-meta-value">${escapeHtml(lastEnforcementReason || '—')}</div></div>
+        </div>
+        <div class="member-profile-enforcement-actions">
+          ${enforcementActions.map(action => {
+            const running = memberProfileEnforcementInFlight && memberProfileEnforcementAction === action.key;
+            return `<button class="action-btn ${escapeAttr(action.tone)}" type="button" ${memberProfileEnforcementInFlight ? 'disabled' : ''} onclick="runMemberProfileEnforcement('${escapeAttr(action.key)}')">${running ? 'Working...' : escapeHtml(action.label)}</button>`;
+          }).join('')}
+        </div>
+        <div class="member-profile-enforcement-status ${escapeAttr(memberProfileEnforcementTone)}">${escapeHtml(memberProfileEnforcementMessage || 'Enforcement actions require a reason and confirmation. They call Supabase RPCs and do not hard-delete users.')}</div>
       </div>
       <div class="member-profile-card ${hasVideo ? '' : 'full'}">
         <h4>Missing Profile Items</h4>
@@ -6306,15 +6460,17 @@ async function loadReports() {
           </div>
         </div>
         <div class="safety-meta">
+          <span>Report Status ${escapeHtml(formatSource(status))}</span>
           <span>Created ${escapeHtml(formatDateTime(report.created_at))}</span>
           <span>Match ${escapeHtml(shortId(report.match_id))}</span>
           <span>Report ${escapeHtml(shortId(report.id))}</span>
         </div>
+        <div class="report-details"><strong>Last Enforcement Reason:</strong> ${escapeHtml(report.resolution_reason || report.moderation_reason || report.admin_reason || '—')}</div>
         <div class="report-details">${details}</div>
         <div class="action-row">
           <button class="action-btn primary" data-report-id="${escapeAttr(report.id)}" onclick="updateReportStatus('${escapeAttr(report.id)}','reviewing')">Mark Reviewing</button>
-          <button class="action-btn success" data-report-id="${escapeAttr(report.id)}" onclick="updateReportStatus('${escapeAttr(report.id)}','resolved')">Resolve</button>
-          <button class="action-btn muted" data-report-id="${escapeAttr(report.id)}" onclick="updateReportStatus('${escapeAttr(report.id)}','dismissed')">Dismiss</button>
+          <button class="action-btn success" data-report-id="${escapeAttr(report.id)}" onclick="resolveReportWithReason('${escapeAttr(report.id)}','resolved')">Resolve with Reason</button>
+          <button class="action-btn muted" data-report-id="${escapeAttr(report.id)}" onclick="resolveReportWithReason('${escapeAttr(report.id)}','dismissed')">Dismiss with Reason</button>
         </div>
       </div>
     `;
@@ -6508,6 +6664,36 @@ async function updateReportStatus(reportId, status) {
     await loadReports();
   } catch(e) {
     alert('Could not update this report. Please check the Supabase key and try again.');
+    await loadReports();
+  }
+}
+
+async function resolveReportWithReason(reportId, status) {
+  if (!['resolved', 'dismissed'].includes(status)) {
+    alert('Unsupported report status.');
+    return;
+  }
+
+  const reason = prompt(`${status === 'resolved' ? 'Resolve' : 'Dismiss'} report reason (required):`);
+  if (reason === null) return;
+  const trimmedReason = reason.trim();
+  if (!trimmedReason) {
+    alert('A reason is required to resolve or dismiss a report.');
+    return;
+  }
+
+  const confirmed = window.confirm(`${status === 'resolved' ? 'Resolve' : 'Dismiss'} this report?\n\nReason: ${trimmedReason}`);
+  if (!confirmed) return;
+
+  document.querySelectorAll(`[data-report-id="${reportId}"]`).forEach(btn => btn.disabled = true);
+  try {
+    await rpcWithFallback('admin_resolve_report', [
+      { report_id: reportId, status, reason: trimmedReason },
+      { p_report_id: reportId, p_status: status, p_reason: trimmedReason }
+    ]);
+    await loadReports();
+  } catch(e) {
+    alert(`Could not ${status === 'resolved' ? 'resolve' : 'dismiss'} this report with a reason. Please check your admin access and try again.`);
     await loadReports();
   }
 }
