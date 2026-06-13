@@ -14,6 +14,31 @@
   status = 200
 
 [[redirects]]
+  from = "/community-guidelines"
+  to = "/community-guidelines.html"
+  status = 200
+
+[[redirects]]
+  from = "/content-policy"
+  to = "/content-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/moderation-policy"
+  to = "/moderation-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/refund-policy"
+  to = "/refund-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/payment-terms"
+  to = "/payment-terms.html"
+  status = 200
+
+[[redirects]]
   from = "/creators"
   to = "/creators.html"
   status = 200
