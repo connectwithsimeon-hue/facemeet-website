@@ -1007,6 +1007,55 @@ tr:hover td { background: var(--surface2); }
   border-color: rgba(232,80,58,0.3);
   color: var(--coral);
 }
+.spark-credit-result {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.spark-credit-result-card {
+  background: rgba(240,235,224,0.035);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.spark-credit-result-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.spark-credit-result-value {
+  color: var(--cream);
+  font-size: 22px;
+  font-weight: 800;
+}
+.spark-credit-status {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 12px;
+  min-height: 20px;
+}
+.spark-credit-status.success { color: var(--green); }
+.spark-credit-status.error { color: var(--coral); }
+.spark-credit-user-card {
+  background: rgba(240,235,224,0.035);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 16px;
+}
+.spark-credit-user-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  align-items: start;
+}
 .member-profile-reminder-substatus {
   margin-top: 8px;
   color: var(--muted);
@@ -1101,7 +1150,11 @@ tr:hover td { background: var(--surface2); }
     gap: 4px;
   }
   .member-profile-reminder-controls,
-  .member-profile-reminder-preview-row {
+  .member-profile-reminder-preview-row,
+  .spark-credit-user-row {
+    grid-template-columns: 1fr;
+  }
+  .spark-credit-result {
     grid-template-columns: 1fr;
   }
 }
@@ -1405,6 +1458,9 @@ tr:hover td { background: var(--surface2); }
       <div class="nav-item" onclick="showPage('users')">
         <span class="nav-icon">👥</span><span>Users</span>
       </div>
+      <div class="nav-item" onclick="showPage('spark-credits')">
+        <span class="nav-icon">⚡</span><span>Spark Credits</span>
+      </div>
       <div class="nav-item" onclick="showPage('applications')">
         <span class="nav-icon">A</span><span>Archived Apps</span>
       </div>
@@ -1638,6 +1694,35 @@ tr:hover td { background: var(--surface2); }
         <div id="users-table-body">
           <div class="loading"><span class="spinner"></span>Loading...</div>
         </div>
+      </div>
+    </div>
+
+    <!-- SPARK CREDITS PAGE -->
+    <div class="page" id="page-spark-credits">
+      <div class="section-title">Spark Credits</div>
+      <div class="section-sub">Search by account email and apply audited Spark credit adjustments through the secure admin RPC.</div>
+
+      <div class="admin-panel">
+        <div class="admin-panel-title">Find Member</div>
+        <div class="admin-panel-sub">Search the production user account by email before applying any credit adjustment.</div>
+        <div class="admin-form-grid">
+          <input class="application-input wide" id="spark-credit-email" type="email" placeholder="member@email.com" autocomplete="off" />
+          <button class="action-btn primary" id="spark-credit-search-btn" onclick="loadSparkCreditUser()">Load User</button>
+        </div>
+        <div class="spark-credit-status" id="spark-credit-search-status">No member loaded.</div>
+        <div id="spark-credit-user-card"></div>
+      </div>
+
+      <div class="admin-panel">
+        <div class="admin-panel-title">Apply Adjustment</div>
+        <div class="admin-panel-sub">Use a positive number to add Sparks or a negative number to remove Sparks. This increments the current balance; it does not set an absolute balance.</div>
+        <div class="admin-form-grid">
+          <input class="application-input" id="spark-credit-adjustment" type="number" step="1" placeholder="Example: 5 or -3" />
+          <input class="application-input wide" id="spark-credit-reason" placeholder="Required reason or internal note" />
+          <button class="action-btn success" id="spark-credit-apply-btn" onclick="applySparkCreditAdjustment()" disabled>Apply Adjustment</button>
+        </div>
+        <div class="spark-credit-status" id="spark-credit-adjust-status">Load a member before applying an adjustment.</div>
+        <div id="spark-credit-result"></div>
       </div>
     </div>
 
@@ -2438,6 +2523,10 @@ let memberProfileEnforcementMessage = '';
 let memberProfileEnforcementTone = 'info';
 let memberProfileEnforcementInFlight = false;
 let memberProfileEnforcementAction = '';
+let sparkCreditUser = null;
+let sparkCreditLookupInFlight = false;
+let sparkCreditAdjustmentInFlight = false;
+let sparkCreditLastResult = null;
 let eventPairReleaseSummaryMessage = '';
 let eventPairReleaseSummaryTone = 'info';
 let editingEventId = null;
@@ -3241,6 +3330,7 @@ function showPage(name) {
     overview: ['Overview', 'All key metrics at a glance'],
     'beta-metrics': ['Beta Metrics', 'Download clicks and public profile-upload counters'],
     users: ['Users', 'All registered users and their status'],
+    'spark-credits': ['Spark Credits', 'Audited Spark balance adjustments by member email'],
     applications: ['Archived Applications', 'Old website form submissions kept for reference'],
     'creator-hq': ['Creator HQ', 'Creator recruiting, outreach, applications, links, and performance'],
     'city-performance': ['City Performance', 'Launch readiness by market'],
@@ -3273,6 +3363,7 @@ async function loadPageData(page) {
     if (page === 'overview') await loadOverview();
     else if (page === 'beta-metrics') await loadBetaMetrics();
     else if (page === 'users') await loadUsers();
+    else if (page === 'spark-credits') await loadSparkCredits();
     else if (page === 'applications') await loadApplications();
     else if (page === 'creator-hq') await loadCreatorHQ();
     else if (page === 'city-performance') await loadCityPerformance();
@@ -3530,6 +3621,216 @@ async function loadUsers() {
   });
   html += '</tbody></table></div>';
   document.getElementById('users-table-body').innerHTML = html;
+}
+
+async function loadSparkCredits() {
+  renderSparkCreditUser();
+  renderSparkCreditResult();
+}
+
+function sparkCreditStatusMessage(error) {
+  const raw = String(error?.message || error || '');
+  if (raw.includes('admin access required') || raw.includes('401') || raw.includes('403') || raw.includes('JWT')) {
+    return 'Your admin session does not have permission to manage Spark credits.';
+  }
+  if (raw.includes('user not found')) {
+    return 'No FaceMeet user was found for that email.';
+  }
+  if (raw.includes('invalid target email')) {
+    return 'Enter a valid member email address.';
+  }
+  if (raw.includes('reason is required')) {
+    return 'A reason is required before applying a Spark adjustment.';
+  }
+  if (raw.includes('non-zero')) {
+    return 'Adjustment must be a non-zero whole number.';
+  }
+  if (raw.includes('below zero')) {
+    return 'This adjustment would make the member Spark balance negative.';
+  }
+  return 'Spark credit request failed. Please try again or verify the admin RPC is deployed.';
+}
+
+function sparkCreditEmailValue() {
+  return (document.getElementById('spark-credit-email')?.value || '').trim().toLowerCase();
+}
+
+function renderSparkCreditUser() {
+  const card = document.getElementById('spark-credit-user-card');
+  const applyBtn = document.getElementById('spark-credit-apply-btn');
+  if (applyBtn) applyBtn.disabled = !sparkCreditUser || sparkCreditAdjustmentInFlight || sparkCreditLookupInFlight;
+  if (!card) return;
+  if (!sparkCreditUser) {
+    card.innerHTML = '';
+    return;
+  }
+  card.innerHTML = `
+    <div class="spark-credit-user-card">
+      <div class="spark-credit-user-row"><div class="member-profile-meta-label">Email</div><div class="member-profile-meta-value">${escapeHtml(sparkCreditUser.email || '—')}</div></div>
+      <div class="spark-credit-user-row"><div class="member-profile-meta-label">Name</div><div class="member-profile-meta-value">${escapeHtml(sparkCreditUser.display_name || sparkCreditUser.first_name || '—')}</div></div>
+      <div class="spark-credit-user-row"><div class="member-profile-meta-label">Current Spark Balance</div><div class="member-profile-meta-value">${escapeHtml(String(sparkCreditUser.spark_balance ?? '—'))}</div></div>
+      <div class="spark-credit-user-row"><div class="member-profile-meta-label">Account Status</div><div class="member-profile-meta-value">${escapeHtml(formatSource(sparkCreditUser.account_status || 'active'))}</div></div>
+      <div class="spark-credit-user-row"><div class="member-profile-meta-label">Profile Visibility</div><div class="member-profile-meta-value">${escapeHtml(formatSource(sparkCreditUser.profile_visibility_status || 'visible'))}</div></div>
+    </div>
+  `;
+}
+
+function renderSparkCreditResult() {
+  const el = document.getElementById('spark-credit-result');
+  if (!el) return;
+  if (!sparkCreditLastResult) {
+    el.innerHTML = '';
+    return;
+  }
+  const adjustmentValue = sparkCreditLastResult.adjustment_applied ?? sparkCreditLastResult.adjustment ?? 0;
+  el.innerHTML = `
+    <div class="spark-credit-result">
+      <div class="spark-credit-result-card">
+        <div class="spark-credit-result-label">Old Balance</div>
+        <div class="spark-credit-result-value">${escapeHtml(String(sparkCreditLastResult.old_balance ?? '—'))}</div>
+      </div>
+      <div class="spark-credit-result-card">
+        <div class="spark-credit-result-label">Adjustment</div>
+        <div class="spark-credit-result-value">${escapeHtml(String(adjustmentValue))}</div>
+      </div>
+      <div class="spark-credit-result-card">
+        <div class="spark-credit-result-label">New Balance</div>
+        <div class="spark-credit-result-value">${escapeHtml(String(sparkCreditLastResult.new_balance ?? '—'))}</div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadSparkCreditUser() {
+  if (sparkCreditLookupInFlight || sparkCreditAdjustmentInFlight) return;
+  const email = sparkCreditEmailValue();
+  const statusEl = document.getElementById('spark-credit-search-status');
+  const searchBtn = document.getElementById('spark-credit-search-btn');
+  if (!email || !email.includes('@')) {
+    if (statusEl) {
+      statusEl.textContent = 'Enter a valid member email address.';
+      statusEl.className = 'spark-credit-status error';
+    }
+    return;
+  }
+
+  sparkCreditLookupInFlight = true;
+  sparkCreditUser = null;
+  sparkCreditLastResult = null;
+  if (searchBtn) searchBtn.disabled = true;
+  if (statusEl) {
+    statusEl.textContent = 'Loading member Spark balance...';
+    statusEl.className = 'spark-credit-status';
+  }
+  renderSparkCreditUser();
+  renderSparkCreditResult();
+
+  try {
+    const payload = await rpcWithFallback('admin_get_spark_credit_account', [
+      { target_email: email },
+      { p_target_email: email }
+    ]);
+    const row = Array.isArray(payload) ? (payload[0] || null) : payload;
+    if (!row) throw new Error('user not found');
+    sparkCreditUser = row;
+    if (statusEl) {
+      statusEl.textContent = 'Member loaded. Review the balance before applying an adjustment.';
+      statusEl.className = 'spark-credit-status success';
+    }
+  } catch (error) {
+    sparkCreditUser = null;
+    if (statusEl) {
+      statusEl.textContent = sparkCreditStatusMessage(error);
+      statusEl.className = 'spark-credit-status error';
+    }
+  } finally {
+    sparkCreditLookupInFlight = false;
+    if (searchBtn) searchBtn.disabled = false;
+    renderSparkCreditUser();
+  }
+}
+
+async function applySparkCreditAdjustment() {
+  if (!sparkCreditUser || sparkCreditAdjustmentInFlight || sparkCreditLookupInFlight) return;
+  const email = sparkCreditEmailValue() || sparkCreditUser.email;
+  const adjustmentRaw = (document.getElementById('spark-credit-adjustment')?.value || '').trim();
+  const reason = (document.getElementById('spark-credit-reason')?.value || '').trim();
+  const adjustment = Number(adjustmentRaw);
+  const statusEl = document.getElementById('spark-credit-adjust-status');
+  const applyBtn = document.getElementById('spark-credit-apply-btn');
+
+  if (!Number.isInteger(adjustment) || adjustment === 0) {
+    if (statusEl) {
+      statusEl.textContent = 'Adjustment must be a non-zero whole number.';
+      statusEl.className = 'spark-credit-status error';
+    }
+    return;
+  }
+  if (!reason) {
+    if (statusEl) {
+      statusEl.textContent = 'A reason or note is required.';
+      statusEl.className = 'spark-credit-status error';
+    }
+    return;
+  }
+
+  const currentBalance = Number(sparkCreditUser.spark_balance || 0);
+  const expectedNewBalance = currentBalance + adjustment;
+  if (expectedNewBalance < 0) {
+    if (statusEl) {
+      statusEl.textContent = 'This adjustment would make the Spark balance negative.';
+      statusEl.className = 'spark-credit-status error';
+    }
+    return;
+  }
+
+  const confirmed = window.confirm(`Apply Spark credit adjustment?\n\nEmail: ${email}\nCurrent balance: ${currentBalance}\nAdjustment: ${adjustment}\nExpected new balance: ${expectedNewBalance}\nReason: ${reason}`);
+  if (!confirmed) return;
+
+  sparkCreditAdjustmentInFlight = true;
+  sparkCreditLastResult = null;
+  if (applyBtn) applyBtn.disabled = true;
+  if (statusEl) {
+    statusEl.textContent = 'Applying Spark credit adjustment...';
+    statusEl.className = 'spark-credit-status';
+  }
+  renderSparkCreditResult();
+
+  try {
+    const payload = await rpcWithFallback('admin_adjust_spark_balance', [
+      { target_email: email, adjustment, reason },
+      { p_target_email: email, p_adjustment: adjustment, p_reason: reason }
+    ]);
+    const row = Array.isArray(payload) ? (payload[0] || null) : payload;
+    if (!row) throw new Error('Spark adjustment returned no result');
+    sparkCreditLastResult = row;
+    sparkCreditUser = {
+      ...sparkCreditUser,
+      email: row.email || sparkCreditUser.email,
+      first_name: row.first_name ?? sparkCreditUser.first_name,
+      display_name: row.display_name ?? sparkCreditUser.display_name,
+      spark_balance: row.new_balance,
+      account_status: row.account_status ?? sparkCreditUser.account_status,
+      profile_visibility_status: row.profile_visibility_status ?? sparkCreditUser.profile_visibility_status
+    };
+    if (statusEl) {
+      statusEl.textContent = 'Spark credit adjustment applied and audited.';
+      statusEl.className = 'spark-credit-status success';
+    }
+    const adjustmentEl = document.getElementById('spark-credit-adjustment');
+    const reasonEl = document.getElementById('spark-credit-reason');
+    if (adjustmentEl) adjustmentEl.value = '';
+    if (reasonEl) reasonEl.value = '';
+  } catch (error) {
+    if (statusEl) {
+      statusEl.textContent = sparkCreditStatusMessage(error);
+      statusEl.className = 'spark-credit-status error';
+    }
+  } finally {
+    sparkCreditAdjustmentInFlight = false;
+    renderSparkCreditUser();
+    renderSparkCreditResult();
+  }
 }
 
 async function loadApplications() {
