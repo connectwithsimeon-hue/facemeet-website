@@ -2632,8 +2632,26 @@ async function rpc(functionName, params={}) {
   });
   if (!res.ok) {
     const errText = await res.text();
-    console.error(`RPC failed on ${functionName}:`, res.status, errText);
-    throw new Error(`RPC failed: ${res.status} - ${errText}`);
+    let errBody = {};
+    try {
+      errBody = errText ? JSON.parse(errText) : {};
+    } catch (_) {
+      errBody = { message: errText };
+    }
+    const error = new Error(errBody.message || `RPC failed: ${res.status}`);
+    error.status = res.status;
+    error.code = errBody.code || '';
+    error.details = errBody.details || '';
+    error.hint = errBody.hint || '';
+    error.rpc = functionName;
+    console.error(`RPC failed on ${functionName}:`, {
+      status: error.status,
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint
+    });
+    throw error;
   }
   const text = await res.text();
   if (!text) return null;
@@ -3629,7 +3647,14 @@ async function loadSparkCredits() {
 }
 
 function sparkCreditStatusMessage(error) {
-  const raw = String(error?.message || error || '');
+  const parts = [
+    error?.code ? `code ${error.code}` : '',
+    error?.message || '',
+    error?.details ? `details: ${error.details}` : '',
+    error?.hint ? `hint: ${error.hint}` : ''
+  ].filter(Boolean);
+  const detailedMessage = parts.join(' | ');
+  const raw = String(detailedMessage || error?.message || error || '');
   if (raw.includes('admin access required') || raw.includes('401') || raw.includes('403') || raw.includes('JWT')) {
     return 'Your admin session does not have permission to manage Spark credits.';
   }
@@ -3648,7 +3673,7 @@ function sparkCreditStatusMessage(error) {
   if (raw.includes('below zero')) {
     return 'This adjustment would make the member Spark balance negative.';
   }
-  return 'Spark credit request failed. Please try again or verify the admin RPC is deployed.';
+  return `Spark credit request failed: ${raw || 'Unknown Supabase error'}`;
 }
 
 function sparkCreditEmailValue() {
@@ -3823,6 +3848,13 @@ async function applySparkCreditAdjustment() {
     if (reasonEl) reasonEl.value = '';
   } catch (error) {
     if (statusEl) {
+      console.error('Spark credit adjustment failed', {
+        status: error?.status || '',
+        code: error?.code || '',
+        message: error?.message || String(error || ''),
+        details: error?.details || '',
+        hint: error?.hint || ''
+      });
       statusEl.textContent = sparkCreditStatusMessage(error);
       statusEl.className = 'spark-credit-status error';
     }
