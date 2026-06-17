@@ -30,7 +30,7 @@
     .nav-cta{background:var(--coral);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:30px;margin-left:8px;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
     .nav-cta:hover{background:var(--coral-light);box-shadow:0 6px 20px rgba(232,80,58,.35)}
     .mob-btn{display:none;background:rgba(245,240,232,.08);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:8px 12px;color:var(--cream);font-size:18px;cursor:pointer}
-    .hero{padding:88px 24px 54px;position:relative;overflow:hidden}
+    .hero{padding:88px 24px 64px;position:relative;overflow:hidden}
     .hero::before{content:'';position:absolute;inset:auto auto 0 50%;transform:translateX(-50%);width:960px;height:960px;background:radial-gradient(circle,rgba(232,80,58,.12) 0%,transparent 65%);pointer-events:none}
     .hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:24px;position:relative;z-index:1}
     .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:18px}
@@ -44,17 +44,30 @@
     .hero-side{background:linear-gradient(135deg,rgba(36,15,13,.96),rgba(17,15,13,.92));border:1px solid rgba(232,80,58,.18);border-radius:28px;padding:26px}
     .hero-side h3{margin:0 0 12px;font-size:24px;font-family:'Cormorant Garamond',serif}
     .hero-side p{margin:0 0 14px;color:var(--cream-dim);font-size:14px;line-height:1.75}
-    .section{max-width:1200px;margin:0 auto;padding:0 24px 72px}
-    .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .section{max-width:1200px;margin:0 auto;padding:0 24px 82px}
+    .events-intro{margin-bottom:30px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,.55fr);gap:22px;align-items:end}
+    .events-intro h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.8vw,52px);line-height:1;margin:0 0 12px;letter-spacing:-1px}
+    .events-intro h2 em{color:var(--gold);font-style:italic}
+    .events-intro p{margin:0;color:var(--cream-dim);line-height:1.8;font-size:15px}
+    .rollout-note{background:linear-gradient(135deg,rgba(212,168,71,.12),rgba(232,80,58,.08));border:1px solid rgba(212,168,71,.24);border-radius:20px;padding:20px;color:var(--cream-dim);font-size:13px;line-height:1.75}
+    .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
     .event-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;min-height:100%}
-    .event-hero{height:180px;background:linear-gradient(135deg,rgba(232,80,58,.24),rgba(17,15,13,.95));background-size:cover;background-position:center;position:relative}
+    .event-hero{aspect-ratio:16/10;background:linear-gradient(135deg,rgba(232,80,58,.24),rgba(17,15,13,.95));background-size:cover;background-position:center;position:relative}
     .event-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(9,8,6,.88),rgba(9,8,6,.12))}
-    .event-badges{position:absolute;left:16px;bottom:16px;z-index:1;display:flex;flex-wrap:wrap;gap:8px}
+    .event-badges{position:absolute;left:16px;right:16px;bottom:16px;z-index:1;display:flex;flex-wrap:wrap;gap:8px}
+    .date-badge{position:absolute;top:16px;left:16px;z-index:2;background:rgba(9,8,6,.76);border:1px solid rgba(245,240,232,.16);border-radius:16px;padding:10px 12px;text-align:center;min-width:74px;box-shadow:0 16px 32px rgba(0,0,0,.28)}
+    .date-badge span{display:block}
+    .date-badge .month{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+    .date-badge .day{font-size:25px;font-weight:800;line-height:1;color:var(--cream)}
     .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(9,8,6,.62);border:1px solid rgba(245,240,232,.12);font-size:11px;font-weight:700;color:var(--cream)}
     .pill.featured{background:rgba(212,168,71,.18);color:var(--gold);border-color:rgba(212,168,71,.32)}
     .event-body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
     .event-title{font-size:22px;font-weight:700;margin:0}
-    .event-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+    .event-location{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+    .event-meta{display:grid;gap:8px;font-size:13px;color:var(--cream-dim);padding:14px;border-radius:16px;background:rgba(245,240,232,.03);border:1px solid var(--border)}
+    .event-meta-row{display:flex;justify-content:space-between;gap:14px}
+    .event-meta-row span:first-child{color:var(--muted)}
+    .event-meta-row span:last-child{text-align:right;color:var(--cream)}
     .event-copy{font-size:14px;line-height:1.75;color:var(--cream-dim);margin:0}
     .event-flags{display:flex;flex-wrap:wrap;gap:8px}
     .event-access-note{padding:12px 14px;border-radius:16px;background:var(--surface2);border:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--cream-dim)}
@@ -79,12 +92,18 @@
     .footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}
     .footer-links a:hover{color:var(--cream)}
     .footer-copy{font-size:12px;color:var(--muted)}
+    .bottom-cta{margin-top:34px;background:linear-gradient(135deg,rgba(36,15,13,.96),rgba(18,16,13,.94));border:1px solid rgba(232,80,58,.18);border-radius:28px;padding:30px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .bottom-cta h2{font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1;margin:0 0 8px}
+    .bottom-cta p{margin:0;color:var(--cream-dim);font-size:14px;line-height:1.7}
     @media (max-width: 980px){
-      .hero-inner,.lead-layout,.events-grid{grid-template-columns:1fr}
+      .hero-inner,.lead-layout,.events-intro{grid-template-columns:1fr}
+      .events-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .bottom-cta{flex-direction:column;align-items:flex-start}
     }
     @media (max-width: 640px){
       .hero{padding:72px 18px 40px}
       .section{padding:0 18px 56px}
+      .events-grid{grid-template-columns:1fr}
       .form-grid{grid-template-columns:1fr}
       .title{font-size:50px}
     }
@@ -109,32 +128,32 @@
       <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
       <div class="nav-links" id="nav-links">
         <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
-        <a href="index.html#install" class="nav-link" onclick="closeMob()">How to Install</a>
+        <a href="index.html#install" class="nav-link" onclick="closeMob()">Download App</a>
         <a href="index.html#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
         <a href="/events" class="nav-link active" onclick="closeMob()">Events</a>
         <a href="creators.html" class="nav-link" onclick="closeMob()">Creators</a>
         <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
         <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
       </div>
-      <a class="nav-cta" href="https://app.facemeet.app" onclick="closeMob()">Use on Desktop</a>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="closeMob()">Get it on Google Play</a>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-inner">
       <div>
-        <div class="eyebrow">Dallas first</div>
-        <h1 class="title">Request Access to<br><em>FaceMeet Events</em></h1>
-        <p class="sub">Curated in-person experiences for FaceMeet members. Limited guest lists, approval-required drops, and real chemistry offline starting in Dallas.</p>
+        <div class="eyebrow">FaceMeet Events</div>
+        <h1 class="title">Upcoming FaceMeet<br><em>Socials</em></h1>
+        <p class="sub">Curated city-by-city dating events for FaceMeet members. The national rollout starts in Dallas, then expands through major cities with approval-required guest lists.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet to Request Invite</a>
-          <a class="btn secondary" href="index.html#install">How to install FaceMeet</a>
+          <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer">Download FaceMeet on Google Play to request access</a>
+          <a class="btn secondary" href="index.html#install">iOS & PWA Coming Soon</a>
         </div>
       </div>
       <div class="hero-side">
         <h3>What to expect</h3>
-        <p>FaceMeet Events are built for real chemistry, not random crowds. Think rooftop mixers, Spark Socials, coffee meetups, and curated nights that feel intentional from the first hello.</p>
-        <p>Request access inside FaceMeet, complete your video profile to improve your invite priority, and step into limited guest list experiences designed for real members.</p>
+        <p>FaceMeet Events are built for real chemistry, not random crowds. Think rooftop socials, warm lounge mixers, and curated nights that feel intentional from the first hello.</p>
+        <p>Each city list is limited and approval-required. Download FaceMeet, complete your video profile, and request early access to be considered for your city.</p>
       </div>
     </div>
   </section>
@@ -142,8 +161,8 @@
   <section class="section">
     <div id="events-listing">
       <div class="empty-state">
-        <h2>Loading published events…</h2>
-        <p>We’re checking the current FaceMeet Events lineup for Dallas.</p>
+        <h2>Upcoming curated drops across major cities</h2>
+        <p>Loading the national FaceMeet Events rollout.</p>
       </div>
     </div>
   </section>
@@ -186,6 +205,20 @@
   <script>
     const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+    const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+    const UPCOMING_EVENTS = [
+      { title: 'FaceMeet Dallas Social', city: 'Dallas', location: 'Dallas, TX', dateLabel: 'July 16, 2026', month: 'Jul', day: '16', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-dallas.svg', description: 'FaceMeet is bringing video-first dating events to Dallas. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Austin Social', city: 'Austin', location: 'Austin, TX', dateLabel: 'August 5, 2026', month: 'Aug', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-austin.svg', description: 'FaceMeet is bringing video-first dating events to Austin. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Houston Social', city: 'Houston', location: 'Houston, TX', dateLabel: 'August 20, 2026', month: 'Aug', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-houston.svg', description: 'FaceMeet is bringing video-first dating events to Houston. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Atlanta Social', city: 'Atlanta', location: 'Atlanta, GA', dateLabel: 'September 5, 2026', month: 'Sep', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-atlanta.svg', description: 'FaceMeet is bringing video-first dating events to Atlanta. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Miami Social', city: 'Miami', location: 'Miami, FL', dateLabel: 'September 20, 2026', month: 'Sep', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-miami.svg', description: 'FaceMeet is bringing video-first dating events to Miami. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet New York Social', city: 'New York', location: 'New York, NY', dateLabel: 'October 5, 2026', month: 'Oct', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-new-york.svg', description: 'FaceMeet is bringing video-first dating events to New York. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Los Angeles Social', city: 'Los Angeles', location: 'Los Angeles, CA', dateLabel: 'October 20, 2026', month: 'Oct', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-los-angeles.svg', description: 'FaceMeet is bringing video-first dating events to Los Angeles. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Chicago Social', city: 'Chicago', location: 'Chicago, IL', dateLabel: 'November 5, 2026', month: 'Nov', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-chicago.svg', description: 'FaceMeet is bringing video-first dating events to Chicago. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Washington DC Social', city: 'Washington DC', location: 'Washington, DC', dateLabel: 'November 20, 2026', month: 'Nov', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-washington-dc.svg', description: 'FaceMeet is bringing video-first dating events to Washington DC. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet San Francisco Social', city: 'San Francisco', location: 'San Francisco, CA', dateLabel: 'December 5, 2026', month: 'Dec', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-san-francisco.svg', description: 'FaceMeet is bringing video-first dating events to San Francisco. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Lagos Social', city: 'Lagos', location: 'Lagos, Nigeria', dateLabel: 'December 20, 2026', month: 'Dec', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-lagos.svg', description: 'FaceMeet is bringing video-first dating events to Lagos. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' }
+    ];
 
     function headers() {
       return {
@@ -370,54 +403,33 @@ function guestListPublicMeta(status) {
     }
 
     function renderEventCards(events) {
-      const sorted = [...events].sort((a, b) => {
-        const aFeatured = a.featured === true || a.visibility === 'featured';
-        const bFeatured = b.featured === true || b.visibility === 'featured';
-        if (aFeatured !== bFeatured) return aFeatured ? -1 : 1;
-        return new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime();
-      });
-
       return `
         <div class="events-grid">
-          ${sorted.map(event => {
-            const guestList = guestListPublicMeta(event.guest_list_status);
-            const accessMode = accessModePublicMeta(event.access_mode);
-            const ctaMeta = publicCtaMeta(event, guestList, accessMode);
-            const priceLabel = Number(event.price_cents || 0) > 0 ? `$${(Number(event.price_cents) / 100).toFixed(2)} ${escapeHtml(event.currency || 'USD')}` : 'Free';
-            const cta = ctaMeta.disabled
-              ? `<span class="btn disabled" aria-disabled="true">${escapeHtml(ctaMeta.cta)}</span>`
-              : `<a class="btn primary" href="https://app.facemeet.app">${escapeHtml(ctaMeta.cta)}</a>`;
+          ${events.map(event => {
             return `
             <article class="event-card">
-              <div class="event-hero" style="${event.hero_image_url ? `background-image:url('${escapeHtml(event.hero_image_url)}');` : ''}">
+              <div class="event-hero" style="background-image:url('${escapeHtml(event.image)}');">
+                <div class="date-badge"><span class="month">${escapeHtml(event.month)}</span><span class="day">${escapeHtml(event.day)}</span></div>
                 <div class="event-badges">
-                  <span class="pill">${escapeHtml(event.event_type || 'Event')}</span>
-                  <span class="pill">${escapeHtml(event.city_name || 'Dallas')}</span>
-                  ${(event.featured === true || event.visibility === 'featured') ? '<span class="pill featured">Featured Drop</span>' : ''}
-                  <span class="pill ${guestList.tone}">${escapeHtml(guestList.label)}</span>
-                  <span class="pill featured">${escapeHtml(accessMode.label)}</span>
-                  <span class="pill">${escapeHtml(event.invite_requirement === 'approval_required' ? 'Approval Required' : event.invite_requirement === 'invite_only' ? 'Invite Only' : 'Open Access')}</span>
-                  ${Number(event.capacity || 0) > 0 ? `<span class="pill">Guest List Capacity · ${escapeHtml(String(event.capacity))}</span>` : ''}
+                  <span class="pill featured">${escapeHtml(event.city)}</span>
+                  <span class="pill">Approval Required</span>
+                  <span class="pill">Limited Guest List</span>
                 </div>
               </div>
               <div class="event-body">
-                <h2 class="event-title">${escapeHtml(event.title || 'Untitled event')}</h2>
+                <div class="event-location">${escapeHtml(event.location)}</div>
+                <h2 class="event-title">${escapeHtml(event.title)}</h2>
+                <p class="event-copy">${escapeHtml(event.description)}</p>
                 <div class="event-meta">
-                  <span>${escapeHtml(formatDateRange(event.starts_at, event.ends_at))}</span>
-                  ${event.venue_name ? `<span>•</span><span>${escapeHtml(event.venue_name)}</span>` : ''}
-                  <span>•</span>
-                  <span>${priceLabel}</span>
+                  <div class="event-meta-row"><span>Date</span><span>${escapeHtml(event.dateLabel)}</span></div>
+                  <div class="event-meta-row"><span>Time</span><span>${escapeHtml(event.time)}</span></div>
+                  <div class="event-meta-row"><span>Venue</span><span>Venue to be announced</span></div>
+                  <div class="event-meta-row"><span>Access</span><span>Approval Required</span></div>
+                  <div class="event-meta-row"><span>Guest List</span><span>Limited</span></div>
                 </div>
-                <p class="event-copy">${escapeHtml(event.short_description || 'Curated FaceMeet experience for verified members.')}</p>
-                <div class="event-flags">
-                  ${event.video_required === true ? '<span class="pill">Video Profile Required</span>' : ''}
-                  ${event.verification_required === true ? '<span class="pill featured">Verified Members Only</span>' : ''}
-                </div>
-                ${event.access_note ? `<div class="event-access-note">${escapeHtml(event.access_note)}</div>` : ''}
                 <div class="event-footer">
-                  ${cta}
-                  <div class="event-helper">${escapeHtml(accessMode.helper)}</div>
-                  <div class="event-helper">${escapeHtml(guestList.helper)}</div>
+                  <a class="btn primary" href="${PLAY_STORE_URL}" target="_blank" rel="noopener noreferrer">Request Access</a>
+                  <div class="event-helper">Download FaceMeet on Google Play and complete your video profile to request access.</div>
                 </div>
               </div>
             </article>
@@ -430,22 +442,22 @@ function guestListPublicMeta(status) {
       return `
         <div class="lead-layout">
           <div class="empty-state">
-            <h2>Dallas First Drop Coming Soon</h2>
-            <p>FaceMeet Events are curated, approval-required experiences for members ready to turn real video chemistry into real moments. We are preparing the first Dallas guest list now.</p>
+            <h2>Upcoming City Drops Coming Soon</h2>
+            <p>FaceMeet Events are curated, approval-required experiences for members ready to turn real video chemistry into real moments. We are preparing city-by-city guest lists now.</p>
             <p style="margin-top:12px;">Limited guest list. Approval required. Complete your video profile inside FaceMeet to improve your invite priority.</p>
             <div class="hero-actions" style="margin-top:20px;">
-              <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet</a>
+              <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer">Download FaceMeet</a>
             </div>
           </div>
           <div class="lead-card">
-            <h2>Join the Dallas Events List</h2>
-            <p>Leave your details and we’ll keep you in the loop for upcoming Dallas drops, approval-required guest lists, and early access updates.</p>
+            <h2>Join the FaceMeet Events List</h2>
+            <p>Leave your details and we’ll keep you in the loop for upcoming city drops, approval-required guest lists, and early access updates.</p>
             <form id="events-lead-form" class="form-grid">
               <input class="field full" id="lead-name" type="text" placeholder="Name" required />
               <input class="field" id="lead-email" type="email" placeholder="Email" required />
               <input class="field" id="lead-phone" type="tel" placeholder="Phone (optional)" />
-              <input class="field full" id="lead-city" type="text" value="Dallas-Fort Worth" placeholder="City" required />
-              <button class="btn primary full" style="width:100%;" type="submit">Join the Dallas Events List</button>
+              <input class="field full" id="lead-city" type="text" value="" placeholder="City" required />
+              <button class="btn primary full" style="width:100%;" type="submit">Join the Events List</button>
             </form>
             <div class="muted">This creates a lightweight events interest lead. For live access requests, open FaceMeet and complete your video profile.</div>
             <div id="events-lead-message"></div>
@@ -463,7 +475,7 @@ function guestListPublicMeta(status) {
         const name = document.getElementById('lead-name').value.trim();
         const email = document.getElementById('lead-email').value.trim();
         const phone = document.getElementById('lead-phone').value.trim();
-        const city = document.getElementById('lead-city').value.trim() || 'Dallas-Fort Worth';
+        const city = document.getElementById('lead-city').value.trim();
         const message = document.getElementById('events-lead-message');
         const button = form.querySelector('button');
 
@@ -485,64 +497,37 @@ function guestListPublicMeta(status) {
             city_slug: slugify(city)
           });
           form.reset();
-          document.getElementById('lead-city').value = 'Dallas-Fort Worth';
-          message.innerHTML = '<div class="success">You’re on the Dallas Events list. We’ll reach out when new invites drop.</div>';
+          document.getElementById('lead-city').value = '';
+          message.innerHTML = '<div class="success">You’re on the FaceMeet Events list. We’ll reach out when new invites drop.</div>';
         } catch (error) {
           console.error('Events waitlist failed:', error);
           message.innerHTML = '<div class="error">We could not save your events interest right now. Please try again in a moment.</div>';
         } finally {
           button.disabled = false;
-          button.textContent = 'Join the Dallas Events List';
+          button.textContent = 'Join the Events List';
         }
       });
     }
 
     async function bootEventsPage() {
       const container = document.getElementById('events-listing');
-      try {
-        const events = await loadPublishedEvents();
-        if (events.length === 0) {
-          container.innerHTML = renderLeadForm();
-          await setupLeadForm();
-          return;
-        }
-
-        container.innerHTML = `
-          <div class="empty-state" style="margin-bottom:18px;">
-            <h2>Curated Dallas drops for verified members</h2>
-            <p>Featured drops appear first. Open FaceMeet to request access, track your guest list status, and stay close to the next invite release.</p>
+      container.innerHTML = `
+        <div class="events-intro">
+          <div>
+            <h2>Upcoming curated drops<br><em>across major cities.</em></h2>
+            <p>FaceMeet Socials are approval-required, limited-guest-list events for members who want real chemistry beyond endless texting. Venue and final details will be announced as each city list opens.</p>
           </div>
-          ${renderEventCards(events)}
-        `;
-      } catch (error) {
-        console.error('Events load failed:', error);
-        container.innerHTML = `
-          <div class="lead-layout">
-            <div class="empty-state">
-              <h2>Dallas First Drop Coming Soon</h2>
-              <p>FaceMeet Events are curated, approval-required experiences for members ready to turn real video chemistry into real moments. We are preparing the first Dallas guest list now.</p>
-              <p style="margin-top:12px;">Limited guest list. Approval required. Complete your video profile inside FaceMeet to improve your invite priority.</p>
-              <div class="hero-actions" style="margin-top:20px;">
-                <a class="btn primary" href="https://app.facemeet.app">Open FaceMeet</a>
-              </div>
-            </div>
-            <div class="lead-card">
-              <h2>Join the Dallas Events List</h2>
-              <p>Leave your details and we’ll keep you posted as soon as the first invite-only experiences are ready.</p>
-              <form id="events-lead-form" class="form-grid">
-                <input class="field full" id="lead-name" type="text" placeholder="Name" required />
-                <input class="field" id="lead-email" type="email" placeholder="Email" required />
-                <input class="field" id="lead-phone" type="tel" placeholder="Phone (optional)" />
-                <input class="field full" id="lead-city" type="text" value="Dallas-Fort Worth" placeholder="City" required />
-                <button class="btn primary full" style="width:100%;" type="submit">Join the Dallas Events List</button>
-              </form>
-              <div class="muted">This creates a lightweight events interest lead. For live access requests, open FaceMeet and complete your video profile.</div>
-              <div id="events-lead-message"></div>
-            </div>
+          <div class="rollout-note">No tickets are being sold on this page. Request access through FaceMeet so the team can review completed video profiles and keep each guest list intentional.</div>
+        </div>
+        ${renderEventCards(UPCOMING_EVENTS)}
+        <div class="bottom-cta">
+          <div>
+            <h2>Be considered for your city.</h2>
+            <p>Download FaceMeet on Google Play, create your video profile, and request access when your city list opens.</p>
           </div>
-        `;
-        await setupLeadForm();
-      }
+          <a class="btn primary" href="${PLAY_STORE_URL}" target="_blank" rel="noopener noreferrer">Download FaceMeet on Google Play</a>
+        </div>
+      `;
     }
 
     bootEventsPage();
