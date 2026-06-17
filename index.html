@@ -110,6 +110,13 @@ nav#navbar.scrolled {
 .dl-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,0.12);font-size:16px;flex-shrink:0;}
 .dl-btn.secondary .dl-icon{background:rgba(232,80,58,0.12);color:var(--coral);}
 .dl-btn.primary .dl-icon{background:rgba(255,255,255,0.18);}
+.play-store-mark{position:relative;display:inline-flex;width:18px;height:20px;flex-shrink:0;overflow:hidden;border-radius:4px;clip-path:polygon(0 0,100% 50%,0 100%);}
+.play-store-mark::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#5eead4 0 34%,#f8e16c 34% 58%,#ff6b6b 58% 100%);}
+.platform-status{display:flex;gap:10px;flex-wrap:wrap;margin-top:-4px;margin-bottom:22px;animation:fadeUp 0.8s 0.42s both;}
+.platform-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);border-radius:999px;padding:9px 13px;color:var(--cream-dim);font-size:12px;font-weight:600;}
+.platform-pill strong{color:var(--cream);}
+.platform-pill.soon{color:var(--muted);}
+.platform-pill.soon::before{content:'Soon';font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
 .dl-sub{font-size:10px;opacity:0.75;font-weight:400;}
 .dl-main{font-size:14px;font-weight:600;}
 .install-link-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);color:var(--cream);padding:12px 18px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;transition:all 0.25s;animation:fadeUp 0.8s 0.45s both;}
@@ -337,13 +344,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     </a>
       <div class="nav-links" id="nav-links">
       <a href="#how" class="nav-link" onclick="closeMob()">How it works</a>
-      <a href="#install" class="nav-link" onclick="closeMob()">How to Install</a>
+      <a href="#install" class="nav-link" onclick="closeMob()">Download App</a>
       <a href="#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
       <a href="/events" class="nav-link" onclick="closeMob()">Events</a>
       <a href="creators.html" class="nav-link" onclick="closeMob()">Creators</a>
       <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
       <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
-      <a href="https://app.facemeet.app" class="nav-cta" onclick="closeMob()">Use on Desktop</a>
+      <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" class="nav-cta" target="_blank" rel="noopener noreferrer" onclick="closeMob()">Get it on Google Play</a>
     </div>
     <button class="mob-btn" id="mob-btn" onclick="toggleMob()" aria-label="Open navigation">☰</button>
   </div>
@@ -353,31 +360,28 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <section class="hero" id="home">
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-eyebrow">⚡ See them before you swipe</div>
+      <div class="hero-eyebrow">⚡ Android now live on Google Play</div>
       <h1 class="hero-headline">
-        <span>Upload Your Video Profile.</span><br>
+        <span>FaceMeet Is Live on Android.</span><br>
         <span class="c">Meet Real People</span><br>
         <span>Face-to-Face.</span>
       </h1>
-      <p class="hero-sub">FaceMeet is the video-first dating app where you see real people before you chat. Create your profile, start Spark Sessions, and connect with confidence.</p>
+      <p class="hero-sub">Download FaceMeet on Google Play and start meeting real people through video-first dating. iOS and PWA access are coming soon.</p>
 
       <div class="dl-row" style="margin-bottom:18px;">
-        <a href="https://app.facemeet.app" class="dl-btn primary">
-          <span class="dl-icon" aria-hidden="true">📱</span>
-          <span>Get FaceMeet for iPhone</span>
+        <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" class="dl-btn primary" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')">
+          <span class="dl-icon" aria-hidden="true"><span class="play-store-mark"></span></span>
+          <span>Download on Google Play</span>
         </a>
-        <a href="https://app.facemeet.app" class="dl-btn secondary">
-          <span class="dl-icon" aria-hidden="true">🤖</span>
-          <span>Get FaceMeet for Android</span>
-        </a>
-        <a href="https://app.facemeet.app" class="dl-btn secondary">
-          <span class="dl-icon" aria-hidden="true">💻</span>
-          <span>Use on Desktop</span>
-        </a>
+      </div>
+      <div class="platform-status">
+        <span class="platform-pill"><strong>Android</strong> available now</span>
+        <span class="platform-pill soon">iOS</span>
+        <span class="platform-pill soon">PWA / Web</span>
       </div>
       <a href="#install" class="install-link-btn" style="margin-bottom:24px;" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'});return false;">
         <span class="dl-icon" aria-hidden="true">↓</span>
-        <span>How to install FaceMeet</span>
+        <span>Scan the Google Play QR code</span>
       </a>
 
       <div class="hero-proof" style="margin-bottom:24px;">
@@ -532,33 +536,33 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <!-- BETA OPEN -->
 <section class="city-unlock-section" id="beta">
   <div class="city-unlock-inner reveal">
-    <div class="section-eyebrow">Use FaceMeet your way</div>
-    <h2 class="section-title">Desktop when you want it.<br><em>Installed on your phone when it matters.</em></h2>
-    <p class="section-sub">Upload your video profile today, start meeting real people, and choose the setup that fits you best.</p>
+    <div class="section-eyebrow">Download FaceMeet</div>
+    <h2 class="section-title">Android is live.<br><em>iOS and PWA are coming soon.</em></h2>
+    <p class="section-sub">Start on Google Play today. FaceMeet is focused on a polished Android launch while the next platforms line up behind it.</p>
     <div class="city-grid">
       <div class="city-card leader">
-        <div class="city-name">iPhone</div>
-        <div class="city-meta"><span class="city-status beta_live">Best in Safari</span><span class="city-count">Add FaceMeet to your Home Screen</span></div>
-        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Open FaceMeet in Safari, add it to your Home Screen, and turn on notifications so you never miss a Spark.</p>
-        <a class="city-btn" href="https://app.facemeet.app" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Get FaceMeet for iPhone</a>
-      </div>
-      <div class="city-card">
         <div class="city-name">Android</div>
-        <div class="city-meta"><span class="city-status profile_upload">Install-ready</span><span class="city-count">Chrome can add FaceMeet to your Home Screen</span></div>
-        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Open FaceMeet in Chrome, install it from the menu, and keep your Sparks, sessions, and chat one tap away.</p>
-        <a class="city-btn" href="https://app.facemeet.app" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Get FaceMeet for Android</a>
+        <div class="city-meta"><span class="city-status beta_live">Live now</span><span class="city-count">Available on Google Play</span></div>
+        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Download the approved FaceMeet Android app, create your video profile, and start discovering real people face-to-face.</p>
+        <a class="city-btn" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Download on Google Play</a>
       </div>
       <div class="city-card">
-        <div class="city-name">Desktop Web</div>
-        <div class="city-meta"><span class="city-status profile_upload">Ready in your browser</span><span class="city-count">Great for video profiles, Spark Sessions, and chat</span></div>
-        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Use FaceMeet directly in your browser when you want a bigger screen for browsing, Spark Sessions, and ongoing conversations.</p>
-        <a class="city-btn" href="https://app.facemeet.app" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Use on Desktop</a>
+        <div class="city-name">iOS</div>
+        <div class="city-meta"><span class="city-status profile_upload">Coming soon</span><span class="city-count">iPhone launch is next</span></div>
+        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">The iOS experience is being prepared for a clean launch after Android, with the same video-first dating flow.</p>
+        <button class="city-btn" type="button" disabled style="opacity:.72;cursor:default;">iOS Coming Soon</button>
       </div>
       <div class="city-card">
-        <div class="city-name">How to Install</div>
-        <div class="city-meta"><span class="city-status profile_upload">Step-by-step</span><span class="city-count">Simple instructions for iPhone and Android</span></div>
-        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Need a hand? We’ll show you exactly how to install FaceMeet on your phone and get the best mobile experience.</p>
-        <button class="city-btn" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})">How to Install</button>
+        <div class="city-name">PWA / Web</div>
+        <div class="city-meta"><span class="city-status profile_upload">Coming soon</span><span class="city-count">Web access will follow</span></div>
+        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">PWA and web access are planned for a future rollout once the right payment path is finalized for dating.</p>
+        <button class="city-btn" type="button" disabled style="opacity:.72;cursor:default;">PWA Coming Soon</button>
+      </div>
+      <div class="city-card">
+        <div class="city-name">Scan to Download</div>
+        <div class="city-meta"><span class="city-status profile_upload">QR ready</span><span class="city-count">Send your phone straight to Google Play</span></div>
+        <p style="color:var(--cream-dim);font-size:14px;line-height:1.65;margin-bottom:18px;">Scan the FaceMeet QR code below with your phone camera and go directly to the official Google Play listing.</p>
+        <button class="city-btn" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})">Show QR Code</button>
       </div>
     </div>
     <div class="creator-band">
@@ -729,8 +733,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     <div style="background:linear-gradient(135deg,rgba(212,168,71,0.15),rgba(232,80,58,0.1));border:1px solid rgba(212,168,71,0.3);border-radius:20px;padding:20px 32px;text-align:center;margin-bottom:56px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
       <div style="font-size:24px;">⭐</div>
       <div>
-        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Upload your video profile today</div>
-        <div style="font-size:15px;color:var(--cream-dim);line-height:1.5;">See them before you swipe. Install FaceMeet on your phone for the best mobile experience, or use it on desktop when you want more room.</div>
+        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">FaceMeet is live on Google Play</div>
+        <div style="font-size:15px;color:var(--cream-dim);line-height:1.5;">Download the Android app today. iOS and PWA access are coming soon as FaceMeet expands platform availability.</div>
       </div>
     </div>
 
@@ -739,39 +743,39 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 
       <!-- Left — what you get -->
       <div>
-        <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:16px;">Install FaceMeet on your phone</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,50px);font-weight:700;letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;">Install once.<br><em style="color:var(--gold);">Use FaceMeet anywhere.</em></h2>
+        <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:16px;">Download on Android</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,50px);font-weight:700;letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;">Get the app today.<br><em style="color:var(--gold);">Meet face-to-face.</em></h2>
 
         <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
           <div style="display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;">
-            <div style="font-size:22px;flex-shrink:0;">💻</div>
+            <div style="font-size:22px;flex-shrink:0;">▶</div>
             <div>
-              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">Desktop Web</div>
-              <div style="font-size:12px;color:var(--muted);">Use FaceMeet directly in your browser. Great for Spark Sessions, video profiles, and chat.</div>
+              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">Android on Google Play</div>
+              <div style="font-size:12px;color:var(--muted);">The approved Android app is the best way to use FaceMeet right now.</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;">
             <div style="font-size:22px;flex-shrink:0;">🍎</div>
             <div>
-              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">iPhone</div>
-              <div style="font-size:12px;color:var(--muted);">Open FaceMeet in Safari, tap Share, and add it to your Home Screen.</div>
+              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">iOS Coming Soon</div>
+              <div style="font-size:12px;color:var(--muted);">The iPhone app is planned for a later launch.</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;">
-            <div style="font-size:22px;flex-shrink:0;">🤖</div>
+            <div style="font-size:22px;flex-shrink:0;">💻</div>
             <div>
-              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">Android</div>
-              <div style="font-size:12px;color:var(--muted);">Open FaceMeet in Chrome, tap the menu, and choose Install App or Add to Home Screen.</div>
+              <div style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:3px;">PWA Coming Soon</div>
+              <div style="font-size:12px;color:var(--muted);">Web/PWA access will return when the payment path is ready for dating.</div>
             </div>
           </div>
         </div>
 
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;">
-          <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Desktop</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Available now</div>
           <div style="display:flex;flex-direction:column;gap:12px;">
-            <p style="margin:0;color:var(--cream-dim);font-size:14px;line-height:1.7;">Use FaceMeet directly in your browser for video profiles, Spark Sessions, and chat.</p>
-            <a class="store-button primary" href="https://app.facemeet.app" style="align-self:flex-start;">
-              <span><span class="store-small">Desktop Web</span><span class="store-main">Use on Desktop</span></span>
+            <p style="margin:0;color:var(--cream-dim);font-size:14px;line-height:1.7;">Download FaceMeet from the official Google Play listing and start with video-first dating on Android.</p>
+            <a class="store-button primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')" style="align-self:flex-start;">
+              <span><span class="store-small">Android app</span><span class="store-main">Download on Google Play</span></span>
               <span>→</span>
             </a>
           </div>
@@ -782,42 +786,37 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       <div>
         <div style="background:var(--surface);border:1px solid rgba(212,168,71,0.2);border-radius:16px;padding:20px 22px;margin-bottom:20px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div style="font-size:13px;font-weight:600;color:var(--cream);">Best mobile experience</div>
-            <div style="font-size:13px;color:var(--coral);font-weight:700;">Open today</div>
+            <div style="font-size:13px;font-weight:600;color:var(--cream);">Official Android app</div>
+            <div style="font-size:13px;color:var(--coral);font-weight:700;">Live today</div>
           </div>
-          <div style="font-size:24px;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--cream);line-height:1;">Install FaceMeet on your phone</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:8px;">Scan the code below or open FaceMeet in your mobile browser to install it on your Home Screen.</div>
+          <div style="font-size:24px;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--cream);line-height:1;">Download FaceMeet on Google Play</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px;">Scan the code below or open the link to visit the official FaceMeet Android listing.</div>
         </div>
 
         <div class="qr-card" style="margin-bottom:20px;padding:28px;">
-          <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:12px;">Scan to Get FaceMeet on Your Phone</div>
+          <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:12px;">Scan to Download on Google Play</div>
           <div class="qr-frame" style="margin-bottom:14px;">
-            <img alt="Scan to get FaceMeet on your phone" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fapp.facemeet.app">
+            <img alt="Scan to download FaceMeet on Google Play" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.ononobi.facemeet">
           </div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:18px;">Scan with your phone camera. On iPhone, open in Safari for the best install experience.</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:18px;">Scan with your Android phone camera to open the FaceMeet Google Play listing.</div>
           <div style="display:grid;grid-template-columns:1fr;gap:18px;">
-            <div style="background:rgba(245,240,232,0.03);border:1px solid var(--border);border-radius:16px;padding:20px;">
-              <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">iPhone</div>
-              <ol style="margin:0;padding-left:18px;color:var(--cream-dim);font-size:14px;line-height:1.7;">
-                <li>Open FaceMeet in Safari</li>
-                <li>Tap Share</li>
-                <li>Tap Add to Home Screen</li>
-                <li>Open FaceMeet from your home screen</li>
-              </ol>
-            </div>
             <div style="background:rgba(245,240,232,0.03);border:1px solid var(--border);border-radius:16px;padding:20px;">
               <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Android</div>
               <ol style="margin:0;padding-left:18px;color:var(--cream-dim);font-size:14px;line-height:1.7;">
-                <li>Open FaceMeet in Chrome</li>
-                <li>Tap the menu</li>
-                <li>Tap Install App or Add to Home Screen</li>
-                <li>Open FaceMeet from your home screen</li>
+                <li>Scan the QR code or tap the Google Play button</li>
+                <li>Install the FaceMeet Android app</li>
+                <li>Create your video profile</li>
+                <li>Start discovering real people face-to-face</li>
               </ol>
+            </div>
+            <div style="background:rgba(245,240,232,0.03);border:1px solid var(--border);border-radius:16px;padding:20px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Coming next</div>
+              <p style="margin:0;color:var(--cream-dim);font-size:14px;line-height:1.7;">iOS and PWA access are coming soon. Android is the official live download today.</p>
             </div>
           </div>
           <div class="store-buttons" style="margin-top:20px;">
-            <a class="store-button primary" href="https://app.facemeet.app">
-              <span><span class="store-small">Install path</span><span class="store-main">Open FaceMeet</span></span>
+            <a class="store-button primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')">
+              <span><span class="store-small">Android app</span><span class="store-main">Download on Google Play</span></span>
               <span>→</span>
             </a>
           </div>
@@ -899,7 +898,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
           <p style="font-size:14px;color:var(--cream-dim);line-height:1.7;margin-bottom:20px;" id="fm-success-city">Create your video profile and start meeting real people.</p>
           <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:16px;">
             <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Next step</div>
-            <div style="font-size:13px;color:var(--cream);margin-bottom:8px;" id="fm-success-progress">Open FaceMeet and upload your 20-second video profile.</div>
+            <div style="font-size:13px;color:var(--cream);margin-bottom:8px;" id="fm-success-progress">Download FaceMeet on Google Play and upload your 20-second video profile.</div>
             <div class="city-progress"><span id="fm-success-bar" style="width:0%;"></span></div>
           </div>
 
@@ -928,7 +927,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border);font-size:13px;color:var(--cream-dim);">
               <div style="width:24px;height:24px;background:var(--coral-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:var(--coral);flex-shrink:0;">10</div>
-              Open FaceMeet on desktop or install it on your phone
+              Download FaceMeet on Android from Google Play
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;color:var(--cream-dim);">
               <div style="width:24px;height:24px;background:var(--coral-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:var(--coral);flex-shrink:0;">25</div>
@@ -1464,7 +1463,7 @@ function heroCopy() {
 }
 
 function heroWA() {
-  const msg = encodeURIComponent('Upload your video profile today. Start meeting real people, not fake profiles: https://app.facemeet.app?ref='+vipRef);
+  const msg = encodeURIComponent('Download FaceMeet on Google Play and start meeting real people, not fake profiles: https://play.google.com/store/apps/details?id=com.ononobi.facemeet');
   window.open('https://wa.me/?text='+msg,'_blank');
 }
 
@@ -1475,7 +1474,7 @@ function fmCopyLink() {
 }
 
 function fmShareWA() {
-  const msg = encodeURIComponent('Upload your video profile today. Start meeting real people, not fake profiles: https://app.facemeet.app?ref='+vipRef);
+  const msg = encodeURIComponent('Download FaceMeet on Google Play and start meeting real people, not fake profiles: https://play.google.com/store/apps/details?id=com.ononobi.facemeet');
   window.open('https://wa.me/?text='+msg,'_blank');
 }
 
