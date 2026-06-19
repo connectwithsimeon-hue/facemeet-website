@@ -2022,6 +2022,20 @@ tr:hover td { background: var(--surface2); }
         <div class="events-role-pill">Current role <strong id="events-role-display">—</strong></div>
         <div class="events-meta-note" id="events-permission-copy">Signed-in admin access controls who can create event drops and review guest list requests.</div>
       </div>
+      <div class="admin-panel" id="event-checkin-panel">
+        <div class="admin-panel-title">Event Check-In</div>
+        <div class="admin-panel-sub">Enter an attendee’s ticket code to validate and check them in at the door.</div>
+        <div class="admin-form-grid" style="align-items:end;">
+          <input class="application-input wide" id="event-ticket-code" type="text" placeholder="Ticket code" autocomplete="off" oninput="handleEventTicketCodeInput()" />
+          <button class="action-btn primary" id="event-ticket-validate-btn" onclick="validateEventTicket()">Validate Ticket</button>
+          <button class="action-btn success" id="event-ticket-checkin-btn" onclick="checkInEventTicket()" disabled>Check In</button>
+          <button class="action-btn" id="event-ticket-clear-btn" onclick="clearEventCheckIn()">Clear</button>
+        </div>
+        <div class="events-meta-note" id="event-checkin-status" style="margin-top:12px;">Ticket validation uses the authenticated admin session only.</div>
+        <div id="event-checkin-result" style="margin-top:12px;">
+          <div class="safety-empty">Validate a ticket code to view attendee and check-in status.</div>
+        </div>
+      </div>
       <div class="admin-panel" id="events-form-panel">
         <div class="admin-panel-title" id="event-form-title">Create Event Drop</div>
         <div class="admin-panel-sub">Draft the event drop here, then publish it when the guest list details are ready for members to request access.</div>
@@ -2536,6 +2550,9 @@ let eventStatusActionEventId = null;
 let eventStatusActionLabel = '';
 let eventRsvpFilter = 'all';
 let eventRsvpSort = 'oldest';
+let eventTicketValidationResult = null;
+let eventTicketValidateInFlight = false;
+let eventTicketCheckInInFlight = false;
 
 async function getAuthHeaders() {
   const { data, error } = await supabaseClient.auth.getSession();
@@ -4903,6 +4920,229 @@ function sanitizeAdminErrorMessage(message) {
     .trim();
 }
 
+function eventCheckInStatusMeta(value, fallback='Valid Ticket') {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (['checked_in', 'checked in', 'success', 'ok'].includes(normalized)) return { label: 'Checked In', tone: 'approved' };
+  if (['already_checked_in', 'already checked in', 'duplicate'].includes(normalized)) return { label: 'Already Checked In', tone: 'spark-plus' };
+  if (['invalid', 'invalid_ticket', 'not_found', 'ticket_not_found'].includes(normalized)) return { label: 'Invalid Ticket', tone: 'rejected' };
+  if (['not_approved', 'not approved', 'rsvp_not_approved'].includes(normalized)) return { label: 'Not Approved', tone: 'pending' };
+  if (['event_cancelled', 'cancelled', 'event cancelled'].includes(normalized)) return { label: 'Event Cancelled', tone: 'rejected' };
+  if (['inactive', 'void', 'voided', 'ticket_inactive', 'inactive_ticket'].includes(normalized)) return { label: 'Ticket Inactive', tone: 'offline' };
+  if (['valid', 'active', 'approved'].includes(normalized)) return { label: 'Valid Ticket', tone: 'approved' };
+  return { label: fallback, tone: 'pending' };
+}
+
+function normalizeEventTicketPayload(payload) {
+  const value = Array.isArray(payload) ? payload[0] : payload;
+  if (!value || typeof value !== 'object') {
+    return { status: value || 'invalid_ticket' };
+  }
+  return value;
+}
+
+function getEventTicketStatusKey(row) {
+  const statusFields = [
+    row.check_in_status,
+    row.checkin_status,
+    row.result_status,
+    row.status,
+    row.ticket_status,
+    row.validation_status,
+    row.error_code,
+    row.code,
+    row.reason,
+    row.message,
+    row.error
+  ];
+  return statusFields.find(value => value !== undefined && value !== null && String(value).trim() !== '') || '';
+}
+
+function eventTicketIsCheckedIn(row) {
+  return Boolean(row?.checked_in === true || row?.is_checked_in === true || row?.checked_in_at || row?.checkin_at);
+}
+
+function eventTicketCanCheckIn(row) {
+  if (!row || typeof row !== 'object') return false;
+  const statusKey = String(getEventTicketStatusKey(row)).toLowerCase();
+  const rsvpStatus = String(row.rsvp_status || row.rsvpStatus || '').toLowerCase();
+  const eventStatus = String(row.event_status || row.eventStatus || '').toLowerCase();
+  const ticketStatus = String(row.ticket_status || row.ticketStatus || '').toLowerCase();
+  if (row.valid === false || row.eligible === false || row.is_active === false || row.active === false) return false;
+  if (eventTicketIsCheckedIn(row)) return false;
+  if (['invalid', 'invalid_ticket', 'not_found', 'ticket_not_found', 'already_checked_in'].includes(statusKey)) return false;
+  if (['not_approved', 'event_cancelled', 'inactive', 'void', 'voided', 'ticket_inactive'].includes(statusKey)) return false;
+  if (rsvpStatus && rsvpStatus !== 'approved') return false;
+  if (eventStatus === 'cancelled') return false;
+  if (ticketStatus && !['active', 'valid', 'approved'].includes(ticketStatus)) return false;
+  return true;
+}
+
+function eventCheckInMessageFromError(error) {
+  const raw = sanitizeAdminErrorMessage(error?.message || error || '');
+  const lower = raw.toLowerCase();
+  if (lower.includes('not found') || lower.includes('invalid')) return 'Invalid Ticket';
+  if (lower.includes('not approved')) return 'Not Approved';
+  if (lower.includes('cancelled')) return 'Event Cancelled';
+  if (lower.includes('inactive') || lower.includes('void')) return 'Ticket Inactive';
+  if (lower.includes('already')) return 'Already Checked In';
+  if (lower.includes('admin') || lower.includes('jwt') || lower.includes('permission')) return 'Admin access is required to check in attendees.';
+  return raw || 'Ticket request failed. Please try again.';
+}
+
+function setEventCheckInFeedback(message, tone='info') {
+  const el = document.getElementById('event-checkin-status');
+  if (!el) return;
+  el.textContent = message || '';
+  const colors = {
+    info: 'var(--muted)',
+    success: 'var(--green)',
+    error: 'var(--coral)',
+    pending: 'var(--gold)'
+  };
+  el.style.color = colors[tone] || colors.info;
+}
+
+function renderEventCheckInResult(row=null, mode='empty') {
+  const target = document.getElementById('event-checkin-result');
+  if (!target) return;
+  if (!row || mode === 'empty') {
+    target.innerHTML = '<div class="safety-empty">Validate a ticket code to view attendee and check-in status.</div>';
+    return;
+  }
+  const checkedInAt = row.checked_in_at || row.checkin_at || row.checkedInAt || null;
+  const statusKey = getEventTicketStatusKey(row);
+  const meta = eventCheckInStatusMeta(statusKey, eventTicketIsCheckedIn(row) ? 'Checked In' : 'Valid Ticket');
+  const checkInMeta = eventTicketIsCheckedIn(row)
+    ? eventCheckInStatusMeta('checked_in')
+    : { label: 'Not Checked In', tone: 'pending' };
+  const attendeeName = row.attendee_name || row.member_name || row.full_name || row.user_name || row.first_name || '';
+  const attendeeEmail = row.attendee_email || row.member_email || row.email || row.user_email || '';
+  const eventTitle = row.event_title || row.title || row.event_name || '—';
+  const ticketStatus = row.ticket_status || row.status || '—';
+  const rsvpStatus = row.rsvp_status || row.rsvpStatus || '—';
+  target.innerHTML = `<div class="table-card" style="padding:16px;">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+      <div>
+        <div class="user-name">${escapeHtml(eventTitle)}</div>
+        <div class="user-email">${escapeHtml(attendeeName || 'Attendee name unavailable')}${attendeeEmail ? ` · ${escapeHtml(attendeeEmail)}` : ''}</div>
+      </div>
+      <span class="badge ${escapeAttr(meta.tone)}">${escapeHtml(meta.label)}</span>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-top:14px;margin-bottom:0;">
+      <div class="stat-card"><div class="stat-value" style="font-size:18px;color:var(--cream);">${escapeHtml(ticketStatus)}</div><div class="stat-label">Ticket Status</div></div>
+      <div class="stat-card"><div class="stat-value" style="font-size:18px;color:var(--cream);">${escapeHtml(rsvpStatus)}</div><div class="stat-label">RSVP Status</div></div>
+      <div class="stat-card"><div class="stat-value" style="font-size:18px;color:var(--cream);">${escapeHtml(checkInMeta.label)}</div><div class="stat-label">Check-In Status</div></div>
+      <div class="stat-card"><div class="stat-value" style="font-size:18px;color:var(--cream);">${escapeHtml(formatDateTime(checkedInAt))}</div><div class="stat-label">Checked-In Time</div></div>
+    </div>
+  </div>`;
+}
+
+function syncEventCheckInButtons() {
+  const validateBtn = document.getElementById('event-ticket-validate-btn');
+  const checkInBtn = document.getElementById('event-ticket-checkin-btn');
+  const clearBtn = document.getElementById('event-ticket-clear-btn');
+  const ticketCode = eventFormValue('event-ticket-code');
+  const canCheckIn = canReviewEventRsvps() && eventTicketCanCheckIn(eventTicketValidationResult);
+  if (validateBtn) {
+    validateBtn.disabled = !canReviewEventRsvps() || !ticketCode || eventTicketValidateInFlight || eventTicketCheckInInFlight;
+    validateBtn.textContent = eventTicketValidateInFlight ? 'Validating...' : 'Validate Ticket';
+  }
+  if (checkInBtn) {
+    checkInBtn.disabled = !canCheckIn || eventTicketValidateInFlight || eventTicketCheckInInFlight;
+    checkInBtn.textContent = eventTicketCheckInInFlight ? 'Checking In...' : 'Check In';
+  }
+  if (clearBtn) {
+    clearBtn.disabled = eventTicketValidateInFlight || eventTicketCheckInInFlight;
+  }
+}
+
+function handleEventTicketCodeInput() {
+  eventTicketValidationResult = null;
+  setEventCheckInFeedback('Ticket validation uses the authenticated admin session only.', 'info');
+  renderEventCheckInResult();
+  syncEventCheckInButtons();
+}
+
+function clearEventCheckIn() {
+  const input = document.getElementById('event-ticket-code');
+  if (input) input.value = '';
+  eventTicketValidationResult = null;
+  setEventCheckInFeedback('Ticket validation uses the authenticated admin session only.', 'info');
+  renderEventCheckInResult();
+  syncEventCheckInButtons();
+}
+
+async function validateEventTicket() {
+  if (!canReviewEventRsvps()) {
+    setEventCheckInFeedback('Only events ops or super admins can validate event tickets.', 'error');
+    return;
+  }
+  const ticketCode = eventFormValue('event-ticket-code');
+  if (!ticketCode) {
+    setEventCheckInFeedback('Enter a ticket code before validating.', 'error');
+    return;
+  }
+  eventTicketValidateInFlight = true;
+  eventTicketValidationResult = null;
+  syncEventCheckInButtons();
+  setEventCheckInFeedback('Validating ticket...', 'pending');
+  try {
+    const payload = await rpc('validate_event_ticket', { ticket_code: ticketCode });
+    eventTicketValidationResult = normalizeEventTicketPayload(payload);
+    const meta = eventCheckInStatusMeta(
+      getEventTicketStatusKey(eventTicketValidationResult),
+      eventTicketIsCheckedIn(eventTicketValidationResult) ? 'Already Checked In' : 'Valid Ticket'
+    );
+    setEventCheckInFeedback(meta.label, meta.tone === 'approved' ? 'success' : meta.tone === 'rejected' ? 'error' : 'pending');
+    renderEventCheckInResult(eventTicketValidationResult, 'result');
+  } catch (e) {
+    const message = eventCheckInMessageFromError(e);
+    const meta = eventCheckInStatusMeta(message, message);
+    eventTicketValidationResult = { status: message };
+    setEventCheckInFeedback(meta.label, meta.tone === 'rejected' ? 'error' : 'pending');
+    renderEventCheckInResult(eventTicketValidationResult, 'result');
+  } finally {
+    eventTicketValidateInFlight = false;
+    syncEventCheckInButtons();
+  }
+}
+
+async function checkInEventTicket() {
+  if (!canReviewEventRsvps()) {
+    setEventCheckInFeedback('Only events ops or super admins can check in event attendees.', 'error');
+    return;
+  }
+  const ticketCode = eventFormValue('event-ticket-code');
+  if (!ticketCode) {
+    setEventCheckInFeedback('Enter a ticket code before checking in.', 'error');
+    return;
+  }
+  if (!eventTicketCanCheckIn(eventTicketValidationResult)) {
+    setEventCheckInFeedback('Validate an eligible ticket before checking in.', 'error');
+    return;
+  }
+  eventTicketCheckInInFlight = true;
+  syncEventCheckInButtons();
+  setEventCheckInFeedback('Checking in attendee...', 'pending');
+  try {
+    const payload = await rpc('check_in_event_ticket', { ticket_code: ticketCode });
+    eventTicketValidationResult = normalizeEventTicketPayload(payload);
+    const meta = eventCheckInStatusMeta(
+      getEventTicketStatusKey(eventTicketValidationResult),
+      eventTicketIsCheckedIn(eventTicketValidationResult) ? 'Checked In' : 'Valid Ticket'
+    );
+    setEventCheckInFeedback(meta.label, meta.tone === 'rejected' ? 'error' : 'success');
+    renderEventCheckInResult(eventTicketValidationResult, 'result');
+  } catch (e) {
+    const message = eventCheckInMessageFromError(e);
+    const meta = eventCheckInStatusMeta(message, message);
+    setEventCheckInFeedback(meta.label, meta.tone === 'rejected' ? 'error' : 'pending');
+  } finally {
+    eventTicketCheckInInFlight = false;
+    syncEventCheckInButtons();
+  }
+}
+
 
 function formatEventPairNumber(value) {
   const pairNumber = Number(value || 0);
@@ -5997,6 +6237,7 @@ function updateEventsPermissionsUi() {
 
   document.getElementById('events-form-panel').style.opacity = canManage ? '1' : '0.65';
   syncEventActionButtons();
+  syncEventCheckInButtons();
   if (!eventSaveInFlight && !eventStatusActionInFlight) {
     setEventFormFeedback(
       canManage
