@@ -5087,7 +5087,10 @@ async function validateEventTicket() {
   syncEventCheckInButtons();
   setEventCheckInFeedback('Validating ticket...', 'pending');
   try {
-    const payload = await rpc('validate_event_ticket', { ticket_code: ticketCode });
+    const payload = await rpcWithFallback('validate_event_ticket', [
+      { ticket_code: ticketCode },
+      { p_ticket_code: ticketCode }
+    ]);
     eventTicketValidationResult = normalizeEventTicketPayload(payload);
     const meta = eventCheckInStatusMeta(
       getEventTicketStatusKey(eventTicketValidationResult),
@@ -5125,7 +5128,10 @@ async function checkInEventTicket() {
   syncEventCheckInButtons();
   setEventCheckInFeedback('Checking in attendee...', 'pending');
   try {
-    const payload = await rpc('check_in_event_ticket', { ticket_code: ticketCode });
+    const payload = await rpcWithFallback('check_in_event_ticket', [
+      { ticket_code: ticketCode },
+      { p_ticket_code: ticketCode }
+    ]);
     eventTicketValidationResult = normalizeEventTicketPayload(payload);
     const meta = eventCheckInStatusMeta(
       getEventTicketStatusKey(eventTicketValidationResult),
