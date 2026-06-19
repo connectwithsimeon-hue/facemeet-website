@@ -2026,12 +2026,12 @@ tr:hover td { background: var(--surface2); }
         <div class="admin-panel-title">Event Check-In</div>
         <div class="admin-panel-sub">Enter an attendee’s ticket code to validate and check them in at the door.</div>
         <div class="admin-form-grid" style="align-items:end;">
-          <input class="application-input wide" id="event-ticket-code" type="text" placeholder="Ticket code" autocomplete="off" oninput="handleEventTicketCodeInput()" />
+          <input class="application-input wide" id="event-ticket-code" type="text" placeholder="Enter ticket code, e.g. FM-7K4-92Q" autocomplete="off" oninput="handleEventTicketCodeInput()" />
           <button class="action-btn primary" id="event-ticket-validate-btn" onclick="validateEventTicket()">Validate Ticket</button>
           <button class="action-btn success" id="event-ticket-checkin-btn" onclick="checkInEventTicket()" disabled>Check In</button>
           <button class="action-btn" id="event-ticket-clear-btn" onclick="clearEventCheckIn()">Clear</button>
         </div>
-        <div class="events-meta-note" id="event-checkin-status" style="margin-top:12px;">Ticket validation uses the authenticated admin session only.</div>
+        <div class="events-meta-note" id="event-checkin-status" style="margin-top:12px;">Codes are not case-sensitive. Hyphens are optional.</div>
         <div id="event-checkin-result" style="margin-top:12px;">
           <div class="safety-empty">Validate a ticket code to view attendee and check-in status.</div>
         </div>
@@ -5058,7 +5058,7 @@ function syncEventCheckInButtons() {
 
 function handleEventTicketCodeInput() {
   eventTicketValidationResult = null;
-  setEventCheckInFeedback('Ticket validation uses the authenticated admin session only.', 'info');
+  setEventCheckInFeedback('Codes are not case-sensitive. Hyphens are optional.', 'info');
   renderEventCheckInResult();
   syncEventCheckInButtons();
 }
@@ -5067,7 +5067,7 @@ function clearEventCheckIn() {
   const input = document.getElementById('event-ticket-code');
   if (input) input.value = '';
   eventTicketValidationResult = null;
-  setEventCheckInFeedback('Ticket validation uses the authenticated admin session only.', 'info');
+  setEventCheckInFeedback('Codes are not case-sensitive. Hyphens are optional.', 'info');
   renderEventCheckInResult();
   syncEventCheckInButtons();
 }
