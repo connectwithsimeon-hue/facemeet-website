@@ -1482,6 +1482,9 @@ tr:hover td { background: var(--surface2); }
       <div class="nav-item" onclick="showPage('revenue')">
         <span class="nav-icon">💰</span><span>Revenue</span>
       </div>
+      <div class="nav-item" onclick="showPage('global-revenue')">
+        <span class="nav-icon">🌍</span><span>Global Revenue HQ</span>
+      </div>
       <div class="nav-section-label" style="margin-top:16px;">Demographics</div>
       <div class="nav-item" onclick="showPage('demographics')">
         <span class="nav-icon">🎯</span><span>Demographics</span>
@@ -2276,6 +2279,154 @@ tr:hover td { background: var(--surface2); }
       </div>
     </div>
 
+    <!-- GLOBAL REVENUE HQ PAGE -->
+    <div class="page" id="page-global-revenue">
+      <div class="section-title">Global Revenue HQ</div>
+      <div class="section-sub">Country-level revenue truth board with optional regional partner attribution and payout tracking.</div>
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+        <div class="stat-card green">
+          <div class="stat-value green" id="gr-gross">—</div>
+          <div class="stat-label">Gross Revenue</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-value gold" id="gr-fees">—</div>
+          <div class="stat-label">Fees & Costs</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-value blue" id="gr-net">—</div>
+          <div class="stat-label">Net Revenue</div>
+        </div>
+        <div class="stat-card coral">
+          <div class="stat-value coral" id="gr-partner-payable">—</div>
+          <div class="stat-label">Partner Payable</div>
+        </div>
+      </div>
+      <div class="application-controls">
+        <input class="application-input" id="gr-start-date" type="date" />
+        <input class="application-input" id="gr-end-date" type="date" />
+        <button class="action-btn primary" onclick="loadGlobalRevenue()">Refresh</button>
+        <button class="action-btn" onclick="exportGlobalRevenueCsv()">Export Country CSV</button>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">Country Revenue Truth Board</div>
+            <div class="events-meta-note">All countries appear here whether or not a partner exists.</div>
+          </div>
+          <div class="table-count" id="gr-country-count"></div>
+        </div>
+        <div id="gr-country-body"><div class="loading"><span class="spinner"></span>Loading country revenue...</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <div class="table-title">Regional Partner Performance</div>
+            <div class="events-meta-note">Partner share is calculated from partner revenue ledger rows, not from loose UI math.</div>
+          </div>
+          <div class="table-count" id="gr-partner-count"></div>
+        </div>
+        <div id="gr-partner-body"><div class="loading"><span class="spinner"></span>Loading partner performance...</div></div>
+      </div>
+      <div class="admin-panel">
+        <div class="admin-panel-title">Create Regional Partner</div>
+        <div class="admin-panel-sub">Create the partner record first. Campaigns, portal access, and payouts attach to this partner.</div>
+        <div class="admin-form-grid">
+          <input class="application-input" id="gr-partner-name" type="text" placeholder="Partner name" />
+          <input class="application-input" id="gr-partner-country" type="text" placeholder="Default country, e.g. Nigeria" />
+          <input class="application-input" id="gr-partner-contact-name" type="text" placeholder="Contact name" />
+          <input class="application-input" id="gr-partner-contact-email" type="email" placeholder="Contact email" />
+          <input class="application-input" id="gr-partner-share" type="number" min="0" max="100" step="0.01" placeholder="Default share %, e.g. 20" />
+          <select class="application-select" id="gr-partner-status">
+            <option value="prospect">Prospect</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="ended">Ended</option>
+          </select>
+        </div>
+        <div style="margin-top:12px;">
+          <textarea class="admin-textarea" id="gr-partner-notes" placeholder="Admin notes or payout notes"></textarea>
+        </div>
+        <div class="events-form-actions">
+          <button class="action-btn success" onclick="createRegionalPartner()">Create Partner</button>
+          <span class="events-meta-note" id="gr-partner-form-status">Partner records are admin-only.</span>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="admin-panel-title">Create Regional Campaign</div>
+        <div class="admin-panel-sub">Use country and signup window attribution for offline field marketing campaigns.</div>
+        <div class="admin-form-grid">
+          <select class="application-select wide" id="gr-campaign-partner"></select>
+          <input class="application-input wide" id="gr-campaign-name" type="text" placeholder="Campaign name" />
+          <input class="application-input" id="gr-campaign-country" type="text" placeholder="Country code, e.g. NG or PH" />
+          <input class="application-input" id="gr-campaign-start" type="date" />
+          <input class="application-input" id="gr-campaign-end" type="date" />
+          <input class="application-input" id="gr-campaign-share" type="number" min="0" max="100" step="0.01" placeholder="Revenue share %" />
+          <input class="application-input" id="gr-campaign-months" type="number" min="1" max="36" placeholder="Share months per user" />
+          <select class="application-select" id="gr-campaign-status">
+            <option value="draft">Draft</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="ended">Ended</option>
+          </select>
+        </div>
+        <div style="margin-top:12px;">
+          <textarea class="admin-textarea" id="gr-campaign-notes" placeholder="Campaign notes"></textarea>
+        </div>
+        <div class="events-form-actions">
+          <button class="action-btn success" onclick="createRegionalCampaign()">Create Campaign</button>
+          <span class="events-meta-note" id="gr-campaign-form-status">Only one active partner per country/window is recommended for clean payouts.</span>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="admin-panel-title">Partner Portal Access</div>
+        <div class="admin-panel-sub">Map a Supabase Auth user to a partner dashboard. Initial password creation requires a service-role backend function or Supabase Auth admin action.</div>
+        <div class="admin-form-grid">
+          <select class="application-select wide" id="gr-portal-partner"></select>
+          <input class="application-input" id="gr-portal-email" type="email" placeholder="Partner login email" />
+          <input class="application-input" id="gr-portal-name" type="text" placeholder="Full name" />
+          <input class="application-input" id="gr-portal-auth-user-id" type="text" placeholder="Auth user id after invite/create" />
+          <select class="application-select" id="gr-portal-role">
+            <option value="partner_owner">Partner Owner</option>
+            <option value="partner_viewer">Partner Viewer</option>
+          </select>
+          <select class="application-select" id="gr-portal-status">
+            <option value="invited">Invited</option>
+            <option value="active">Active</option>
+            <option value="disabled">Disabled</option>
+          </select>
+        </div>
+        <div class="events-form-actions">
+          <button class="action-btn success" onclick="createPartnerPortalUser()">Save Portal User</button>
+          <a class="action-btn" href="/partner" target="_blank" rel="noopener noreferrer">Open Partner Portal</a>
+          <span class="events-meta-note" id="gr-portal-form-status">Partners can change their password after login.</span>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="admin-panel-title">Record Partner Payout</div>
+        <div class="admin-panel-sub">Record manual payouts so partner balances stay auditable.</div>
+        <div class="admin-form-grid">
+          <select class="application-select wide" id="gr-payout-partner"></select>
+          <input class="application-input" id="gr-payout-amount" type="number" min="0" step="0.01" placeholder="Amount paid" />
+          <input class="application-input" id="gr-payout-start" type="date" />
+          <input class="application-input" id="gr-payout-end" type="date" />
+          <input class="application-input" id="gr-payout-reference" type="text" placeholder="Payment reference" />
+          <select class="application-select" id="gr-payout-status">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="paid">Paid</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div style="margin-top:12px;">
+          <textarea class="admin-textarea" id="gr-payout-note" placeholder="Payout note"></textarea>
+        </div>
+        <div class="events-form-actions">
+          <button class="action-btn success" onclick="recordPartnerPayout()">Record Payout</button>
+          <span class="events-meta-note" id="gr-payout-form-status">This records the payout; it does not send money.</span>
+        </div>
+      </div>
+    </div>
+
     <!-- DEMOGRAPHICS PAGE -->
     <div class="page" id="page-demographics">
       <div class="section-title">Demographics</div>
@@ -2553,6 +2704,9 @@ let eventRsvpSort = 'oldest';
 let eventTicketValidationResult = null;
 let eventTicketValidateInFlight = false;
 let eventTicketCheckInInFlight = false;
+let globalRevenueCountries = [];
+let globalRevenuePartners = [];
+let regionalPartnersData = [];
 
 async function getAuthHeaders() {
   const { data, error } = await supabaseClient.auth.getSession();
@@ -3373,6 +3527,7 @@ function showPage(name) {
     'events-hq': ['Events HQ', 'Create, publish, and review FaceMeet event invites'],
     sessions: ['Spark Sessions', 'All video date sessions and outcomes'],
     revenue: ['Revenue', 'Subscriptions and payment tracking'],
+    'global-revenue': ['Global Revenue HQ', 'Country revenue truth board and regional partner payouts'],
     demographics: ['Demographics', 'Who is using FaceMeet'],
     engagement: ['Engagement', 'How users interact with the app'],
     'video-moderation': ['Profile Videos', 'Manual review queue for profile videos'],
@@ -3406,6 +3561,7 @@ async function loadPageData(page) {
     else if (page === 'events-hq') await loadEventsHQ();
     else if (page === 'sessions') await loadSessions();
     else if (page === 'revenue') await loadRevenue();
+    else if (page === 'global-revenue') await loadGlobalRevenue();
     else if (page === 'demographics') await loadDemographics();
     else if (page === 'engagement') await loadEngagement();
     else if (page === 'video-moderation') await loadVideoModeration();
@@ -6885,6 +7041,280 @@ async function loadRevenue() {
   });
   html += '</tbody></table>';
   document.getElementById('revenue-table-body').innerHTML = html;
+}
+
+function centsToMoney(cents, currency='USD') {
+  const amount = (Number(cents || 0) / 100);
+  return amount.toLocaleString(undefined, { style: 'currency', currency: currency || 'USD' });
+}
+
+function percentageToBps(value) {
+  const pct = Number(value || 0);
+  if (!Number.isFinite(pct) || pct < 0) return 0;
+  return Math.round(Math.min(pct, 100) * 100);
+}
+
+function adminDateValue(id) {
+  return (document.getElementById(id)?.value || '').trim() || null;
+}
+
+function adminInputValue(id) {
+  return (document.getElementById(id)?.value || '').trim();
+}
+
+function setGlobalRevenueStatus(id, message, tone='info') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = message;
+  const colors = {
+    info: 'var(--muted)',
+    success: 'var(--green)',
+    error: 'var(--coral)',
+    pending: 'var(--gold)'
+  };
+  el.style.color = colors[tone] || colors.info;
+}
+
+function globalRevenueDateParams() {
+  return {
+    p_start_date: adminDateValue('gr-start-date'),
+    p_end_date: adminDateValue('gr-end-date')
+  };
+}
+
+async function loadRegionalPartnersForForms() {
+  try {
+    regionalPartnersData = await query('regional_partners', '*', {}, 1000, 'partner_name');
+  } catch (e) {
+    regionalPartnersData = [];
+    console.warn('Regional partners unavailable:', e.message);
+  }
+  renderRegionalPartnerSelects();
+}
+
+function renderRegionalPartnerSelects() {
+  const options = regionalPartnersData.length
+    ? regionalPartnersData.map(row => `<option value="${escapeAttr(row.id)}">${escapeHtml(row.partner_name)}${row.default_country ? ` · ${escapeHtml(row.default_country)}` : ''}</option>`).join('')
+    : '<option value="">Create a partner first</option>';
+  ['gr-campaign-partner', 'gr-portal-partner', 'gr-payout-partner'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = options;
+  });
+}
+
+function renderCountryRevenueTable(rows) {
+  setText('gr-country-count', `${rows.length} countries`);
+  if (!rows.length) {
+    document.getElementById('gr-country-body').innerHTML = '<div class="safety-empty">No country revenue ledger rows yet. User counts will appear after the backend migration is applied and data is available.</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>Country</th><th>Users</th><th>Paying</th><th>Gross</th><th>Fees & Costs</th><th>Net</th><th>Partners</th><th>Partner Payable</th></tr></thead><tbody>';
+  rows.forEach(row => {
+    const fees = Number(row.platform_fee_cents || 0) + Number(row.processor_fee_cents || 0) + Number(row.spark_cost_cents || 0) + Number(row.refund_amount_cents || 0);
+    const partnerBadge = Number(row.active_partner_count || 0) > 0
+      ? `<span class="badge approved">${escapeHtml(row.active_partner_count)} active</span>`
+      : '<span class="badge free">None</span>';
+    html += `<tr>
+      <td><div class="user-name">${escapeHtml(row.country || 'Unknown')}</div></td>
+      <td>${Number(row.registrations || 0).toLocaleString()}<br><span style="color:var(--muted);font-size:11px;">${Number(row.verified_users || 0).toLocaleString()} verified</span></td>
+      <td>${Number(row.paying_users || 0).toLocaleString()}</td>
+      <td style="color:var(--green);font-weight:700;">${centsToMoney(row.gross_revenue_cents)}</td>
+      <td>${centsToMoney(fees)}</td>
+      <td style="color:var(--blue);font-weight:700;">${centsToMoney(row.net_revenue_cents)}</td>
+      <td>${partnerBadge}</td>
+      <td style="color:var(--coral);font-weight:700;">${centsToMoney(row.partner_payable_cents)}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('gr-country-body').innerHTML = html;
+}
+
+function renderPartnerRevenueTable(rows) {
+  setText('gr-partner-count', `${rows.length} partners`);
+  if (!rows.length) {
+    document.getElementById('gr-partner-body').innerHTML = '<div class="safety-empty">No regional partners yet.</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>Partner</th><th>Status</th><th>Campaigns</th><th>Attributed Users</th><th>Gross</th><th>Net</th><th>Earned</th><th>Paid / Pending</th></tr></thead><tbody>';
+  rows.forEach(row => {
+    html += `<tr>
+      <td><div class="user-name">${escapeHtml(row.partner_name || 'Partner')}</div><div class="user-email">${escapeHtml(row.default_country || 'No default country')}</div></td>
+      <td>${statusBadge(row.status || 'prospect')}</td>
+      <td>${Number(row.active_campaigns || 0).toLocaleString()} active</td>
+      <td>${Number(row.attributed_users || 0).toLocaleString()}</td>
+      <td>${centsToMoney(row.gross_revenue_cents)}</td>
+      <td style="color:var(--blue);font-weight:700;">${centsToMoney(row.net_revenue_cents)}</td>
+      <td style="color:var(--green);font-weight:700;">${centsToMoney(row.partner_earned_cents)}</td>
+      <td>${centsToMoney(row.paid_cents)} paid<br><span style="color:var(--coral);font-size:11px;">${centsToMoney(row.pending_payout_cents)} pending</span></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('gr-partner-body').innerHTML = html;
+}
+
+async function loadGlobalRevenue() {
+  const params = globalRevenueDateParams();
+  setText('gr-country-count', 'Loading...');
+  setText('gr-partner-count', 'Loading...');
+  document.getElementById('gr-country-body').innerHTML = '<div class="loading"><span class="spinner"></span>Loading country revenue...</div>';
+  document.getElementById('gr-partner-body').innerHTML = '<div class="loading"><span class="spinner"></span>Loading partner performance...</div>';
+  try {
+    await loadRegionalPartnersForForms();
+    const [countries, partners] = await Promise.all([
+      rpc('admin_get_country_revenue_summary', params),
+      rpc('admin_get_partner_revenue_summary', params)
+    ]);
+    globalRevenueCountries = Array.isArray(countries) ? countries : [];
+    globalRevenuePartners = Array.isArray(partners) ? partners : [];
+    const gross = globalRevenueCountries.reduce((sum, row) => sum + Number(row.gross_revenue_cents || 0), 0);
+    const fees = globalRevenueCountries.reduce((sum, row) => sum + Number(row.platform_fee_cents || 0) + Number(row.processor_fee_cents || 0) + Number(row.spark_cost_cents || 0) + Number(row.refund_amount_cents || 0), 0);
+    const net = globalRevenueCountries.reduce((sum, row) => sum + Number(row.net_revenue_cents || 0), 0);
+    const payable = globalRevenueCountries.reduce((sum, row) => sum + Number(row.partner_payable_cents || 0), 0);
+    setText('gr-gross', centsToMoney(gross));
+    setText('gr-fees', centsToMoney(fees));
+    setText('gr-net', centsToMoney(net));
+    setText('gr-partner-payable', centsToMoney(payable));
+    renderCountryRevenueTable(globalRevenueCountries);
+    renderPartnerRevenueTable(globalRevenuePartners);
+  } catch (e) {
+    console.warn('Global revenue unavailable:', e.message);
+    document.getElementById('gr-country-body').innerHTML = `<div class="safety-empty" style="color:var(--coral);">Global revenue tables or RPCs are not available yet. Apply the new Supabase migration, then refresh. ${escapeHtml(sanitizeAdminErrorMessage(e.message || ''))}</div>`;
+    document.getElementById('gr-partner-body').innerHTML = '<div class="safety-empty">Partner performance will load after the backend migration is applied.</div>';
+    setText('gr-gross', '—');
+    setText('gr-fees', '—');
+    setText('gr-net', '—');
+    setText('gr-partner-payable', '—');
+  }
+}
+
+async function createRegionalPartner() {
+  const partnerName = adminInputValue('gr-partner-name');
+  if (!partnerName) {
+    setGlobalRevenueStatus('gr-partner-form-status', 'Partner name is required.', 'error');
+    return;
+  }
+  setGlobalRevenueStatus('gr-partner-form-status', 'Creating partner...', 'pending');
+  try {
+    await insertRow('regional_partners', {
+      partner_name: partnerName,
+      default_country: adminInputValue('gr-partner-country') || null,
+      contact_name: adminInputValue('gr-partner-contact-name') || null,
+      contact_email: adminInputValue('gr-partner-contact-email') || null,
+      default_revenue_share_bps: percentageToBps(adminInputValue('gr-partner-share') || 20),
+      status: adminInputValue('gr-partner-status') || 'prospect',
+      admin_notes: adminInputValue('gr-partner-notes') || null,
+      payout_notes: adminInputValue('gr-partner-notes') || null,
+      created_by_admin_id: currentAdminUser?.id || null
+    });
+    setGlobalRevenueStatus('gr-partner-form-status', 'Partner created.', 'success');
+    ['gr-partner-name','gr-partner-country','gr-partner-contact-name','gr-partner-contact-email','gr-partner-share','gr-partner-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    await loadGlobalRevenue();
+  } catch (e) {
+    setGlobalRevenueStatus('gr-partner-form-status', sanitizeAdminErrorMessage(e.message || 'Could not create partner.'), 'error');
+  }
+}
+
+async function createRegionalCampaign() {
+  const partnerId = adminInputValue('gr-campaign-partner');
+  const campaignName = adminInputValue('gr-campaign-name');
+  const country = adminInputValue('gr-campaign-country');
+  const startsAt = adminDateValue('gr-campaign-start');
+  const endsAt = adminDateValue('gr-campaign-end');
+  if (!partnerId || !campaignName || !country || !startsAt || !endsAt) {
+    setGlobalRevenueStatus('gr-campaign-form-status', 'Partner, campaign name, country, start, and end are required.', 'error');
+    return;
+  }
+  setGlobalRevenueStatus('gr-campaign-form-status', 'Creating campaign...', 'pending');
+  try {
+    await insertRow('regional_partner_campaigns', {
+      partner_id: partnerId,
+      campaign_name: campaignName,
+      country_code: country.toUpperCase(),
+      country_label: country,
+      starts_at: new Date(`${startsAt}T00:00:00`).toISOString(),
+      ends_at: new Date(`${endsAt}T23:59:59`).toISOString(),
+      revenue_share_bps: percentageToBps(adminInputValue('gr-campaign-share') || 20),
+      revenue_share_months: parseNullableInteger(adminInputValue('gr-campaign-months')) || 6,
+      status: adminInputValue('gr-campaign-status') || 'draft',
+      notes: adminInputValue('gr-campaign-notes') || null,
+      created_by_admin_id: currentAdminUser?.id || null
+    });
+    setGlobalRevenueStatus('gr-campaign-form-status', 'Campaign created.', 'success');
+    ['gr-campaign-name','gr-campaign-country','gr-campaign-start','gr-campaign-end','gr-campaign-share','gr-campaign-months','gr-campaign-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    await loadGlobalRevenue();
+  } catch (e) {
+    setGlobalRevenueStatus('gr-campaign-form-status', sanitizeAdminErrorMessage(e.message || 'Could not create campaign.'), 'error');
+  }
+}
+
+async function createPartnerPortalUser() {
+  const partnerId = adminInputValue('gr-portal-partner');
+  const email = adminInputValue('gr-portal-email').toLowerCase();
+  if (!partnerId || !email) {
+    setGlobalRevenueStatus('gr-portal-form-status', 'Partner and email are required.', 'error');
+    return;
+  }
+  setGlobalRevenueStatus('gr-portal-form-status', 'Saving portal user...', 'pending');
+  try {
+    await insertRow('partner_portal_users', {
+      partner_id: partnerId,
+      email,
+      full_name: adminInputValue('gr-portal-name') || null,
+      auth_user_id: adminInputValue('gr-portal-auth-user-id') || null,
+      role: adminInputValue('gr-portal-role') || 'partner_owner',
+      status: adminInputValue('gr-portal-status') || 'invited',
+      created_by_admin_id: currentAdminUser?.id || null
+    });
+    setGlobalRevenueStatus('gr-portal-form-status', 'Portal user saved. Create or invite the matching Supabase Auth user before the partner logs in.', 'success');
+    ['gr-portal-email','gr-portal-name','gr-portal-auth-user-id'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  } catch (e) {
+    setGlobalRevenueStatus('gr-portal-form-status', sanitizeAdminErrorMessage(e.message || 'Could not save portal user.'), 'error');
+  }
+}
+
+async function recordPartnerPayout() {
+  const partnerId = adminInputValue('gr-payout-partner');
+  const amount = Number(adminInputValue('gr-payout-amount') || 0);
+  if (!partnerId || amount <= 0) {
+    setGlobalRevenueStatus('gr-payout-form-status', 'Partner and payout amount are required.', 'error');
+    return;
+  }
+  setGlobalRevenueStatus('gr-payout-form-status', 'Recording payout...', 'pending');
+  try {
+    await insertRow('partner_payouts', {
+      partner_id: partnerId,
+      amount_cents: Math.round(amount * 100),
+      payout_period_start: adminDateValue('gr-payout-start'),
+      payout_period_end: adminDateValue('gr-payout-end'),
+      status: adminInputValue('gr-payout-status') || 'pending',
+      payment_reference: adminInputValue('gr-payout-reference') || null,
+      admin_note: adminInputValue('gr-payout-note') || null,
+      paid_at: adminInputValue('gr-payout-status') === 'paid' ? new Date().toISOString() : null,
+      created_by_admin_id: currentAdminUser?.id || null
+    });
+    setGlobalRevenueStatus('gr-payout-form-status', 'Payout recorded.', 'success');
+    ['gr-payout-amount','gr-payout-start','gr-payout-end','gr-payout-reference','gr-payout-note'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    await loadGlobalRevenue();
+  } catch (e) {
+    setGlobalRevenueStatus('gr-payout-form-status', sanitizeAdminErrorMessage(e.message || 'Could not record payout.'), 'error');
+  }
+}
+
+function exportGlobalRevenueCsv() {
+  exportRows('country-revenue', globalRevenueCountries, [
+    'country',
+    'registrations',
+    'verified_users',
+    'paying_users',
+    'gross_revenue_cents',
+    'platform_fee_cents',
+    'processor_fee_cents',
+    'spark_cost_cents',
+    'refund_amount_cents',
+    'net_revenue_cents',
+    'active_partner_count',
+    'partner_payable_cents'
+  ]);
 }
 
 async function loadDemographics() {

@@ -47,3 +47,8 @@
   from = "/events"
   to = "/events.html"
   status = 200
+
+[[redirects]]
+  from = "/partner"
+  to = "/partner.html"
+  status = 200
