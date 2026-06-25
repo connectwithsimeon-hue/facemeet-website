@@ -1689,10 +1689,29 @@ tr:hover td { background: var(--surface2); }
           <div class="stat-label">Paid Subscribers</div>
         </div>
       </div>
+      <div class="table-card" style="margin-bottom:24px;">
+        <div class="table-header">
+          <div class="table-title">Connection Intent</div>
+          <div class="table-count">Member-selected intent</div>
+        </div>
+        <div id="connection-intent-breakdown" style="padding:18px 20px;">
+          <div class="loading"><span class="spinner"></span>Loading intent counts...</div>
+        </div>
+      </div>
       <div class="table-card">
         <div class="table-header">
           <div class="table-title">User Directory</div>
-          <div class="table-count" id="users-table-count"></div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <select class="application-input" id="user-connection-intent-filter" style="width:auto;min-width:220px;" onchange="updateUserConnectionIntentFilter(this.value)">
+              <option value="all">All</option>
+              <option value="dating">Dating</option>
+              <option value="friendship">Friendship</option>
+              <option value="professional">Professional Connections</option>
+              <option value="events">Events</option>
+              <option value="open_to_all">Open to All</option>
+            </select>
+            <div class="table-count" id="users-table-count"></div>
+          </div>
         </div>
         <div id="users-table-body">
           <div class="loading"><span class="spinner"></span>Loading...</div>
@@ -2636,6 +2655,8 @@ let creatorReferrals = [];
 let creatorPayouts = [];
 let creatorCommunications = [];
 let waitlistUsers = [];
+let adminUsersData = [];
+let userConnectionIntentFilter = 'all';
 let eventsData = [];
 let eventRsvpsData = [];
 let eventUsersData = [];
@@ -3162,6 +3183,43 @@ function renderMemberProfileBadge(label, tone) {
   return `<span class="badge ${tone}">${escapeHtml(label)}</span>`;
 }
 
+const CONNECTION_INTENT_LABELS = {
+  dating: 'Dating',
+  friendship: 'Friendship',
+  professional: 'Professional Connections',
+  events: 'Events',
+  open_to_all: 'Open to All'
+};
+
+function normalizeConnectionIntent(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return Object.prototype.hasOwnProperty.call(CONNECTION_INTENT_LABELS, normalized) ? normalized : 'dating';
+}
+
+function connectionIntentLabel(value) {
+  return CONNECTION_INTENT_LABELS[normalizeConnectionIntent(value)];
+}
+
+function connectionIntentMatchesFilter(user, filterValue) {
+  const filter = filterValue || 'all';
+  if (filter === 'all') return true;
+  return normalizeConnectionIntent(user?.connection_intent) === filter;
+}
+
+function connectionIntentBadge(value) {
+  const intent = normalizeConnectionIntent(value);
+  const tone = intent === 'professional'
+    ? 'spark-plus'
+    : intent === 'open_to_all'
+      ? 'gold-tier'
+      : intent === 'friendship'
+        ? 'approved'
+        : intent === 'events'
+          ? 'pending'
+          : 'free';
+  return `<span class="badge ${tone}">${escapeHtml(connectionIntentLabel(intent))}</span>`;
+}
+
 function memberProfileHasField(profile, field) {
   return Object.prototype.hasOwnProperty.call(profile || {}, field);
 }
@@ -3294,6 +3352,7 @@ function renderMemberProfileReview() {
           <div class="member-profile-meta-row"><div class="member-profile-meta-label">Name</div><div class="member-profile-meta-value">${escapeHtml(name)}</div></div>
           <div class="member-profile-meta-row"><div class="member-profile-meta-label">Email</div><div class="member-profile-meta-value">${escapeHtml(profile.email || '—')}</div></div>
           <div class="member-profile-meta-row"><div class="member-profile-meta-label">Location</div><div class="member-profile-meta-value">${escapeHtml(memberProfileLocation(profile))}</div></div>
+          <div class="member-profile-meta-row"><div class="member-profile-meta-label">Connection Intent</div><div class="member-profile-meta-value">${escapeHtml(connectionIntentLabel(profile.connection_intent))}</div></div>
           <div class="member-profile-meta-row"><div class="member-profile-meta-label">Account Created</div><div class="member-profile-meta-value">${escapeHtml(formatDateTime(profile.created_at))}</div></div>
           <div class="member-profile-meta-row"><div class="member-profile-meta-label">Last Active</div><div class="member-profile-meta-value">${escapeHtml(formatDateTime(profile.last_active))}</div></div>
         </div>
@@ -3782,13 +3841,53 @@ async function renderCreatorAdminSummary() {
 
 async function loadUsers() {
   const users = await query('users', '*', {}, 500, 'created_at');
+  adminUsersData = users;
   setText('u-total', users.length);
   setText('u-verified', users.filter(u => u.is_verified).length);
   setText('u-paid', users.filter(u => u.subscription_tier && u.subscription_tier !== 'free').length);
-  setText('users-table-count', users.length + ' users');
+  renderConnectionIntentBreakdown(users);
+  renderUsersTable();
+}
+
+function updateUserConnectionIntentFilter(value) {
+  userConnectionIntentFilter = value || 'all';
+  renderUsersTable();
+}
+
+function renderConnectionIntentBreakdown(users) {
+  const el = document.getElementById('connection-intent-breakdown');
+  if (!el) return;
+  const counts = {
+    dating: 0,
+    friendship: 0,
+    professional: 0,
+    events: 0,
+    open_to_all: 0
+  };
+  users.forEach(user => {
+    counts[normalizeConnectionIntent(user?.connection_intent)] += 1;
+  });
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+      ${Object.entries(CONNECTION_INTENT_LABELS).map(([value, label]) => `
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">${escapeHtml(label)}</div>
+          <div style="font-size:24px;font-weight:800;color:var(--cream);">${formatNumber(counts[value] || 0)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderUsersTable() {
+  const users = adminUsersData.filter(user => connectionIntentMatchesFilter(user, userConnectionIntentFilter));
+  const total = adminUsersData.length;
+  setText('users-table-count', userConnectionIntentFilter === 'all'
+    ? `${users.length} users`
+    : `${users.length} of ${total} users`);
 
   const colors = ['var(--coral)','var(--gold)','var(--green)','var(--blue)'];
-  let html = '<div class="table-scroll-x"><table class="sticky-action-table"><thead><tr><th>User</th><th>Gender</th><th>Age</th><th>City</th><th>Plan</th><th>Sparks Left</th><th>Verified</th><th>Online</th><th>Joined</th><th class="action-col">Actions</th></tr></thead><tbody>';
+  let html = '<div class="table-scroll-x"><table class="sticky-action-table"><thead><tr><th>User</th><th>Gender</th><th>Age</th><th>City</th><th>Connection Intent</th><th>Plan</th><th>Sparks Left</th><th>Verified</th><th>Online</th><th>Joined</th><th class="action-col">Actions</th></tr></thead><tbody>';
   users.forEach((u, i) => {
     const name = u.first_name || 'Unknown';
     const initial = name[0].toUpperCase();
@@ -3802,6 +3901,7 @@ async function loadUsers() {
       <td>${u.gender === 'man' ? '👨 Man' : u.gender === 'woman' ? '👩 Woman' : u.gender || '—'}</td>
       <td>${age}</td>
       <td style="color:var(--muted)">${u.city || '—'}</td>
+      <td>${connectionIntentBadge(u.connection_intent)}</td>
       <td>${tierBadge}</td>
       <td style="color:var(--gold);font-weight:600">${u.spark_balance !== undefined ? u.spark_balance : '—'}</td>
       <td>${(u.is_verified === true) ? '<span class="badge verified">✅ Yes</span>' : '<span class="badge free">No</span>'}</td>
@@ -3810,6 +3910,9 @@ async function loadUsers() {
       <td class="action-col"><button class="mini-btn primary" onclick="openMemberProfileReview('${escapeAttr(u.id)}','Users Directory')">Open Profile</button></td>
     </tr>`;
   });
+  if (!users.length) {
+    html += '<tr><td colspan="11" style="color:var(--muted);padding:22px;text-align:center;">No users match this Connection Intent filter.</td></tr>';
+  }
   html += '</tbody></table></div>';
   document.getElementById('users-table-body').innerHTML = html;
 }
