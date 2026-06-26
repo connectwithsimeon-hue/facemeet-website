@@ -1,3 +1,9 @@
+[functions]
+  directory = "netlify/functions"
+
+[functions."scheduled-spark-reminder"]
+  schedule = "*/5 * * * *"
+
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
