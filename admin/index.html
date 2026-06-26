@@ -2671,6 +2671,8 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 
 const ADMIN_IDLE_TIMEOUT_MS = 15 * 60 * 1000;
 let adminIdleTimer = null;
+let adminAccessToken = '';
+let adminAuthUserId = '';
 let currentAdminUser = null;
 let currentPage = 'overview';
 let reportFilter = 'all';
@@ -2758,13 +2760,13 @@ let globalRevenuePartners = [];
 let regionalPartnersData = [];
 
 async function getAuthHeaders() {
-  const { data, error } = await supabaseClient.auth.getSession();
-  if (error || !data.session?.access_token) {
+  const accessToken = await getActiveAdminAccessToken();
+  if (!accessToken) {
     throw new Error('Admin session missing');
   }
   return {
     'apikey': SUPABASE_ANON_KEY,
-    'Authorization': `Bearer ${data.session.access_token}`,
+    'Authorization': `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
     'Prefer': 'return=representation'
   };
@@ -2992,8 +2994,8 @@ function applyReminderCooldownMessaging(expiryValue, options = {}) {
 }
 
 async function invokeMemberProfileReminder(action) {
-  const { data, error } = await supabaseClient.auth.getSession();
-  if (error || !data.session?.access_token) {
+  const accessToken = await getActiveAdminAccessToken();
+  if (!accessToken) {
     throw new Error('admin access required');
   }
 
@@ -3011,7 +3013,7 @@ async function invokeMemberProfileReminder(action) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${data.session.access_token}`
+      'Authorization': `Bearer ${accessToken}`
     },
     body: JSON.stringify(payload)
   });
@@ -3501,13 +3503,19 @@ function renderMemberProfileReview() {
 }
 
 async function fetchCurrentAdminUser() {
-  const { data: authData, error: authError } = await supabaseClient.auth.getUser();
-  if (authError || !authData.user) {
+  if (!adminAuthUserId) {
+    const { data: authData, error: authError } = await supabaseClient.auth.getUser();
+    if (!authError && authData.user?.id) {
+      adminAuthUserId = authData.user.id;
+    }
+  }
+
+  if (!adminAuthUserId) {
     return null;
   }
 
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/admin_users?select=id,user_id,email,role,status&user_id=eq.${encodeURIComponent(authData.user.id)}&limit=1`,
+    `${SUPABASE_URL}/rest/v1/admin_users?select=id,user_id,email,role,status&user_id=eq.${encodeURIComponent(adminAuthUserId)}&limit=1`,
     { headers: await getAuthHeaders() }
   );
 
@@ -3530,6 +3538,17 @@ function setAdminIdentity(adminUser) {
   const role = adminUser?.role ? adminUser.role.replace(/_/g, ' ') : 'approved admin';
   setText('admin-identity', identity);
   setText('admin-role-label', role);
+}
+
+async function getActiveAdminAccessToken() {
+  if (adminAccessToken) return adminAccessToken;
+
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (error || !data.session?.access_token) return '';
+
+  adminAccessToken = data.session.access_token;
+  adminAuthUserId = data.session.user?.id || adminAuthUserId;
+  return adminAccessToken;
 }
 
 function clearStoredAdminSession() {
@@ -3582,7 +3601,7 @@ async function doLogin() {
     return;
   }
 
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
   if (error) {
     errorEl.style.display = 'block';
     errorEl.textContent = 'Incorrect email, password, or admin access';
@@ -3590,9 +3609,13 @@ async function doLogin() {
   }
 
   try {
+    adminAccessToken = data.session?.access_token || '';
+    adminAuthUserId = data.user?.id || data.session?.user?.id || '';
     const adminUser = await fetchCurrentAdminUser();
     if (!adminUser) {
       await supabaseClient.auth.signOut();
+      adminAccessToken = '';
+      adminAuthUserId = '';
       errorEl.style.display = 'block';
       errorEl.textContent = 'Your account is not approved for FaceMeet admin access';
       return;
@@ -3604,6 +3627,8 @@ async function doLogin() {
     await loadAllData();
   } catch (e) {
     await supabaseClient.auth.signOut();
+    adminAccessToken = '';
+    adminAuthUserId = '';
     errorEl.style.display = 'block';
     errorEl.textContent = e.message || 'Admin access check failed';
   }
@@ -3612,11 +3637,15 @@ async function doLogin() {
 async function restoreAdminSession() {
   const { data } = await supabaseClient.auth.getSession();
   if (!data.session) return;
+  adminAccessToken = data.session.access_token || '';
+  adminAuthUserId = data.session.user?.id || '';
 
   try {
     const adminUser = await fetchCurrentAdminUser();
     if (!adminUser) {
       await supabaseClient.auth.signOut();
+      adminAccessToken = '';
+      adminAuthUserId = '';
       return;
     }
     setAdminIdentity(adminUser);
@@ -3634,6 +3663,8 @@ async function logout(message) {
   try {
     await supabaseClient.auth.signOut();
   } finally {
+    adminAccessToken = '';
+    adminAuthUserId = '';
     currentAdminUser = null;
     clearStoredAdminSession();
     if (message) sessionStorage.setItem('adminLogoutMessage', message);
