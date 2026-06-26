@@ -82,7 +82,10 @@ nav#navbar.scrolled {
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--coral-dim);border:1px solid rgba(232,80,58,0.2);color:var(--coral);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:28px;animation:fadeUp 0.8s both;}
 .hero-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,6vw,74px);font-weight:700;line-height:1.0;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp 0.8s 0.1s both;}
 .hero-headline .c{color:var(--coral);font-style:italic;}
-.hero-sub{font-size:17px;color:var(--cream-dim);line-height:1.7;max-width:440px;margin-bottom:32px;animation:fadeUp 0.8s 0.2s both;font-weight:300;}
+.intent-strip{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:620px;margin:0 0 22px;padding:7px;background:rgba(245,240,232,0.045);border:1px solid var(--border2);border-radius:999px;box-shadow:0 18px 46px rgba(0,0,0,0.18);backdrop-filter:blur(14px);animation:fadeUp 0.8s 0.16s both;}
+.intent-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border-radius:999px;background:rgba(245,240,232,0.035);border:1px solid rgba(245,240,232,0.06);color:var(--cream);font-size:12px;font-weight:700;white-space:nowrap;}
+.intent-pill span{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:999px;background:rgba(232,80,58,0.13);color:var(--coral);font-size:11px;line-height:1;}
+.hero-sub{font-size:17px;color:var(--cream-dim);line-height:1.7;max-width:500px;margin-bottom:32px;animation:fadeUp 0.8s 0.22s both;font-weight:300;}
 .hero-sub strong{color:var(--cream);font-weight:500;}
 
 /* Waitlist */
@@ -306,6 +309,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   .hero-visual{order:1;margin-bottom:24px;}
   .hero-inner{grid-template-columns:1fr!important;gap:32px!important;}
   .hero-eyebrow{margin:0 auto 20px;}
+  .intent-strip{justify-content:center;border-radius:22px;margin-left:auto;margin-right:auto;}
   .hero-sub{max-width:100%;margin-left:auto;margin-right:auto;}
   .dl-row{justify-content:center;flex-direction:column;align-items:center;}
   .dl-btn{width:100%;max-width:280px;justify-content:center;}
@@ -365,7 +369,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
         <span>Meet real people</span><br>
         <span class="c">with intent.</span>
       </h1>
-      <p class="hero-sub">FaceMeet is a verified video-first connection platform for dating, friendship, professional connections, and curated events. Every member starts with a short video intro, so you know there is a real person behind every connection.</p>
+      <div class="intent-strip" aria-label="FaceMeet connection categories">
+        <div class="intent-pill"><span aria-hidden="true">◎</span>Friendship</div>
+        <div class="intent-pill"><span aria-hidden="true">✦</span>Professional Connections</div>
+        <div class="intent-pill"><span aria-hidden="true">♡</span>Dating</div>
+        <div class="intent-pill"><span aria-hidden="true">★</span>Events</div>
+      </div>
+      <p class="hero-sub">FaceMeet is a verified video-first connection platform where every member starts with a short video intro, so you know there is a real person behind every connection.</p>
 
       <div class="dl-row" style="margin-bottom:18px;">
         <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" class="dl-btn primary" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')">
