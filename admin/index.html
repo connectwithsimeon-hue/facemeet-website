@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>FaceMeet Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -207,6 +210,24 @@ body {
   transition: all 0.2s;
 }
 .refresh-btn:hover { border-color: var(--coral); color: var(--coral); }
+.signout-btn {
+  background: rgba(232,80,58,0.12);
+  border: 1px solid rgba(232,80,58,0.35);
+  border-radius: 10px;
+  padding: 8px 16px;
+  color: var(--coral);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.signout-btn:hover {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: white;
+  transform: translateY(-1px);
+}
 
 /* Page content */
 .page { padding: 32px 36px; display: none; }
@@ -1357,6 +1378,9 @@ tr:hover td { background: var(--surface2); }
   .header { padding: 14px 16px; }
   .header-title { font-size: 18px; }
   .header-sub { font-size: 11px; }
+  .header-right { gap: 8px; }
+  .refresh-btn,
+  .signout-btn { padding: 8px 10px; font-size: 12px; }
   .live-badge span { display: none; }
   .live-badge { padding: 6px 10px; }
 
@@ -1411,7 +1435,8 @@ tr:hover td { background: var(--surface2); }
   .stat-label { font-size: 10px; }
   .header-title { font-size: 16px; }
   .page { padding: 12px; }
-  .refresh-btn span { display: none; }
+  .header-right .refresh-btn { display: none; }
+  .signout-btn { padding: 8px 9px; }
 }
 </style>
 <meta name="theme-color" content="#080706">
@@ -1524,6 +1549,7 @@ tr:hover td { background: var(--surface2); }
       <div class="header-right">
         <div class="live-badge"><div class="live-dot"></div>Live Data</div>
         <button class="refresh-btn" onclick="loadAllData()">↻ Refresh</button>
+        <button class="signout-btn" onclick="logout()">Sign Out</button>
       </div>
     </div>
 
@@ -2637,12 +2663,14 @@ const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
-    persistSession: true,
+    persistSession: false,
     autoRefreshToken: true,
     detectSessionInUrl: true
   }
 });
 
+const ADMIN_IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+let adminIdleTimer = null;
 let currentAdminUser = null;
 let currentPage = 'overview';
 let reportFilter = 'all';
@@ -3504,6 +3532,44 @@ function setAdminIdentity(adminUser) {
   setText('admin-role-label', role);
 }
 
+function clearStoredAdminSession() {
+  try {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith('sb-') || key.includes('supabase.auth'))) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    const sessionKeysToRemove = [];
+    for (let i = 0; i < sessionStorage.length; i += 1) {
+      const key = sessionStorage.key(i);
+      if (key && (key.startsWith('sb-') || key.includes('supabase.auth'))) {
+        sessionKeysToRemove.push(key);
+      }
+    }
+    sessionKeysToRemove.forEach(key => sessionStorage.removeItem(key));
+  } catch (e) {
+    console.warn('Could not clear stored admin session:', e);
+  }
+}
+
+function resetAdminIdleTimer() {
+  if (!currentAdminUser) return;
+  clearTimeout(adminIdleTimer);
+  adminIdleTimer = setTimeout(() => {
+    logout('Your admin session timed out after 15 minutes of inactivity.');
+  }, ADMIN_IDLE_TIMEOUT_MS);
+}
+
+function startAdminIdleLogout() {
+  ['click', 'keydown', 'mousemove', 'touchstart', 'visibilitychange'].forEach(eventName => {
+    document.addEventListener(eventName, resetAdminIdleTimer, { passive: true });
+  });
+  resetAdminIdleTimer();
+}
+
 async function doLogin() {
   const email = document.getElementById('admin-email').value.trim();
   const pass = document.getElementById('admin-pass').value.trim();
@@ -3532,6 +3598,7 @@ async function doLogin() {
       return;
     }
     setAdminIdentity(adminUser);
+    startAdminIdleLogout();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     await loadAllData();
@@ -3553,6 +3620,7 @@ async function restoreAdminSession() {
       return;
     }
     setAdminIdentity(adminUser);
+    startAdminIdleLogout();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     await loadAllData();
@@ -3561,9 +3629,16 @@ async function restoreAdminSession() {
   }
 }
 
-async function logout() {
-  await supabaseClient.auth.signOut();
-  location.reload();
+async function logout(message) {
+  clearTimeout(adminIdleTimer);
+  try {
+    await supabaseClient.auth.signOut();
+  } finally {
+    currentAdminUser = null;
+    clearStoredAdminSession();
+    if (message) sessionStorage.setItem('adminLogoutMessage', message);
+    location.replace('/admin/');
+  }
 }
 
 function showPage(name) {
@@ -8257,7 +8332,19 @@ document.querySelectorAll('.nav-item').forEach(item => {
 });
 
 // Restore Supabase admin session on page load
-window.addEventListener('load', restoreAdminSession);
+window.addEventListener('load', () => {
+  clearStoredAdminSession();
+  const logoutMessage = sessionStorage.getItem('adminLogoutMessage');
+  if (logoutMessage) {
+    const errorEl = document.getElementById('login-error');
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = logoutMessage;
+    }
+    sessionStorage.removeItem('adminLogoutMessage');
+  }
+  restoreAdminSession();
+});
 
 // Allow Enter key on login
 document.addEventListener('keydown', e => {
