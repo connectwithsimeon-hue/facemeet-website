@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FaceMeet Public Profile</title>
+<meta name="description" content="Video-first connections for friendship, professional networking, dating, and events.">
+<meta property="og:title" content="FaceMeet Public Profile">
+<meta property="og:description" content="Video-first connections for friendship, professional networking, dating, and events.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://facemeet.app/apple-touch-icon.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FaceMeet Public Profile">
+<meta name="twitter:description" content="Video-first connections for friendship, professional networking, dating, and events.">
+<meta name="twitter:image" content="https://facemeet.app/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#0a0807;
+  --surface:#141110;
+  --surface2:#1f1a17;
+  --surface3:#2a2420;
+  --coral:#e8503a;
+  --coral-light:#ff6f56;
+  --coral-dim:rgba(232,80,58,0.13);
+  --gold:#d4a847;
+  --cream:#f5f0e8;
+  --cream-dim:rgba(245,240,232,0.68);
+  --muted:#8a7e72;
+  --border:rgba(245,240,232,0.08);
+  --border2:rgba(245,240,232,0.14);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { min-height:100%; background:var(--bg); }
+body {
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(232,80,58,0.16), transparent 30%),
+    radial-gradient(circle at 82% 24%, rgba(212,168,71,0.11), transparent 28%),
+    linear-gradient(180deg, #0a0807 0%, #0d0908 58%, #080706 100%);
+  color:var(--cream);
+  font-family:'Outfit', sans-serif;
+  font-weight:300;
+  line-height:1.6;
+}
+a { color:inherit; }
+.page-shell {
+  width:100%;
+  min-height:100vh;
+  padding:28px 20px 46px;
+}
+.nav {
+  width:min(1120px, 100%);
+  margin:0 auto 42px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.brand {
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  color:var(--cream);
+  text-decoration:none;
+  font-weight:700;
+  font-size:20px;
+}
+.brand img {
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  object-fit:cover;
+  box-shadow:0 12px 30px rgba(0,0,0,0.28);
+}
+.brand span span { color:var(--coral); }
+.nav-link {
+  color:var(--cream-dim);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:10px 16px;
+  border:1px solid var(--border2);
+  border-radius:999px;
+  background:rgba(245,240,232,0.035);
+  transition:all .2s ease;
+}
+.nav-link:hover {
+  color:var(--cream);
+  border-color:rgba(232,80,58,0.36);
+  background:rgba(232,80,58,0.08);
+}
+.profile-layout {
+  width:min(1120px, 100%);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(0, 430px) minmax(0, 560px);
+  gap:64px;
+  align-items:center;
+}
+.media-column {
+  display:flex;
+  justify-content:center;
+  position:relative;
+}
+.media-glow {
+  position:absolute;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,80,58,0.24), transparent 68%);
+  filter:blur(2px);
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  pointer-events:none;
+}
+.profile-card {
+  width:min(100%, 390px);
+  background:linear-gradient(180deg, rgba(245,240,232,0.075), rgba(245,240,232,0.028));
+  border:1px solid var(--border2);
+  border-radius:30px;
+  padding:16px;
+  box-shadow:0 40px 90px rgba(0,0,0,0.45);
+  backdrop-filter:blur(18px);
+  position:relative;
+  overflow:hidden;
+}
+.profile-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:30px;
+  pointer-events:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.media-frame {
+  width:100%;
+  aspect-ratio:4 / 5;
+  border-radius:22px;
+  background:linear-gradient(140deg, rgba(232,80,58,0.18), rgba(245,240,232,0.045));
+  border:1px solid var(--border);
+  overflow:hidden;
+  position:relative;
+}
+.media-frame video,
+.media-frame img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  background:#120f0d;
+}
+.media-placeholder {
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px;
+  color:var(--cream-dim);
+  font-size:14px;
+}
+.media-badge {
+  position:absolute;
+  top:12px;
+  left:12px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.6);
+  color:white;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+}
+.media-badge::before {
+  content:'';
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--coral);
+  box-shadow:0 0 0 4px rgba(232,80,58,0.16);
+}
+.profile-summary {
+  padding:18px 4px 2px;
+}
+.profile-name {
+  font-family:'Cormorant Garamond', serif;
+  font-size:36px;
+  line-height:1.05;
+  font-weight:700;
+  letter-spacing:-.5px;
+}
+.profile-meta {
+  margin-top:8px;
+  color:var(--muted);
+  font-size:14px;
+}
+.intent-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  width:max-content;
+  max-width:100%;
+  margin-top:14px;
+  padding:9px 12px;
+  border-radius:999px;
+  color:var(--cream);
+  background:rgba(232,80,58,0.11);
+  border:1px solid rgba(232,80,58,0.26);
+  font-size:13px;
+  font-weight:700;
+}
+.intent-badge span {
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(232,80,58,0.18);
+  color:var(--coral-light);
+  font-size:11px;
+}
+.copy-column {
+  max-width:570px;
+}
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--coral-dim);
+  border:1px solid rgba(232,80,58,0.24);
+  color:var(--coral-light);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:7px 14px;
+  border-radius:999px;
+  margin-bottom:22px;
+}
+.headline {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(44px, 7vw, 76px);
+  line-height:.98;
+  font-weight:700;
+  letter-spacing:-1.5px;
+  margin-bottom:20px;
+}
+.headline em {
+  color:var(--coral);
+  font-style:italic;
+}
+.category-strip {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  max-width:100%;
+  padding:7px;
+  margin:0 0 24px;
+  border-radius:999px;
+  background:rgba(245,240,232,0.045);
+  border:1px solid var(--border2);
+  box-shadow:0 18px 46px rgba(0,0,0,0.18);
+}
+.category-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 12px;
+  border-radius:999px;
+  color:var(--cream);
+  background:rgba(245,240,232,0.035);
+  border:1px solid rgba(245,240,232,0.065);
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.category-pill span {
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(232,80,58,0.13);
+  color:var(--coral);
+  font-size:11px;
+}
+.bio-block {
+  margin-bottom:28px;
+}
+.bio-label {
+  color:var(--gold);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.bio-text,
+.intro-text {
+  color:var(--cream-dim);
+  font-size:17px;
+  line-height:1.75;
+  max-width:540px;
+}
+.intro-text { margin-bottom:22px; }
+.cta-row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:0 0 14px;
+}
+.cta {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:54px;
+  padding:14px 20px;
+  border-radius:999px;
+  border:1px solid var(--border2);
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer;
+  font-family:'Outfit', sans-serif;
+  transition:all .22s ease;
+}
+.cta.primary {
+  border-color:rgba(232,80,58,0.55);
+  background:var(--coral);
+  color:white;
+}
+.cta.primary:hover {
+  background:var(--coral-light);
+  box-shadow:0 14px 32px rgba(232,80,58,0.3);
+  transform:translateY(-2px);
+}
+.cta.secondary {
+  color:var(--cream);
+  background:rgba(245,240,232,0.045);
+}
+.cta.secondary:hover {
+  border-color:rgba(245,240,232,0.28);
+  background:rgba(245,240,232,0.075);
+  transform:translateY(-2px);
+}
+.play-mark {
+  position:relative;
+  display:inline-flex;
+  width:18px;
+  height:20px;
+  flex-shrink:0;
+  overflow:hidden;
+  border-radius:4px;
+  clip-path:polygon(0 0, 100% 50%, 0 100%);
+}
+.play-mark::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, #5eead4 0 34%, #f8e16c 34% 58%, #ff6b6b 58% 100%);
+}
+.small-note {
+  color:var(--muted);
+  font-size:13px;
+}
+.copy-link {
+  border:0;
+  background:transparent;
+  color:var(--cream-dim);
+  font-family:'Outfit', sans-serif;
+  font-size:13px;
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:rgba(245,240,232,0.24);
+  cursor:pointer;
+  padding:0;
+}
+.copy-link:hover { color:var(--cream); }
+.loading,
+.fallback {
+  width:min(720px, 100%);
+  margin:90px auto 0;
+  text-align:center;
+  background:linear-gradient(180deg, rgba(245,240,232,0.07), rgba(245,240,232,0.028));
+  border:1px solid var(--border2);
+  border-radius:26px;
+  padding:42px 28px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.32);
+}
+.loading h1,
+.fallback h1 {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(36px, 7vw, 58px);
+  line-height:1;
+  margin-bottom:12px;
+}
+.fallback p,
+.loading p {
+  color:var(--cream-dim);
+  font-size:16px;
+  margin:0 auto 24px;
+  max-width:480px;
+}
+.hidden { display:none !important; }
+@media (max-width: 900px) {
+  .page-shell { padding:22px 16px 38px; }
+  .nav { margin-bottom:28px; }
+  .profile-layout {
+    grid-template-columns:1fr;
+    gap:34px;
+  }
+  .copy-column {
+    max-width:640px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .category-strip,
+  .intent-badge {
+    justify-content:center;
+  }
+  .cta-row {
+    justify-content:center;
+  }
+  .bio-text,
+  .intro-text {
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+@media (max-width: 540px) {
+  .nav {
+    align-items:flex-start;
+  }
+  .nav-link {
+    padding:9px 12px;
+    font-size:13px;
+  }
+  .brand {
+    font-size:18px;
+  }
+  .brand img {
+    width:34px;
+    height:34px;
+  }
+  .profile-card {
+    border-radius:24px;
+    padding:12px;
+  }
+  .media-frame {
+    border-radius:18px;
+  }
+  .profile-name {
+    font-size:31px;
+  }
+  .category-strip {
+    border-radius:22px;
+  }
+  .category-pill {
+    flex:1 1 calc(50% - 8px);
+    justify-content:center;
+  }
+  .cta {
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+  <nav class="nav" aria-label="FaceMeet public profile navigation">
+    <a class="brand" href="/">
+      <img src="/apple-touch-icon.png" alt="FaceMeet">
+      <span>Face<span>Meet</span></span>
+    </a>
+    <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" id="nav-android-link">Get the app</a>
+  </nav>
+
+  <main id="loading-state" class="loading">
+    <h1>Loading FaceMeet profile...</h1>
+    <p>Opening a public video-first profile preview.</p>
+  </main>
+
+  <main id="profile-state" class="profile-layout hidden">
+    <section class="media-column" aria-label="Profile media">
+      <div class="media-glow"></div>
+      <article class="profile-card">
+        <div class="media-frame" id="profile-media">
+          <div class="media-placeholder">Profile preview loading</div>
+        </div>
+        <div class="profile-summary">
+          <h1 class="profile-name" id="profile-name">FaceMeet Member</h1>
+          <div class="profile-meta" id="profile-meta"></div>
+          <div class="intent-badge" id="profile-intent"><span>+</span> Connection</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="copy-column" aria-label="FaceMeet profile details">
+      <div class="eyebrow">Verified video-first connections</div>
+      <h2 class="headline"><span id="headline-name">Meet someone</span> <em>face-to-face.</em></h2>
+      <div class="category-strip" aria-label="FaceMeet connection categories">
+        <div class="category-pill"><span>+</span>Friendship</div>
+        <div class="category-pill"><span>◆</span>Professional Connections</div>
+        <div class="category-pill"><span>♡</span>Dating</div>
+        <div class="category-pill"><span>★</span>Events</div>
+      </div>
+      <p class="intro-text">FaceMeet is a verified video-first connection platform for friendship, professional networking, dating, and curated events.</p>
+      <div class="bio-block" id="bio-block">
+        <div class="bio-label">About Me</div>
+        <p class="bio-text" id="profile-bio"></p>
+      </div>
+      <div class="cta-row">
+        <a class="cta primary" href="https://app.facemeet.app" id="open-app-link">Open FaceMeet</a>
+        <a class="cta secondary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" id="android-link"><span class="play-mark" aria-hidden="true"></span>Download on Android</a>
+      </div>
+      <p class="small-note">Now available on Android. iOS coming soon. <button class="copy-link" type="button" id="copy-link">Copy profile link</button></p>
+    </section>
+  </main>
+
+  <main id="fallback-state" class="fallback hidden">
+    <h1>This FaceMeet profile is not available.</h1>
+    <p>Download FaceMeet to meet real people through short video intros, Sparks, and curated events.</p>
+    <a class="cta primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" id="fallback-android-link"><span class="play-mark" aria-hidden="true"></span>Download FaceMeet</a>
+  </main>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+const ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+const OPEN_APP_URL = 'https://app.facemeet.app';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false
+  }
+});
+
+let currentSlug = '';
+
+function text(value) {
+  return String(value || '').trim();
+}
+
+function safeUrl(value) {
+  const raw = text(value);
+  if (!raw) return '';
+  try {
+    const url = new URL(raw, window.location.origin);
+    if (url.protocol !== 'https:') return '';
+    return url.href;
+  } catch (_) {
+    return '';
+  }
+}
+
+function escapeHtml(value) {
+  return text(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function parseProfileSlug() {
+  const params = new URLSearchParams(window.location.search);
+  const querySlug = text(params.get('u') || params.get('slug'));
+  if (querySlug) return querySlug;
+
+  const match = window.location.pathname.match(/^\/p\/([^/?#]+)/);
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
+function normalizeIntentLabel(profile) {
+  const label = text(profile.connection_intent_label);
+  if (label) return label === 'Professional' ? 'Professional Connections' : label;
+  const map = {
+    dating: 'Dating',
+    friendship: 'Friendship',
+    professional: 'Professional Connections',
+    events: 'Events',
+    open_to_all: 'Open to All'
+  };
+  return map[text(profile.connection_intent)] || 'Dating';
+}
+
+function showState(state) {
+  ['loading-state', 'profile-state', 'fallback-state'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', id !== state);
+  });
+}
+
+async function trackProfileEvent(eventType) {
+  if (!currentSlug) return;
+  try {
+    await supabaseClient.rpc('record_public_profile_event', {
+      profile_slug: currentSlug,
+      event_type: eventType,
+      referrer: document.referrer || null
+    });
+  } catch (error) {
+    console.warn('Public profile tracking failed:', eventType, error?.message || error);
+  }
+}
+
+function renderMedia(profile) {
+  const frame = document.getElementById('profile-media');
+  if (!frame) return;
+  const videoUrl = safeUrl(profile.profile_video_url);
+  const thumbnailUrl = safeUrl(profile.thumbnail_url);
+  if (videoUrl) {
+    frame.innerHTML = `
+      <video src="${escapeHtml(videoUrl)}" poster="${escapeHtml(thumbnailUrl)}" controls playsinline preload="metadata"></video>
+      <div class="media-badge">Video Profile</div>
+    `;
+    return;
+  }
+  if (thumbnailUrl) {
+    frame.innerHTML = `
+      <img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(text(profile.first_name || profile.display_name) || 'FaceMeet member')} profile preview">
+      <div class="media-badge">Profile Preview</div>
+    `;
+    return;
+  }
+  frame.innerHTML = '<div class="media-placeholder">This member has a video-first FaceMeet profile.</div>';
+}
+
+function renderProfile(profile) {
+  const name = text(profile.first_name) || text(profile.display_name) || 'FaceMeet member';
+  const age = profile.age ? String(profile.age) : '';
+  const location = text(profile.location_display_name) || text(profile.city);
+  const metaParts = [age, location].filter(Boolean);
+  const intentLabel = normalizeIntentLabel(profile);
+  const bio = text(profile.bio);
+
+  document.title = `${name} is on FaceMeet`;
+  const description = 'Video-first connections for friendship, professional networking, dating, and events.';
+  document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${name} is on FaceMeet`);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', `${name} is on FaceMeet`);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
+
+  setText('profile-name', name);
+  setText('headline-name', `Meet ${name}`);
+  setText('profile-meta', metaParts.join(' • '));
+  document.getElementById('profile-meta')?.classList.toggle('hidden', metaParts.length === 0);
+  const intentEl = document.getElementById('profile-intent');
+  if (intentEl) intentEl.innerHTML = `<span>+</span>${escapeHtml(intentLabel)}`;
+
+  const bioBlock = document.getElementById('bio-block');
+  if (bio) {
+    setText('profile-bio', bio);
+    bioBlock?.classList.remove('hidden');
+  } else {
+    bioBlock?.classList.add('hidden');
+  }
+
+  renderMedia(profile);
+  showState('profile-state');
+}
+
+function showUnavailable() {
+  document.title = 'FaceMeet profile unavailable';
+  showState('fallback-state');
+}
+
+async function loadPublicProfile() {
+  currentSlug = parseProfileSlug();
+  if (!currentSlug) {
+    showUnavailable();
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient.rpc('get_public_profile_by_slug', {
+      profile_slug: currentSlug
+    });
+    if (error) throw error;
+    const profile = Array.isArray(data) ? data[0] : data;
+    if (!profile) {
+      showUnavailable();
+      return;
+    }
+    renderProfile(profile);
+    trackProfileEvent('profile_view');
+  } catch (error) {
+    console.warn('Public profile unavailable:', error?.message || error);
+    showUnavailable();
+  }
+}
+
+function wireCtas() {
+  const ctaMap = [
+    ['android-link', 'android_cta_click'],
+    ['nav-android-link', 'android_cta_click'],
+    ['fallback-android-link', 'android_cta_click'],
+    ['open-app-link', 'open_app_click']
+  ];
+  ctaMap.forEach(([id, eventType]) => {
+    document.getElementById(id)?.addEventListener('click', () => trackProfileEvent(eventType));
+  });
+
+  const openApp = document.getElementById('open-app-link');
+  if (openApp) openApp.href = OPEN_APP_URL;
+  ['android-link', 'nav-android-link', 'fallback-android-link'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = ANDROID_URL;
+  });
+
+  document.getElementById('copy-link')?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      await trackProfileEvent('copy_link_click');
+      setText('copy-link', 'Link copied');
+      setTimeout(() => setText('copy-link', 'Copy profile link'), 1800);
+    } catch (_) {
+      await trackProfileEvent('copy_link_click');
+      window.prompt('Copy this FaceMeet profile link:', window.location.href);
+    }
+  });
+}
+
+wireCtas();
+loadPublicProfile();
+</script>
+</body>
+</html>

@@ -29,6 +29,21 @@
   status = 200
 
 [[redirects]]
+  from = "/p/*"
+  to = "/profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/p"
+  to = "/profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile"
+  to = "/profile.html"
+  status = 200
+
+[[redirects]]
   from = "/child-safety"
   to = "/child-safety.html"
   status = 200
