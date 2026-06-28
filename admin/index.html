@@ -672,6 +672,111 @@ tr:hover td { background: var(--surface2); }
   color: var(--muted);
   line-height: 1.6;
 }
+.live-topics-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 18px;
+  align-items: start;
+}
+.live-topic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.live-topic-card.expired {
+  border-color: rgba(232,80,58,0.28);
+  background: linear-gradient(180deg, rgba(232,80,58,0.05), rgba(240,235,224,0.02));
+}
+.live-topic-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.live-topic-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.live-topic-title {
+  color: var(--cream);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.live-topic-prompt {
+  color: var(--cream-dim);
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.live-topic-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.live-topic-meta {
+  background: rgba(240,235,224,0.035);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
+}
+.live-topic-meta-label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.live-topic-meta-value {
+  color: var(--cream-dim);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.live-topic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.live-topic-status-line {
+  background: rgba(76,201,240,0.08);
+  border: 1px solid rgba(76,201,240,0.16);
+  border-radius: 12px;
+  color: var(--cream-dim);
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+.live-topic-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.live-topic-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.live-topic-ai-placeholder {
+  background: linear-gradient(180deg, rgba(212,168,71,0.08), rgba(240,235,224,0.025));
+  border: 1px dashed rgba(212,168,71,0.28);
+  border-radius: 16px;
+  padding: 16px;
+  color: var(--cream-dim);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.live-topic-ai-placeholder strong {
+  color: var(--gold);
+}
 .events-toolbar {
   display: flex;
   align-items: center;
@@ -1348,6 +1453,7 @@ tr:hover td { background: var(--surface2); }
 @media (max-width: 1024px) {
   .sidebar { width: 200px; }
   .page { padding: 24px; }
+  .live-topics-layout { grid-template-columns: 1fr; }
 }
 
 /* ── MOBILE ── */
@@ -1401,6 +1507,8 @@ tr:hover td { background: var(--surface2); }
   .admin-form-grid { grid-template-columns: 1fr; }
   .admin-form-grid .wide,
   .admin-form-grid .full { grid-column: auto; }
+  .live-topic-filter-grid,
+  .live-topic-meta-grid { grid-template-columns: 1fr; }
   .prospect-links { grid-template-columns: 1fr; }
 
   .charts-row {
@@ -1474,57 +1582,60 @@ tr:hover td { background: var(--surface2); }
     </div>
     <div class="sidebar-nav">
       <div class="nav-section-label">Analytics</div>
-      <div class="nav-item active" onclick="showPage('overview')">
+      <div class="nav-item active" data-page="overview" onclick="showPage('overview')">
         <span class="nav-icon">📊</span><span>Overview</span>
       </div>
-      <div class="nav-item" onclick="showPage('beta-metrics')">
+      <div class="nav-item" data-page="beta-metrics" onclick="showPage('beta-metrics')">
         <span class="nav-icon">🚀</span><span>Beta Metrics</span>
       </div>
-      <div class="nav-item" onclick="showPage('users')">
+      <div class="nav-item" data-page="users" onclick="showPage('users')">
         <span class="nav-icon">👥</span><span>Users</span>
       </div>
-      <div class="nav-item" onclick="showPage('spark-credits')">
+      <div class="nav-item" data-page="spark-credits" onclick="showPage('spark-credits')">
         <span class="nav-icon">⚡</span><span>Spark Credits</span>
       </div>
-      <div class="nav-item" onclick="showPage('applications')">
+      <div class="nav-item" data-page="applications" onclick="showPage('applications')">
         <span class="nav-icon">A</span><span>Archived Apps</span>
       </div>
-      <div class="nav-item" onclick="showPage('creator-hq')">
+      <div class="nav-item" data-page="creator-hq" onclick="showPage('creator-hq')">
         <span class="nav-icon">★</span><span>Creator HQ</span>
       </div>
-      <div class="nav-item" onclick="showPage('city-performance')">
+      <div class="nav-item" data-page="city-performance" onclick="showPage('city-performance')">
         <span class="nav-icon">🏙</span><span>Cities</span>
       </div>
-      <div class="nav-item" onclick="showPage('payouts')">
+      <div class="nav-item" data-page="payouts" onclick="showPage('payouts')">
         <span class="nav-icon">$</span><span>Payouts</span>
       </div>
-      <div class="nav-item" onclick="showPage('events-hq')">
+      <div class="nav-item" data-page="events-hq" onclick="showPage('events-hq')">
         <span class="nav-icon">🎟</span><span>Events HQ</span>
       </div>
-      <div class="nav-item" onclick="showPage('sessions')">
+      <div class="nav-item" data-page="live-topics" onclick="showPage('live-topics')">
+        <span class="nav-icon">💬</span><span>Live Topics HQ</span>
+      </div>
+      <div class="nav-item" data-page="sessions" onclick="showPage('sessions')">
         <span class="nav-icon">⚡</span><span>Spark Sessions</span>
       </div>
-      <div class="nav-item" onclick="showPage('revenue')">
+      <div class="nav-item" data-page="revenue" onclick="showPage('revenue')">
         <span class="nav-icon">💰</span><span>Revenue</span>
       </div>
-      <div class="nav-item" onclick="showPage('global-revenue')">
+      <div class="nav-item" data-page="global-revenue" onclick="showPage('global-revenue')">
         <span class="nav-icon">🌍</span><span>Global Revenue HQ</span>
       </div>
       <div class="nav-section-label" style="margin-top:16px;">Demographics</div>
-      <div class="nav-item" onclick="showPage('demographics')">
+      <div class="nav-item" data-page="demographics" onclick="showPage('demographics')">
         <span class="nav-icon">🎯</span><span>Demographics</span>
       </div>
-      <div class="nav-item" onclick="showPage('engagement')">
+      <div class="nav-item" data-page="engagement" onclick="showPage('engagement')">
         <span class="nav-icon">🔥</span><span>Engagement</span>
       </div>
       <div class="nav-section-label" style="margin-top:16px;">Moderation</div>
-      <div class="nav-item" onclick="showPage('video-moderation')">
+      <div class="nav-item" data-page="video-moderation" onclick="showPage('video-moderation')">
         <span class="nav-icon">▶</span><span>Profile Videos</span>
       </div>
-      <div class="nav-item" onclick="showPage('reports')">
+      <div class="nav-item" data-page="reports" onclick="showPage('reports')">
         <span class="nav-icon">!</span><span>Reports</span>
       </div>
-      <div class="nav-item" onclick="showPage('blocked')">
+      <div class="nav-item" data-page="blocked" onclick="showPage('blocked')">
         <span class="nav-icon">×</span><span>Blocked Users</span>
       </div>
     </div>
@@ -2262,6 +2373,112 @@ tr:hover td { background: var(--surface2); }
       </div>
     </div>
 
+    <!-- LIVE TOPICS HQ PAGE -->
+    <div class="page" id="page-live-topics">
+      <div class="section-title">Live Topics HQ</div>
+      <div class="section-sub">Manage curated Live Topics that members can pick from inside FaceMeet. Active/current topics are visible when status is active, the start date has passed, and the expiry date has not passed.</div>
+      <div class="stats-grid">
+        <div class="stat-card coral">
+          <div class="stat-value coral" id="live-topics-total">—</div>
+          <div class="stat-label">Total Topics</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-value green" id="live-topics-visible">—</div>
+          <div class="stat-label">Visible Today</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-value gold" id="live-topics-draft">—</div>
+          <div class="stat-label">Draft Topics</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-value blue" id="live-topics-featured">—</div>
+          <div class="stat-label">Featured Topics</div>
+        </div>
+      </div>
+      <div class="events-toolbar">
+        <div class="events-role-pill">Current role <strong id="live-topics-role-display">—</strong></div>
+        <div class="events-meta-note" id="live-topics-permission-copy">Approved admins can view topics. Only super_admin and events_ops can create or change curated topics.</div>
+      </div>
+      <div class="live-topics-layout">
+        <div>
+          <div class="admin-panel">
+            <div class="admin-panel-title">Topic Filters</div>
+            <div class="admin-panel-sub">Find topics by status, category, title, or prompt.</div>
+            <div class="live-topic-filter-grid">
+              <select class="application-select" id="live-topic-status-filter" onchange="renderLiveTopics()">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <select class="application-select" id="live-topic-category-filter" onchange="renderLiveTopics()">
+                <option value="all">All categories</option>
+              </select>
+              <input class="application-input" id="live-topic-search" type="search" placeholder="Search title or prompt" oninput="renderLiveTopics()" />
+            </div>
+            <div class="live-topic-status-line">Visible in app today means: <strong>status = active</strong>, starts_at is empty or in the past, and expires_at is empty or in the future. Expired active topics are flagged below.</div>
+          </div>
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">Curated Topic List</div>
+              <div class="table-count" id="live-topics-table-count"></div>
+            </div>
+            <div id="live-topics-list"><div class="loading"><span class="spinner"></span>Loading curated Live Topics...</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="admin-panel" id="live-topic-form-panel">
+            <div class="admin-panel-title" id="live-topic-form-title">Create Curated Topic</div>
+            <div class="admin-panel-sub">Draft a topic for the app. Activate only when it is ready for members to see.</div>
+            <div class="admin-form-grid">
+              <input class="application-input wide" id="live-topic-title" type="text" placeholder="Title" />
+              <input class="application-input wide" id="live-topic-category" type="text" list="live-topic-category-options" placeholder="Category" />
+              <datalist id="live-topic-category-options"></datalist>
+              <select class="application-select" id="live-topic-status">
+                <option value="draft">Draft</option>
+                <option value="active">Active</option>
+                <option value="archived">Archived</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <input class="application-input" id="live-topic-sort-order" type="number" step="1" placeholder="Sort order" value="0" />
+              <input class="application-input wide" id="live-topic-starts-at" type="datetime-local" />
+              <input class="application-input wide" id="live-topic-expires-at" type="datetime-local" />
+              <label class="events-role-pill" style="justify-content:flex-start;">
+                <input id="live-topic-featured" type="checkbox" style="accent-color:var(--coral);" />
+                <strong>Featured topic</strong>
+              </label>
+              <label class="events-role-pill" style="justify-content:flex-start;">
+                <input id="live-topic-created-by-ai" type="checkbox" style="accent-color:var(--coral);" disabled />
+                <strong>Created by AI</strong>
+              </label>
+            </div>
+            <div style="margin-top:12px;">
+              <textarea class="admin-textarea" id="live-topic-prompt" placeholder="Prompt members will respond to"></textarea>
+            </div>
+            <div style="margin-top:12px;">
+              <textarea class="admin-textarea" id="live-topic-description" placeholder="Optional description"></textarea>
+            </div>
+            <div style="margin-top:12px;">
+              <textarea class="admin-textarea" id="live-topic-share-hook" placeholder="Optional share hook"></textarea>
+            </div>
+            <div style="margin-top:12px;">
+              <textarea class="admin-textarea" id="live-topic-source-summary" placeholder="Optional source summary"></textarea>
+            </div>
+            <div class="live-topic-form-actions">
+              <button class="action-btn success" id="live-topic-save-btn" onclick="saveLiveTopic()">Save Topic</button>
+              <button class="action-btn" onclick="resetLiveTopicForm()">Clear Form</button>
+            </div>
+            <div class="events-meta-note" id="live-topic-form-status" style="margin-top:12px;">Only <strong>super_admin</strong> and <strong>events_ops</strong> can save curated Live Topics.</div>
+          </div>
+          <div class="live-topic-ai-placeholder">
+            <strong>Fill Trending Topics</strong><br>
+            Coming next. This placeholder does not call web search, OpenAI, or any AI generation service.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- SESSIONS PAGE -->
     <div class="page" id="page-sessions">
       <div class="section-title">Spark Sessions</div>
@@ -2758,6 +2975,24 @@ let eventTicketCheckInInFlight = false;
 let globalRevenueCountries = [];
 let globalRevenuePartners = [];
 let regionalPartnersData = [];
+let liveTopicsData = [];
+let liveTopicEditingId = null;
+let liveTopicSaveInFlight = false;
+let liveTopicCategoriesRendered = false;
+
+const LIVE_TOPIC_CATEGORIES = [
+  'AI & Technology',
+  'Business & Startups',
+  'Sports',
+  'Career & Money',
+  'Local / Dallas',
+  'Culture',
+  'Relationships & Life',
+  'Product & Builders',
+  'Faith & Life',
+  'Entertainment',
+  'News & Society'
+];
 
 async function getAuthHeaders() {
   const accessToken = await getActiveAdminAccessToken();
@@ -3624,7 +3859,7 @@ async function doLogin() {
     startAdminIdleLogout();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    await loadAllData();
+    showPage(resolveInitialAdminPage());
   } catch (e) {
     await supabaseClient.auth.signOut();
     adminAccessToken = '';
@@ -3652,7 +3887,7 @@ async function restoreAdminSession() {
     startAdminIdleLogout();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    await loadAllData();
+    showPage(resolveInitialAdminPage());
   } catch (e) {
     console.error('Admin session restore failed:', e);
   }
@@ -3678,7 +3913,14 @@ function showPage(name) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const page = document.getElementById('page-' + name);
   if (page) page.classList.add('active');
-  if (typeof event !== 'undefined' && event.currentTarget) event.currentTarget.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(item => {
+    if (item.dataset.page === name) item.classList.add('active');
+  });
+  if (window.location.pathname === '/admin/live-topics' && name !== 'live-topics') {
+    history.replaceState(null, '', '/admin/');
+  } else if (name === 'live-topics' && window.location.pathname !== '/admin/live-topics') {
+    history.replaceState(null, '', '/admin/live-topics');
+  }
 
   const titles = {
     overview: ['Overview', 'All key metrics at a glance'],
@@ -3690,6 +3932,7 @@ function showPage(name) {
     'city-performance': ['City Performance', 'Launch readiness by market'],
     payouts: ['Payouts', 'Creator payout review and tracking'],
     'events-hq': ['Events HQ', 'Create, publish, and review FaceMeet event invites'],
+    'live-topics': ['Live Topics HQ', 'Curated topic management for Live Topic Conversations'],
     sessions: ['Spark Sessions', 'All video date sessions and outcomes'],
     revenue: ['Revenue', 'Subscriptions and payment tracking'],
     'global-revenue': ['Global Revenue HQ', 'Country revenue truth board and regional partner payouts'],
@@ -3705,6 +3948,11 @@ function showPage(name) {
   }
 
   loadPageData(name);
+}
+
+function resolveInitialAdminPage() {
+  if (window.location.pathname.replace(/\/+$/, '') === '/admin/live-topics') return 'live-topics';
+  return currentPage || 'overview';
 }
 
 async function loadAllData() {
@@ -3724,6 +3972,7 @@ async function loadPageData(page) {
     else if (page === 'city-performance') await loadCityPerformance();
     else if (page === 'payouts') await loadPayouts();
     else if (page === 'events-hq') await loadEventsHQ();
+    else if (page === 'live-topics') await loadLiveTopicsHQ();
     else if (page === 'sessions') await loadSessions();
     else if (page === 'revenue') await loadRevenue();
     else if (page === 'global-revenue') await loadGlobalRevenue();
@@ -7132,6 +7381,372 @@ async function loadEventsHQ() {
   }
 
   renderEventPairingPanel();
+}
+
+function canManageLiveTopics() {
+  return ['super_admin', 'events_ops'].includes(currentAdminUser?.role);
+}
+
+function liveTopicCategoryOptions() {
+  const categories = new Set(LIVE_TOPIC_CATEGORIES);
+  liveTopicsData.forEach(row => {
+    if (row.category) categories.add(row.category);
+  });
+  return Array.from(categories).filter(Boolean).sort((a, b) => a.localeCompare(b));
+}
+
+function renderLiveTopicCategoryControls() {
+  const categories = liveTopicCategoryOptions();
+  const filter = document.getElementById('live-topic-category-filter');
+  if (filter) {
+    const selected = filter.value || 'all';
+    filter.innerHTML = '<option value="all">All categories</option>' + categories.map(category =>
+      `<option value="${escapeAttr(category)}"${selected === category ? ' selected' : ''}>${escapeHtml(category)}</option>`
+    ).join('');
+  }
+
+  const datalist = document.getElementById('live-topic-category-options');
+  if (datalist) {
+    datalist.innerHTML = categories.map(category => `<option value="${escapeAttr(category)}"></option>`).join('');
+  }
+  liveTopicCategoriesRendered = true;
+}
+
+function liveTopicFormValue(id) {
+  return (document.getElementById(id)?.value || '').trim();
+}
+
+function liveTopicDateValue(id) {
+  const value = liveTopicFormValue(id);
+  return value ? new Date(value).toISOString() : null;
+}
+
+function liveTopicDatetimeLocal(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+function liveTopicVisibility(row) {
+  const now = Date.now();
+  const startsAt = row.starts_at ? new Date(row.starts_at).getTime() : null;
+  const expiresAt = row.expires_at ? new Date(row.expires_at).getTime() : null;
+  const isActive = row.status === 'active';
+  const notStarted = isActive && startsAt && startsAt > now;
+  const expired = isActive && expiresAt && expiresAt <= now;
+  const visible = isActive && !notStarted && !expired;
+  return { visible, notStarted, expired };
+}
+
+function liveTopicStatusTone(status) {
+  const value = String(status || 'draft').toLowerCase();
+  if (value === 'active') return 'approved';
+  if (value === 'draft') return 'pending';
+  if (value === 'archived') return 'free';
+  if (value === 'rejected') return 'rejected';
+  return 'free';
+}
+
+function liveTopicPayload() {
+  const title = liveTopicFormValue('live-topic-title');
+  const category = liveTopicFormValue('live-topic-category');
+  const promptValue = liveTopicFormValue('live-topic-prompt');
+  const status = liveTopicFormValue('live-topic-status') || 'draft';
+  if (!title || !category || !promptValue || !status) {
+    throw new Error('Title, category, prompt, and status are required.');
+  }
+
+  return {
+    title,
+    category,
+    prompt: promptValue,
+    status,
+    description: liveTopicFormValue('live-topic-description') || null,
+    share_hook: liveTopicFormValue('live-topic-share-hook') || null,
+    source_summary: liveTopicFormValue('live-topic-source-summary') || null,
+    featured: document.getElementById('live-topic-featured')?.checked === true,
+    sort_order: Number.parseInt(liveTopicFormValue('live-topic-sort-order') || '0', 10) || 0,
+    starts_at: liveTopicDateValue('live-topic-starts-at'),
+    expires_at: liveTopicDateValue('live-topic-expires-at'),
+    created_by_ai: false
+  };
+}
+
+function setLiveTopicFormStatus(message, tone='info') {
+  const el = document.getElementById('live-topic-form-status');
+  if (!el) return;
+  const colors = {
+    info: 'var(--muted)',
+    success: 'var(--green)',
+    error: 'var(--coral)'
+  };
+  el.style.color = colors[tone] || colors.info;
+  el.textContent = message;
+}
+
+function setLiveTopicsPermissionUi() {
+  const role = currentAdminUser?.role || 'support_staff';
+  setText('live-topics-role-display', role.replace(/_/g, ' '));
+  const canManage = canManageLiveTopics();
+  setText('live-topics-permission-copy', canManage
+    ? 'You can create, edit, activate, archive, and duplicate curated Live Topics.'
+    : 'Read only: ask a super_admin or events_ops admin to change curated Live Topics.');
+  const panel = document.getElementById('live-topic-form-panel');
+  if (panel) panel.style.opacity = canManage ? '1' : '0.65';
+  document.querySelectorAll('#live-topic-form-panel input, #live-topic-form-panel textarea, #live-topic-form-panel select, #live-topic-save-btn')
+    .forEach(el => {
+      if (el.id === 'live-topic-created-by-ai') return;
+      el.disabled = !canManage || liveTopicSaveInFlight;
+    });
+}
+
+function resetLiveTopicForm() {
+  liveTopicEditingId = null;
+  setText('live-topic-form-title', 'Create Curated Topic');
+  ['live-topic-title','live-topic-category','live-topic-prompt','live-topic-description','live-topic-share-hook','live-topic-source-summary','live-topic-starts-at','live-topic-expires-at'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const statusEl = document.getElementById('live-topic-status');
+  if (statusEl) statusEl.value = 'draft';
+  const sortEl = document.getElementById('live-topic-sort-order');
+  if (sortEl) sortEl.value = '0';
+  const featuredEl = document.getElementById('live-topic-featured');
+  if (featuredEl) featuredEl.checked = false;
+  const aiEl = document.getElementById('live-topic-created-by-ai');
+  if (aiEl) aiEl.checked = false;
+  setLiveTopicFormStatus('Only super_admin and events_ops can save curated Live Topics.');
+  setLiveTopicsPermissionUi();
+}
+
+function editLiveTopic(id) {
+  const row = liveTopicsData.find(topic => topic.id === id);
+  if (!row) return;
+  liveTopicEditingId = id;
+  setText('live-topic-form-title', 'Edit Curated Topic');
+  const values = {
+    'live-topic-title': row.title || '',
+    'live-topic-category': row.category || '',
+    'live-topic-prompt': row.prompt || '',
+    'live-topic-description': row.description || '',
+    'live-topic-share-hook': row.share_hook || '',
+    'live-topic-source-summary': row.source_summary || '',
+    'live-topic-status': row.status || 'draft',
+    'live-topic-sort-order': String(row.sort_order ?? 0),
+    'live-topic-starts-at': liveTopicDatetimeLocal(row.starts_at),
+    'live-topic-expires-at': liveTopicDatetimeLocal(row.expires_at)
+  };
+  Object.entries(values).forEach(([idKey, value]) => {
+    const el = document.getElementById(idKey);
+    if (el) el.value = value;
+  });
+  const featuredEl = document.getElementById('live-topic-featured');
+  if (featuredEl) featuredEl.checked = row.featured === true;
+  const aiEl = document.getElementById('live-topic-created-by-ai');
+  if (aiEl) aiEl.checked = row.created_by_ai === true;
+  setLiveTopicFormStatus(`Editing ${row.title || 'curated topic'}.`, 'info');
+  document.getElementById('live-topic-form-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function saveLiveTopic() {
+  if (!canManageLiveTopics()) {
+    setLiveTopicFormStatus('Only super_admin and events_ops can save curated Live Topics.', 'error');
+    return;
+  }
+  if (liveTopicSaveInFlight) return;
+
+  liveTopicSaveInFlight = true;
+  setLiveTopicsPermissionUi();
+  setLiveTopicFormStatus('Saving curated Live Topic...');
+  try {
+    const payload = liveTopicPayload();
+    if (liveTopicEditingId) {
+      await patchWhere('curated_live_topics', { id: liveTopicEditingId }, payload);
+      setLiveTopicFormStatus('Curated Live Topic updated.', 'success');
+    } else {
+      await insertRow('curated_live_topics', {
+        ...payload,
+        created_by: adminAuthUserId || null,
+        metadata: {}
+      });
+      setLiveTopicFormStatus('Curated Live Topic created.', 'success');
+    }
+    await loadLiveTopicsHQ({ preserveForm: true });
+    if (!liveTopicEditingId) resetLiveTopicForm();
+  } catch (error) {
+    console.error('Live Topic save failed:', error);
+    setLiveTopicFormStatus(error.message || 'Could not save curated Live Topic.', 'error');
+  } finally {
+    liveTopicSaveInFlight = false;
+    setLiveTopicsPermissionUi();
+  }
+}
+
+async function updateLiveTopicStatus(id, status) {
+  if (!canManageLiveTopics()) {
+    alert('Only super_admin and events_ops can update curated Live Topics.');
+    return;
+  }
+  const row = liveTopicsData.find(topic => topic.id === id);
+  const confirmed = window.confirm(`Set "${row?.title || 'this topic'}" to ${status}?`);
+  if (!confirmed) return;
+  try {
+    await patchWhere('curated_live_topics', { id }, { status });
+    await loadLiveTopicsHQ({ preserveForm: true });
+  } catch (error) {
+    alert(`Could not update topic status: ${error.message || error}`);
+  }
+}
+
+async function toggleLiveTopicFeatured(id) {
+  if (!canManageLiveTopics()) {
+    alert('Only super_admin and events_ops can update curated Live Topics.');
+    return;
+  }
+  const row = liveTopicsData.find(topic => topic.id === id);
+  if (!row) return;
+  try {
+    await patchWhere('curated_live_topics', { id }, { featured: row.featured !== true });
+    await loadLiveTopicsHQ({ preserveForm: true });
+  } catch (error) {
+    alert(`Could not update featured flag: ${error.message || error}`);
+  }
+}
+
+async function duplicateLiveTopic(id) {
+  if (!canManageLiveTopics()) {
+    alert('Only super_admin and events_ops can duplicate curated Live Topics.');
+    return;
+  }
+  const row = liveTopicsData.find(topic => topic.id === id);
+  if (!row) return;
+  const confirmed = window.confirm(`Duplicate "${row.title || 'this topic'}" as a draft?`);
+  if (!confirmed) return;
+  try {
+    await insertRow('curated_live_topics', {
+      title: `${row.title || 'Untitled topic'} (Copy)`,
+      category: row.category || 'Culture',
+      prompt: row.prompt || '',
+      description: row.description || null,
+      share_hook: row.share_hook || null,
+      source_summary: row.source_summary || null,
+      status: 'draft',
+      featured: false,
+      starts_at: null,
+      expires_at: null,
+      sort_order: Number(row.sort_order || 0) + 1,
+      created_by: adminAuthUserId || null,
+      created_by_ai: false,
+      metadata: row.metadata || {}
+    });
+    await loadLiveTopicsHQ();
+  } catch (error) {
+    alert(`Could not duplicate topic: ${error.message || error}`);
+  }
+}
+
+function filteredLiveTopics() {
+  const statusFilter = document.getElementById('live-topic-status-filter')?.value || 'all';
+  const categoryFilter = document.getElementById('live-topic-category-filter')?.value || 'all';
+  const search = normalizeAdminText(document.getElementById('live-topic-search')?.value || '');
+  return liveTopicsData.filter(row => {
+    if (statusFilter !== 'all' && row.status !== statusFilter) return false;
+    if (categoryFilter !== 'all' && row.category !== categoryFilter) return false;
+    if (search) {
+      const haystack = normalizeAdminText(`${row.title || ''} ${row.prompt || ''} ${row.description || ''}`);
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+}
+
+function updateLiveTopicStats() {
+  const visible = liveTopicsData.filter(row => liveTopicVisibility(row).visible).length;
+  setText('live-topics-total', String(liveTopicsData.length));
+  setText('live-topics-visible', String(visible));
+  setText('live-topics-draft', String(liveTopicsData.filter(row => row.status === 'draft').length));
+  setText('live-topics-featured', String(liveTopicsData.filter(row => row.featured === true).length));
+}
+
+function renderLiveTopicCard(row) {
+  const visibility = liveTopicVisibility(row);
+  const canManage = canManageLiveTopics();
+  const promptPreview = row.prompt || 'No prompt saved.';
+  const statusAction = row.status === 'active'
+    ? `<button class="action-btn" ${canManage ? '' : 'disabled'} onclick="updateLiveTopicStatus('${escapeAttr(row.id)}','draft')">Move to Draft</button>`
+    : `<button class="action-btn success" ${canManage ? '' : 'disabled'} onclick="updateLiveTopicStatus('${escapeAttr(row.id)}','active')">Activate</button>`;
+  return `
+    <article class="live-topic-card ${visibility.expired ? 'expired' : ''}">
+      <div class="live-topic-topline">
+        <div class="live-topic-badges">
+          <span class="badge ${liveTopicStatusTone(row.status)}">${escapeHtml(formatSource(row.status || 'draft'))}</span>
+          <span class="badge spark-plus">${escapeHtml(row.category || 'Uncategorized')}</span>
+          ${row.featured === true ? '<span class="badge gold-tier">Featured</span>' : ''}
+          ${row.created_by_ai === true ? '<span class="badge needs_review">AI-created</span>' : ''}
+          ${visibility.visible ? '<span class="badge approved">Visible Today</span>' : ''}
+          ${visibility.expired ? '<span class="badge high">Expired</span>' : ''}
+          ${visibility.notStarted ? '<span class="badge pending">Scheduled</span>' : ''}
+        </div>
+        <div class="safety-id">${escapeHtml(shortId(row.id))}</div>
+      </div>
+      <div class="live-topic-title">${escapeHtml(row.title || 'Untitled topic')}</div>
+      <div class="live-topic-prompt">${escapeHtml(promptPreview.length > 260 ? `${promptPreview.slice(0, 260)}...` : promptPreview)}</div>
+      <div class="live-topic-meta-grid">
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Starts</div><div class="live-topic-meta-value">${escapeHtml(formatDateTime(row.starts_at))}</div></div>
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Expires</div><div class="live-topic-meta-value">${escapeHtml(formatDateTime(row.expires_at))}</div></div>
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Sort Order</div><div class="live-topic-meta-value">${escapeHtml(String(row.sort_order ?? 0))}</div></div>
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Updated</div><div class="live-topic-meta-value">${escapeHtml(formatDateTime(row.updated_at))}</div></div>
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Created</div><div class="live-topic-meta-value">${escapeHtml(formatDateTime(row.created_at))}</div></div>
+        <div class="live-topic-meta"><div class="live-topic-meta-label">Share Hook</div><div class="live-topic-meta-value">${escapeHtml(row.share_hook || '—')}</div></div>
+      </div>
+      <div class="live-topic-actions">
+        <button class="action-btn primary" onclick="editLiveTopic('${escapeAttr(row.id)}')">Edit</button>
+        ${statusAction}
+        <button class="action-btn" ${canManage ? '' : 'disabled'} onclick="toggleLiveTopicFeatured('${escapeAttr(row.id)}')">${row.featured === true ? 'Unmark Featured' : 'Mark Featured'}</button>
+        <button class="action-btn" ${canManage ? '' : 'disabled'} onclick="duplicateLiveTopic('${escapeAttr(row.id)}')">Duplicate</button>
+        <button class="action-btn muted" ${canManage ? '' : 'disabled'} onclick="updateLiveTopicStatus('${escapeAttr(row.id)}','archived')">Archive</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderLiveTopics() {
+  updateLiveTopicStats();
+  renderLiveTopicCategoryControls();
+  const rows = filteredLiveTopics();
+  const countEl = document.getElementById('live-topics-table-count');
+  if (countEl) countEl.textContent = `${rows.length} of ${liveTopicsData.length} topics`;
+  const list = document.getElementById('live-topics-list');
+  if (!list) return;
+  list.innerHTML = rows.length
+    ? rows.map(renderLiveTopicCard).join('')
+    : '<div class="safety-empty">No curated Live Topics match these filters.</div>';
+  setLiveTopicsPermissionUi();
+}
+
+async function loadLiveTopicsHQ(options = {}) {
+  setLiveTopicsPermissionUi();
+  const list = document.getElementById('live-topics-list');
+  if (list && !options.preserveForm) {
+    list.innerHTML = '<div class="loading"><span class="spinner"></span>Loading curated Live Topics...</div>';
+  }
+  try {
+    liveTopicsData = await query('curated_live_topics', '*', {}, 1000, 'sort_order');
+    liveTopicsData.sort((a, b) => {
+      const orderDiff = Number(a.sort_order || 0) - Number(b.sort_order || 0);
+      if (orderDiff !== 0) return orderDiff;
+      return String(b.updated_at || b.created_at || '').localeCompare(String(a.updated_at || a.created_at || ''));
+    });
+    renderLiveTopics();
+    if (!options.preserveForm && !liveTopicEditingId) resetLiveTopicForm();
+  } catch (error) {
+    console.error('Live Topics load failed:', error);
+    if (list) {
+      list.innerHTML = `<div class="safety-empty" style="color:var(--coral);">Curated Live Topics could not be loaded. Confirm the curated_live_topics table and admin RLS policies are available. ${escapeHtml(error.message || '')}</div>`;
+    }
+  }
 }
 
 function exportCityPerformanceCsv() {
