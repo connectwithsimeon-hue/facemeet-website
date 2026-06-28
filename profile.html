@@ -544,6 +544,7 @@ const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
 const OPEN_APP_URL = 'https://app.facemeet.app';
+const IOS_APP_STORE_URL = '';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: false,
@@ -582,6 +583,23 @@ function escapeHtml(value) {
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
+}
+
+function getFaceMeetJoinUrl(userAgent = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
+  const nav = typeof navigator !== 'undefined' ? navigator : { platform: '', maxTouchPoints: 0 };
+  const ua = String(userAgent || '').toLowerCase();
+  const isAndroid = ua.includes('android');
+  const isIOS = /iphone|ipad|ipod/.test(ua)
+    || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
+  if (isAndroid) return ANDROID_URL;
+  if (isIOS && IOS_APP_STORE_URL) return IOS_APP_STORE_URL;
+  return OPEN_APP_URL;
+}
+
+function getFaceMeetCtaLabel(userAgent = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
+  const ua = String(userAgent || '').toLowerCase();
+  if (ua.includes('android')) return 'Get FaceMeet on Google Play';
+  return 'Open FaceMeet';
 }
 
 function parseProfileSlug() {
@@ -727,11 +745,26 @@ function wireCtas() {
     document.getElementById(id)?.addEventListener('click', () => trackProfileEvent(eventType));
   });
 
+  const joinUrl = getFaceMeetJoinUrl();
+  const primaryLabel = getFaceMeetCtaLabel();
   const openApp = document.getElementById('open-app-link');
-  if (openApp) openApp.href = OPEN_APP_URL;
-  ['android-link', 'nav-android-link', 'fallback-android-link'].forEach(id => {
+  if (openApp) {
+    openApp.href = joinUrl;
+    openApp.textContent = primaryLabel;
+  }
+  ['nav-android-link', 'fallback-android-link'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.href = ANDROID_URL;
+    if (el) {
+      el.href = joinUrl;
+      el.textContent = primaryLabel;
+    }
+  });
+  ['android-link'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.href = joinUrl;
+      el.lastChild.textContent = primaryLabel === 'Get FaceMeet on Google Play' ? 'Get on Google Play' : 'Open FaceMeet';
+    }
   });
 
   document.getElementById('copy-link')?.addEventListener('click', async () => {

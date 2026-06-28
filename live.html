@@ -408,7 +408,7 @@ h1 em {
     <h1>Live Topic <em>not found.</em></h1>
     <p class="status-body" style="margin-left:auto;margin-right:auto;">This conversation may have ended or the link may be invalid.</p>
     <div class="cta-row" style="justify-content:center;">
-      <a class="cta primary" href="https://app.facemeet.app">Open FaceMeet</a>
+      <a class="cta primary" href="https://app.facemeet.app" id="not-found-open-app-link">Open FaceMeet</a>
       <a class="cta secondary" href="/">Back to FaceMeet</a>
     </div>
   </section>
@@ -417,7 +417,9 @@ h1 em {
 <script>
 const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
-const OPEN_APP_BASE_URL = 'https://app.facemeet.app';
+const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+const PWA_URL = 'https://app.facemeet.app';
+const IOS_APP_STORE_URL = '';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: false, autoRefreshToken: false }
 });
@@ -440,6 +442,43 @@ function showState(activeId) {
   ['loading-state', 'topic-state', 'not-found-state'].forEach(id => {
     document.getElementById(id)?.classList.toggle('hidden', id !== activeId);
   });
+}
+
+function getFaceMeetJoinUrl(userAgent = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
+  const nav = typeof navigator !== 'undefined' ? navigator : { platform: '', maxTouchPoints: 0 };
+  const ua = String(userAgent || '').toLowerCase();
+  const isAndroid = ua.includes('android');
+  const isIOS = /iphone|ipad|ipod/.test(ua)
+    || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
+  if (isAndroid) return GOOGLE_PLAY_URL;
+  if (isIOS && IOS_APP_STORE_URL) return IOS_APP_STORE_URL;
+  return PWA_URL;
+}
+
+function getFaceMeetCtaLabel(userAgent = (typeof navigator !== 'undefined' ? navigator.userAgent : '')) {
+  const ua = String(userAgent || '').toLowerCase();
+  if (ua.includes('android')) return 'Get FaceMeet on Google Play';
+  return 'Open FaceMeet';
+}
+
+function applySmartFaceMeetCtas() {
+  const joinUrl = getFaceMeetJoinUrl();
+  const primaryLabel = getFaceMeetCtaLabel();
+  [
+    ['nav-open-app', primaryLabel],
+    ['open-app-link', primaryLabel],
+    ['not-found-open-app-link', primaryLabel]
+  ].forEach(([id, label]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.href = joinUrl;
+    el.textContent = label;
+  });
+  const joinLink = document.getElementById('join-app-link');
+  if (joinLink) {
+    joinLink.href = joinUrl;
+    joinLink.textContent = primaryLabel === 'Get FaceMeet on Google Play' ? 'Join on Google Play' : 'Join FaceMeet';
+  }
 }
 
 function slugFromPath() {
@@ -565,8 +604,6 @@ function renderHosts(topic) {
 function renderTopic(topic) {
   const status = normalizedStatus(topic);
   const config = statusConfig(status);
-  const slug = slugFromPath();
-  const appUrl = OPEN_APP_BASE_URL;
   const title = firstValue(topic, ['title', 'curated_topic_title', 'topic_title']) || 'FaceMeet Live Topic';
   const prompt = firstValue(topic, ['prompt', 'description', 'curated_topic_prompt', 'topic_prompt', 'share_hook'])
     || 'Join a FaceMeet conversation built around a curated topic.';
@@ -586,14 +623,13 @@ function renderTopic(topic) {
   document.getElementById('info-status').textContent = config.label;
   document.getElementById('info-category').textContent = category;
   document.getElementById('info-time').textContent = time;
-  document.getElementById('open-app-link').href = appUrl;
-  document.getElementById('nav-open-app').href = appUrl;
-  document.getElementById('join-app-link').href = OPEN_APP_BASE_URL;
+  applySmartFaceMeetCtas();
   showState('topic-state');
 }
 
 function showNotFound() {
   setMeta('Live Topic not found | FaceMeet', 'This conversation may have ended or the link may be invalid.');
+  applySmartFaceMeetCtas();
   showState('not-found-state');
 }
 
@@ -642,6 +678,7 @@ document.getElementById('share-link')?.addEventListener('click', async () => {
   }
 });
 
+applySmartFaceMeetCtas();
 loadLiveTopic();
 </script>
 </body>
