@@ -143,6 +143,11 @@ nav#navbar.scrolled {
 .hero-proof-chips{display:flex;flex-wrap:wrap;gap:10px;}
 .hero-proof-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(245,240,232,0.04);border:1px solid var(--border);border-radius:999px;padding:10px 14px;font-size:13px;color:var(--cream-dim);}
 .hero-proof-chip strong{color:var(--cream);font-weight:600;}
+.hero-learn-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:540px;margin-top:-4px;margin-bottom:24px;animation:fadeUp 0.8s 0.55s both;}
+.hero-learn-link{display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);border-radius:18px;padding:14px 16px;color:var(--cream);text-decoration:none;transition:all .22s;}
+.hero-learn-link:hover{transform:translateY(-2px);border-color:rgba(232,80,58,.35);background:rgba(232,80,58,.08);}
+.hero-learn-link span:first-child{font-size:13px;font-weight:700;}
+.hero-learn-link span:last-child{color:var(--coral);}
 .beta-download-card{max-width:440px;background:linear-gradient(180deg,rgba(245,240,232,0.055),rgba(245,240,232,0.025));border:1px solid var(--border2);border-radius:20px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.28);}
 .beta-download-title{font-size:15px;font-weight:700;color:var(--cream);margin-bottom:6px;}
 .beta-download-sub{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;}
@@ -337,6 +342,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   .hero-sub{max-width:100%;margin-left:auto;margin-right:auto;}
   .dl-row{justify-content:center;flex-direction:column;align-items:center;}
   .dl-btn{width:100%;max-width:280px;justify-content:center;}
+  .hero-learn-links{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto;}
   .wl-row{max-width:100%;flex-direction:column;}
   .float-badge{display:none;}
   .phone-wrap{width:220px;}
@@ -372,6 +378,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       <span class="logo-text">Face<span>Meet</span></span>
     </a>
     <div class="nav-links" id="nav-links">
+      <a href="/why-facemeet-exists" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
+      <a href="/sparks" class="nav-link" onclick="closeMob()">Sparks</a>
       <a href="#how" class="nav-link" onclick="closeMob()">How it works</a>
       <a href="#live-topics" class="nav-link" onclick="closeMob()">Live Topics</a>
       <a href="#founding-circle" class="nav-link" onclick="closeMob()">Founding Circle</a>
@@ -416,6 +424,10 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
           <span class="hero-proof-chip"><strong>Sparks</strong></span>
           <span class="hero-proof-chip"><strong>FaceMeetings</strong></span>
         </div>
+      </div>
+      <div class="hero-learn-links" aria-label="Learn more about FaceMeet">
+        <a class="hero-learn-link" href="/why-facemeet-exists"><span>Why FaceMeet exists</span><span>→</span></a>
+        <a class="hero-learn-link" href="/sparks"><span>How Sparks work</span><span>→</span></a>
       </div>
     </div>
 
@@ -584,6 +596,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     <div class="footer-tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
   </div>
   <div class="footer-links">
+    <a href="/why-facemeet-exists">Why FaceMeet</a>
+    <a href="/sparks">Sparks</a>
     <a href="faq.html">FAQ</a>
     <a href="/events">Events</a>
     <a href="community-guidelines.html">Community Guidelines</a>

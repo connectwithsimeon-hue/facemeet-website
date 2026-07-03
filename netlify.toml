@@ -84,6 +84,16 @@
   status = 200
 
 [[redirects]]
+  from = "/why-facemeet-exists"
+  to = "/why-facemeet-exists.html"
+  status = 200
+
+[[redirects]]
+  from = "/sparks"
+  to = "/sparks.html"
+  status = 200
+
+[[redirects]]
   from = "/creators"
   to = "/creators.html"
   status = 200
