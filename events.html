@@ -118,26 +118,25 @@
       .footer-links{justify-content:center;gap:18px}
     }
   </style>
+  <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
 <body>
-  <nav id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-text">Face<span>Meet</span></span>
-      </a>
-      <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
-      <div class="nav-links" id="nav-links">
-        <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
-        <a href="index.html#install" class="nav-link" onclick="closeMob()">Get FaceMeet</a>
-        <a href="community-guidelines.html" class="nav-link" onclick="closeMob()">Safety</a>
-        <a href="/events" class="nav-link active" onclick="closeMob()">Events</a>
-
-
-        <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
-      </div>
-      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="closeMob()">Get it on Google Play</a>
+  <nav class="fm-site-nav" aria-label="FaceMeet site navigation">
+  <div class="fm-site-nav__inner">
+    <a href="/" class="fm-site-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-nav__links">
+      <a href="/why-facemeet-exists">Why FaceMeet</a>
+      <a href="/sparks">Sparks</a>
+      <a href="/#how">How it works</a>
+      <a href="/live">Live Topics</a>
+      <a href="/join">Founding Circle</a>
+      <a href="/events">Events</a>
+      <a href="/community-guidelines">Safety</a>
+      <a href="/faq">FAQ</a>
+      <a class="fm-site-nav__cta" href="/#install">Get FaceMeet</a>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <section class="hero">
     <div class="hero-inner">
@@ -167,20 +166,29 @@
     </div>
   </section>
 
-  <footer>
-    <div class="footer-logo">Face<span>Meet</span></div>
-    <div class="footer-links">
-
-      <a href="faq.html">FAQ</a>
-
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="child-safety.html">Child Safety</a>
-      <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
-      <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
-    </div>
-    <div class="footer-copy">© 2026 FaceMeet. Meet the people behind the profile.</div>
-  </footer>
+  <footer class="fm-site-footer">
+  <div class="fm-site-footer__brand">
+    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-footer__tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
+  </div>
+  <div class="fm-site-footer__links">
+    <a href="/why-facemeet-exists">Why FaceMeet</a>
+    <a href="/sparks">Sparks</a>
+    <a href="/faq">FAQ</a>
+    <a href="/events">Events</a>
+    <a href="/community-guidelines">Community Guidelines</a>
+    <a href="/content-policy">Content Policy</a>
+    <a href="/moderation-policy">Moderation Policy</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="/refund-policy">Refund Policy</a>
+    <a href="/payment-terms">Payment Terms</a>
+    <a href="/child-safety">Child Safety</a>
+    <a href="mailto:hello@facemeet.app">Contact</a>
+    <a href="mailto:support@facemeet.app">Support</a>
+  </div>
+  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
+</footer>
 
   <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
     <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
@@ -532,11 +540,5 @@ function guestListPublicMeta(status) {
 
     bootEventsPage();
   </script>
-  <nav class="mobile-tabbar" aria-label="Mobile navigation">
-    <a href="index.html">Home</a>
-    <a href="/events" aria-current="page">Events</a>
-
-    <a href="faq.html">FAQ</a>
-  </nav>
 </body>
 </html>

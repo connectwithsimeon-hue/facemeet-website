@@ -10,7 +10,7 @@
 <meta name="description" content="Follow interesting people, join Live Topics, and Spark real FaceMeetings on FaceMeet, a video-first network for professional and meaningful connections.">
 <meta property="og:title" content="FaceMeet — Video-first professional and meaningful connections">
 <meta property="og:description" content="Meet the people behind the profile. Follow interesting people, join Live Topics, and Spark real FaceMeetings.">
-<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-logo-horizontal.png">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta property="og:url" content="https://facemeet.app/">
 <meta property="og:type" content="website">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -368,27 +368,24 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="mobile-app.css?v=2">
+  <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
 <body>
 
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo" aria-label="FaceMeet home">
-      <img class="nav-logo-mark" src="assets/brand/facemeet-icon.png" alt="FaceMeet">
-      <span class="logo-text">Face<span>Meet</span></span>
-    </a>
-    <div class="nav-links" id="nav-links">
-      <a href="/why-facemeet-exists" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
-      <a href="/sparks" class="nav-link" onclick="closeMob()">Sparks</a>
-      <a href="#how" class="nav-link" onclick="closeMob()">How it works</a>
-      <a href="#live-topics" class="nav-link" onclick="closeMob()">Live Topics</a>
-      <a href="#founding-circle" class="nav-link" onclick="closeMob()">Founding Circle</a>
-      <a href="/events" class="nav-link" onclick="closeMob()">Events</a>
-      <a href="#safety" class="nav-link" onclick="closeMob()">Safety</a>
-      <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
-      <a href="#install" class="nav-cta" onclick="closeMob()">Get FaceMeet</a>
+<nav class="fm-site-nav" aria-label="FaceMeet site navigation">
+  <div class="fm-site-nav__inner">
+    <a href="/" class="fm-site-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-nav__links">
+      <a href="/why-facemeet-exists">Why FaceMeet</a>
+      <a href="/sparks">Sparks</a>
+      <a href="/#how">How it works</a>
+      <a href="/live">Live Topics</a>
+      <a href="/join">Founding Circle</a>
+      <a href="/events">Events</a>
+      <a href="/community-guidelines">Safety</a>
+      <a href="/faq">FAQ</a>
+      <a class="fm-site-nav__cta" href="/#install">Get FaceMeet</a>
     </div>
-    <button class="mob-btn" id="mob-btn" onclick="toggleMob()" aria-label="Open navigation">☰</button>
   </div>
 </nav>
 
@@ -587,31 +584,28 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     </div>
   </div>
 </section>
-<footer>
-  <div class="footer-brand">
-    <a href="index.html" class="footer-brand-mark" aria-label="FaceMeet home">
-      <img src="assets/brand/facemeet-icon.png" alt="FaceMeet">
-      <span class="logo-text">Face<span>Meet</span></span>
-    </a>
-    <div class="footer-tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
+<footer class="fm-site-footer">
+  <div class="fm-site-footer__brand">
+    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-footer__tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
   </div>
-  <div class="footer-links">
+  <div class="fm-site-footer__links">
     <a href="/why-facemeet-exists">Why FaceMeet</a>
     <a href="/sparks">Sparks</a>
-    <a href="faq.html">FAQ</a>
+    <a href="/faq">FAQ</a>
     <a href="/events">Events</a>
-    <a href="community-guidelines.html">Community Guidelines</a>
-    <a href="content-policy.html">Content Policy</a>
-    <a href="moderation-policy.html">Moderation Policy</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-    <a href="refund-policy.html">Refund Policy</a>
-    <a href="payment-terms.html">Payment Terms</a>
-    <a href="child-safety.html">Child Safety</a>
-    <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
-    <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
+    <a href="/community-guidelines">Community Guidelines</a>
+    <a href="/content-policy">Content Policy</a>
+    <a href="/moderation-policy">Moderation Policy</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="/refund-policy">Refund Policy</a>
+    <a href="/payment-terms">Payment Terms</a>
+    <a href="/child-safety">Child Safety</a>
+    <a href="mailto:hello@facemeet.app">Contact</a>
+    <a href="mailto:support@facemeet.app">Support</a>
   </div>
-  <div class="footer-copy">© 2026 FaceMeet.</div>
+  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
 </footer>
 
 <!-- Contact Modal -->
@@ -704,11 +698,5 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
-<nav class="mobile-tabbar" aria-label="Mobile navigation">
-  <a href="index.html" aria-current="page">Home</a>
-
-  <a href="faq.html">FAQ</a>
-
-</nav>
 </body>
 </html>

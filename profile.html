@@ -8,11 +8,11 @@
 <meta property="og:title" content="FaceMeet Public Profile">
 <meta property="og:description" content="Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://facemeet.app/apple-touch-icon.png">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FaceMeet Public Profile">
 <meta name="twitter:description" content="Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.">
-<meta name="twitter:image" content="https://facemeet.app/apple-touch-icon.png">
+<meta name="twitter:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -479,18 +479,27 @@ a { color:inherit; }
   }
 }
 </style>
+  <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
 <body>
+<nav class="fm-site-nav" aria-label="FaceMeet site navigation">
+  <div class="fm-site-nav__inner">
+    <a href="/" class="fm-site-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-nav__links">
+      <a href="/why-facemeet-exists">Why FaceMeet</a>
+      <a href="/sparks">Sparks</a>
+      <a href="/#how">How it works</a>
+      <a href="/live">Live Topics</a>
+      <a href="/join">Founding Circle</a>
+      <a href="/events">Events</a>
+      <a href="/community-guidelines">Safety</a>
+      <a href="/faq">FAQ</a>
+      <a class="fm-site-nav__cta" href="/#install">Get FaceMeet</a>
+    </div>
+  </div>
+</nav>
 <div class="page-shell">
-  <nav class="nav" aria-label="FaceMeet public profile navigation">
-    <a class="brand" href="/">
-      <img src="/apple-touch-icon.png" alt="FaceMeet">
-      <span>Face<span>Meet</span></span>
-    </a>
-    <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" id="nav-android-link">Get the app</a>
-  </nav>
-
-  <main id="loading-state" class="loading">
+<main id="loading-state" class="loading">
     <h1>Loading FaceMeet profile...</h1>
     <p>Opening a public video-first profile preview.</p>
   </main>
@@ -539,6 +548,29 @@ a { color:inherit; }
   </main>
 </div>
 
+<footer class="fm-site-footer">
+  <div class="fm-site-footer__brand">
+    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-footer__tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
+  </div>
+  <div class="fm-site-footer__links">
+    <a href="/why-facemeet-exists">Why FaceMeet</a>
+    <a href="/sparks">Sparks</a>
+    <a href="/faq">FAQ</a>
+    <a href="/events">Events</a>
+    <a href="/community-guidelines">Community Guidelines</a>
+    <a href="/content-policy">Content Policy</a>
+    <a href="/moderation-policy">Moderation Policy</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="/refund-policy">Refund Policy</a>
+    <a href="/payment-terms">Payment Terms</a>
+    <a href="/child-safety">Child Safety</a>
+    <a href="mailto:hello@facemeet.app">Contact</a>
+    <a href="mailto:support@facemeet.app">Support</a>
+  </div>
+  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
+</footer>
 <script>
 const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
