@@ -45,9 +45,10 @@ nav#navbar.scrolled {
   align-items: center; justify-content: space-between;
 }
 .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.nav-logo-mark{width:38px;height:38px;border-radius:10px;object-fit:cover;box-shadow:0 8px 24px rgba(232,80,58,0.18);}
-.footer-brand{display:flex;flex-direction:column;gap:8px;max-width:280px;}
-.footer-logo-img{height:40px;width:auto;object-fit:contain;object-position:left center;}
+.nav-logo-mark{width:44px;height:44px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(232,80,58,0.18);}
+.footer-brand{display:flex;flex-direction:column;gap:10px;max-width:300px;}
+.footer-brand-mark{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.footer-brand-mark img{width:44px;height:44px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(232,80,58,0.18);}
 .footer-tagline{font-size:12px;color:var(--muted);line-height:1.5;}
 
 .logo-text { font-size: 20px; font-weight: 700; color: #f5f0e8; }
@@ -576,7 +577,10 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 </section>
 <footer>
   <div class="footer-brand">
-    <img class="footer-logo-img" src="assets/brand/facemeet-logo-horizontal.png" alt="FaceMeet">
+    <a href="index.html" class="footer-brand-mark" aria-label="FaceMeet home">
+      <img src="assets/brand/facemeet-icon.png" alt="FaceMeet">
+      <span class="logo-text">Face<span>Meet</span></span>
+    </a>
     <div class="footer-tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
   </div>
   <div class="footer-links">
