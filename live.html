@@ -354,7 +354,7 @@ h1 em {
       <a href="/why-facemeet-exists">Why FaceMeet</a>
       <a href="/sparks">Sparks</a>
       <a href="/#how">How it works</a>
-      <a href="/live">Live Topics</a>
+      <a href="/#live-topics">Live Topics</a>
       <a href="/join">Founding Circle</a>
       <a href="/events">Events</a>
       <a href="/community-guidelines">Safety</a>
@@ -665,10 +665,14 @@ function showNotFound() {
   showState('not-found-state');
 }
 
+function redirectToLiveTopicsIndex() {
+  window.location.replace('/#live-topics');
+}
+
 async function loadLiveTopic() {
   const slug = slugFromPath();
   if (!slug) {
-    showNotFound();
+    redirectToLiveTopicsIndex();
     return;
   }
 
