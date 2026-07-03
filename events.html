@@ -128,11 +128,11 @@
       <button class="mob-btn" id="mob-btn" onclick="toggleMob()">☰</button>
       <div class="nav-links" id="nav-links">
         <a href="index.html#how" class="nav-link" onclick="closeMob()">How it works</a>
-        <a href="index.html#install" class="nav-link" onclick="closeMob()">Download App</a>
-        <a href="index.html#why" class="nav-link" onclick="closeMob()">Why FaceMeet</a>
+        <a href="index.html#install" class="nav-link" onclick="closeMob()">Get FaceMeet</a>
+        <a href="community-guidelines.html" class="nav-link" onclick="closeMob()">Safety</a>
         <a href="/events" class="nav-link active" onclick="closeMob()">Events</a>
-        <a href="creators.html" class="nav-link" onclick="closeMob()">Creators</a>
-        <a href="pricing.html" class="nav-link" onclick="closeMob()">Pricing</a>
+
+
         <a href="faq.html" class="nav-link" onclick="closeMob()">FAQ</a>
       </div>
       <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="closeMob()">Get it on Google Play</a>
@@ -144,10 +144,10 @@
       <div>
         <div class="eyebrow">FaceMeet Events</div>
         <h1 class="title">Curated events for<br><em>verified people.</em></h1>
-        <p class="sub">FaceMeet Events help real people connect through social, professional, community, and live topic experiences. The national rollout starts in Dallas, then expands through major cities with approval-required guest lists.</p>
+        <p class="sub">FaceMeet Events help real people connect through social, professional, community, and live topic experiences. Live Topics and real-world gatherings help FaceMeet build trusted connection circles with approval-required guest lists where needed.</p>
         <div class="hero-actions">
           <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer">Download FaceMeet on Google Play to request access</a>
-          <a class="btn secondary" href="index.html#install">iOS & PWA Coming Soon</a>
+          <a class="btn secondary" href="index.html#install">Get FaceMeet</a>
         </div>
       </div>
       <div class="hero-side">
@@ -170,16 +170,16 @@
   <footer>
     <div class="footer-logo">Face<span>Meet</span></div>
     <div class="footer-links">
-      <a href="pricing.html">Pricing</a>
+
       <a href="faq.html">FAQ</a>
-      <a href="creators.html">Creators</a>
+
       <a href="privacy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="child-safety.html">Child Safety</a>
       <a href="#" onclick="document.getElementById('contact-modal').style.display='block';return false;">Contact</a>
       <a href="#" onclick="document.getElementById('support-modal').style.display='block';return false;">Support</a>
     </div>
-    <div class="footer-copy">© 2026 FaceMeet. See them before you swipe.</div>
+    <div class="footer-copy">© 2026 FaceMeet. Meet the people behind the profile.</div>
   </footer>
 
   <div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
@@ -207,7 +207,7 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
     const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
     const UPCOMING_EVENTS = [
-      { title: 'FaceMeet Dallas Social', city: 'Dallas', location: 'Dallas, TX', dateLabel: 'July 16, 2026', month: 'Jul', day: '16', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-dallas.svg', description: 'FaceMeet is bringing curated video-first connection events to Dallas. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
+      { title: 'FaceMeet Live Topic Social', city: 'Launch Cities', location: 'City announced after approval', dateLabel: 'July 16, 2026', month: 'Jul', day: '16', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-dallas.svg', description: 'FaceMeet is building video-first connection events and trusted Live Topic rooms. Venue and final details will be announced soon. Request access to be considered for the right FaceMeet invite list.' },
       { title: 'FaceMeet Austin Social', city: 'Austin', location: 'Austin, TX', dateLabel: 'August 5, 2026', month: 'Aug', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-austin.svg', description: 'FaceMeet is bringing curated video-first connection events to Austin. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
       { title: 'FaceMeet Houston Social', city: 'Houston', location: 'Houston, TX', dateLabel: 'August 20, 2026', month: 'Aug', day: '20', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-houston.svg', description: 'FaceMeet is bringing curated video-first connection events to Houston. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
       { title: 'FaceMeet Atlanta Social', city: 'Atlanta', location: 'Atlanta, GA', dateLabel: 'September 5, 2026', month: 'Sep', day: '5', time: '7:00 PM - 10:00 PM', image: 'assets/events/event-atlanta.svg', description: 'FaceMeet is bringing curated video-first connection events to Atlanta. Venue and final details will be announced soon. Request early access to be considered for the first FaceMeet invite list in your city.' },
@@ -262,7 +262,7 @@
     }
 
 
-    
+
     function accessModePublicMeta(mode) {
       const normalized = String(mode || 'individual_request').trim().toLowerCase();
       if (normalized === 'pair_priority') {
@@ -535,7 +535,7 @@ function guestListPublicMeta(status) {
   <nav class="mobile-tabbar" aria-label="Mobile navigation">
     <a href="index.html">Home</a>
     <a href="/events" aria-current="page">Events</a>
-    <a href="pricing.html">Pricing</a>
+
     <a href="faq.html">FAQ</a>
   </nav>
 </body>
