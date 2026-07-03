@@ -159,10 +159,12 @@ nav#navbar.scrolled {
 #vip-form,#hero-vip-success,#founding-form,#founding-success{display:none!important;}
 
 /* Hero video */
-.hero-visual{display:flex;justify-content:flex-end;align-items:center;position:relative;animation:fadeUp 0.8s 0.2s both;}
-.hero-video-frame{width:min(430px,100%);aspect-ratio:4/5;border-radius:34px;overflow:hidden;border:1px solid rgba(245,240,232,0.14);background:linear-gradient(180deg,rgba(245,240,232,0.06),rgba(245,240,232,0.02));box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 80px rgba(232,80,58,.12);position:relative;}
+.hero-visual{display:flex;justify-content:center;align-items:center;position:relative;animation:fadeUp 0.8s 0.2s both;}
+.hero-video-frame{width:min(330px,100%);aspect-ratio:9/19.5;border-radius:48px;overflow:hidden;border:8px solid #181312;background:#050403;box-shadow:0 42px 95px rgba(0,0,0,.62),0 0 80px rgba(232,80,58,.16),inset 0 0 0 1px rgba(255,255,255,.08);position:relative;}
+.hero-video-frame::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:38%;height:24px;background:#050403;border-radius:0 0 18px 18px;z-index:3;}
+.hero-video-frame::after{content:'';position:absolute;inset:0;border-radius:40px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);pointer-events:none;z-index:2;}
 .hero-video-frame video{width:100%;height:100%;object-fit:cover;display:block;}
-.hero-video-overlay{position:absolute;left:18px;right:18px;bottom:18px;padding:16px;border-radius:20px;background:rgba(10,8,7,.68);border:1px solid rgba(245,240,232,.12);backdrop-filter:blur(16px);}
+.hero-video-overlay{display:none;}
 .hero-video-kicker{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
 .hero-video-title{font-size:18px;font-weight:700;color:var(--cream);}
 .hero-video-sub{font-size:12px;color:var(--cream-dim);line-height:1.5;margin-top:4px;}
@@ -337,7 +339,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   .float-badge{display:none;}
   .phone-wrap{width:220px;}
   .phone{width:280px;height:580px;}
-  .hero-video-frame{max-width:340px;margin:0 auto;}
+  .hero-video-frame{width:min(300px,86vw);margin:0 auto;}
 
   .section{padding:70px 20px;}
   .how-section,.testimonials-section{padding:70px 0;}
