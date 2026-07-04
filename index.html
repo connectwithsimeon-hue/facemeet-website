@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>FaceMeet — Video-first professional and meaningful connections</title>
+<title>FaceMeet — Trusted connections through real conversations</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="description" content="Follow interesting people, join Live Topics, and Spark real FaceMeetings on FaceMeet, a video-first network for professional and meaningful connections.">
-<meta property="og:title" content="FaceMeet — Video-first professional and meaningful connections">
-<meta property="og:description" content="Meet the people behind the profile. Follow interesting people, join Live Topics, and Spark real FaceMeetings.">
+<meta name="description" content="FaceMeet is a trusted network where meaningful relationships begin through real conversations instead of profiles and messages.">
+<meta property="og:title" content="FaceMeet — Trusted connections through real conversations">
+<meta property="og:description" content="A trusted network where meaningful relationships begin through real conversations instead of profiles and messages.">
 <meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta property="og:url" content="https://facemeet.app/">
 <meta property="og:type" content="website">
@@ -225,6 +225,14 @@ nav#navbar.scrolled {
 .events-preview-card h3{font-size:16px;font-weight:700;color:var(--cream);margin:0;}
 .events-preview-card p{font-size:14px;line-height:1.7;color:var(--cream-dim);margin:0;}
 .events-preview-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;background:var(--coral);color:white;text-decoration:none;padding:14px 24px;border-radius:999px;font-size:14px;font-weight:700;}
+.onboarding-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:42px;}
+.onboarding-card{background:linear-gradient(180deg,rgba(245,240,232,0.055),rgba(245,240,232,0.022));border:1px solid var(--border);border-radius:24px;padding:22px;min-height:300px;display:flex;flex-direction:column;gap:18px;box-shadow:0 22px 60px rgba(0,0,0,0.2);}
+.onboarding-art{height:138px;border-radius:20px;background:radial-gradient(circle at 24% 26%,rgba(232,80,58,0.35),transparent 26%),radial-gradient(circle at 72% 20%,rgba(212,168,71,0.24),transparent 24%),linear-gradient(135deg,rgba(245,240,232,0.08),rgba(245,240,232,0.025));border:1px solid rgba(245,240,232,0.08);position:relative;overflow:hidden;}
+.onboarding-art::before{content:'';position:absolute;left:22px;right:22px;bottom:22px;height:44px;border-radius:18px;background:rgba(10,8,7,0.42);border:1px solid rgba(245,240,232,0.08);}
+.onboarding-art::after{content:attr(data-symbol);position:absolute;inset:auto 22px 24px auto;width:54px;height:54px;border-radius:18px;background:var(--coral-dim);border:1px solid rgba(232,80,58,0.25);display:flex;align-items:center;justify-content:center;color:var(--coral);font-size:24px;font-weight:800;}
+.onboarding-card h3{font-size:18px;color:var(--cream);margin:0;}
+.onboarding-card p{font-size:14px;line-height:1.75;color:var(--cream-dim);margin:0;}
+.onboarding-note{color:var(--muted);font-size:13px;line-height:1.7;margin-top:18px;max-width:720px;}
 
 /* HOW IT WORKS */
 .how-section{padding:100px 0;background:linear-gradient(to bottom,transparent,rgba(232,80,58,0.04),transparent);}
@@ -354,7 +362,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   .how-inner,.testimonials-inner{padding:0 20px;}
   .steps{grid-template-columns:1fr;gap:32px;}
   .steps::before{display:none;}
-  .why-grid,.quotes-grid,.events-preview-grid{grid-template-columns:1fr;}
+  .why-grid,.quotes-grid,.events-preview-grid,.onboarding-grid{grid-template-columns:1fr;}
   .city-unlock-section{padding:70px 20px;}
   .city-grid{grid-template-columns:1fr;}
   .cta-section{padding:80px 20px;}
@@ -393,13 +401,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <section class="hero" id="home">
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-eyebrow">⚡ Video-first connection network</div>
+      <div class="hero-eyebrow">⚡ Trusted connection network</div>
       <h1 class="hero-headline">
-        <span>Meet the people</span><br>
-        <span class="c">behind the profile.</span>
+        <span>Meaningful relationships</span><br>
+        <span class="c">begin with real conversations.</span>
       </h1>
-      <p class="hero-sub" style="font-size:20px;color:var(--cream);font-weight:500;margin-bottom:16px;">Follow interesting people. Join Live Topics. Spark real FaceMeetings.</p>
-      <p class="hero-sub">FaceMeet is a video-first network for professional and meaningful connections — built around short video intros, live conversations, and high-intent FaceMeetings.</p>
+      <p class="hero-sub" style="font-size:20px;color:var(--cream);font-weight:500;margin-bottom:16px;">Trusted Connections. Professional Connections. Founder Networks. Career Opportunities. Mentorship. Communities.</p>
+      <p class="hero-sub">FaceMeet is a trusted network where meaningful relationships begin through real conversations instead of profiles and messages.</p>
 
       <div class="dl-row" style="margin-bottom:18px;">
         <a href="#install" class="dl-btn primary" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'});return false;">
@@ -413,13 +421,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       </div>
 
       <div class="hero-proof" style="margin-bottom:24px;">
-        <div class="hero-proof-title">Built for meaningful connection</div>
+        <div class="hero-proof-title">Built for trusted relationships</div>
         <div class="hero-proof-chips">
-          <span class="hero-proof-chip"><strong>Real video profiles</strong></span>
-          <span class="hero-proof-chip"><strong>Follow people</strong></span>
+          <span class="hero-proof-chip"><strong>Trusted Connections</strong></span>
+          <span class="hero-proof-chip"><strong>Professional Connections</strong></span>
+          <span class="hero-proof-chip"><strong>Founder Networks</strong></span>
+          <span class="hero-proof-chip"><strong>Mentorship</strong></span>
           <span class="hero-proof-chip"><strong>Live Topics</strong></span>
-          <span class="hero-proof-chip"><strong>Sparks</strong></span>
-          <span class="hero-proof-chip"><strong>FaceMeetings</strong></span>
         </div>
       </div>
       <div class="hero-learn-links" aria-label="Learn more about FaceMeet">
@@ -438,9 +446,9 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
           <span>Sound</span>
         </button>
         <div class="hero-video-overlay">
-          <div class="hero-video-kicker">Live-first connection</div>
-          <div class="hero-video-title">Profiles, topics, and real FaceMeetings.</div>
-          <div class="hero-video-sub">A network built around presence, intent, and conversations worth continuing.</div>
+          <div class="hero-video-kicker">Conversation-first network</div>
+          <div class="hero-video-title">People, topics, and relationships worth continuing.</div>
+          <div class="hero-video-sub">A trusted network built around presence, intent, and real conversation.</div>
         </div>
       </div>
     </div>
@@ -451,60 +459,101 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <div class="how-section" id="how">
   <div class="how-inner reveal">
     <div class="section-eyebrow">How FaceMeet works</div>
-    <h2 class="section-title">A simple loop for<br><em>real connection.</em></h2>
+    <h2 class="section-title">A simple loop for<br><em>trusted connection.</em></h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <span class="step-icon">＋</span>
-        <div class="step-title">Follow</div>
-        <p class="step-desc">Follow people worth knowing. Build your graph without awkward connection requests.</p>
+        <div class="step-title">Discover intent</div>
+        <p class="step-desc">Find people through trusted interests, communities, Live Topics, and shared professional context.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <span class="step-icon">◉</span>
         <div class="step-title">Live Topics</div>
-        <p class="step-desc">Join live conversations hosted by real people. Follow hosts and speakers you want to hear from again.</p>
+        <p class="step-desc">Join hosted conversations where people can show presence before a private message ever starts.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <span class="step-icon">⚡</span>
-        <div class="step-title">Spark</div>
-        <p class="step-desc">Use Sparks when you want a real FaceMeeting with someone.</p>
+        <div class="step-title">Signal interest</div>
+        <p class="step-desc">Use Sparks when a conversation, person, or opportunity deserves a more intentional next step.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <span class="step-icon">▣</span>
-        <div class="step-title">FaceMeetings</div>
-        <p class="step-desc">Turn profiles and live conversations into real face-to-face conversations.</p>
+        <div class="step-title">Build relationships</div>
+        <p class="step-desc">Move from context to real conversation, then into meaningful professional, social, or community relationships.</p>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ONBOARDING ILLUSTRATIONS -->
+<div class="section reveal" id="onboarding">
+  <div class="section-eyebrow">Onboarding paths</div>
+  <h2 class="section-title">Choose the room where your<br><em>next relationship can begin.</em></h2>
+  <p class="section-sub">These placeholder illustrations represent the six onboarding paths FaceMeet will use to guide people into the right kinds of conversations while final brand artwork is being produced.</p>
+  <div class="onboarding-grid">
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="T"></div>
+      <h3>Trusted Connections</h3>
+      <p>Meet real people through video-first context, shared intent, and community standards that make trust easier to build.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="P"></div>
+      <h3>Professional Connections</h3>
+      <p>Replace cold outreach with conversations that show presence, credibility, and mutual relevance from the start.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="F"></div>
+      <h3>Founder Networks</h3>
+      <p>Help founders, builders, operators, and early teams meet around ideas, momentum, and useful introductions.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="C"></div>
+      <h3>Career Opportunities</h3>
+      <p>Create better paths to roles, referrals, hiring conversations, industry insight, and people who can open doors.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="M"></div>
+      <h3>Mentorship</h3>
+      <p>Make guidance more human by connecting mentors and learners through live context, not anonymous messages.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="C"></div>
+      <h3>Communities</h3>
+      <p>Bring trusted groups, local circles, faith communities, alumni networks, and interest-based rooms into real conversation.</p>
+    </article>
+  </div>
+  <p class="onboarding-note">Live Topics and Events extend these paths into hosted conversations and curated gatherings as the network grows.</p>
+</div>
+
 <!-- INTENT CATEGORIES -->
 <div class="section reveal" id="connection-intent">
-  <div class="section-eyebrow">Launch intent categories</div>
-  <h2 class="section-title">Built for the connections<br><em>people actually want to make.</em></h2>
-  <p class="section-sub">FaceMeet gives people a clearer way to find useful, thoughtful, high-intent conversations.</p>
+  <div class="section-eyebrow">Connection intent</div>
+  <h2 class="section-title">Built for relationships<br><em>with a reason to start.</em></h2>
+  <p class="section-sub">FaceMeet helps people enter the right conversation path instead of guessing from profiles and messages.</p>
   <div class="why-grid">
-    <div class="why-card"><div class="why-icon">✦</div><div class="why-title">Professional connections</div><p class="why-desc">Meet useful people beyond static profiles and cold DMs.</p></div>
-    <div class="why-card"><div class="why-icon">▰</div><div class="why-title">Founder/operator network</div><p class="why-desc">Connect with founders, builders, operators, and people building things.</p></div>
-    <div class="why-card"><div class="why-icon">↗</div><div class="why-title">Career opportunities</div><p class="why-desc">Meet people who can open doors, share roles, referrals, or industry insight.</p></div>
-    <div class="why-card"><div class="why-icon">◎</div><div class="why-title">Mentorship</div><p class="why-desc">Learn from people ahead of you or offer guidance to others.</p></div>
-    <div class="why-card"><div class="why-icon">♡</div><div class="why-title">Friends and meaningful conversations</div><p class="why-desc">Meet thoughtful people for real conversations, not random feeds.</p></div>
+    <div class="why-card"><div class="why-icon">✦</div><div class="why-title">Professional Connections</div><p class="why-desc">Meet useful people through context, conversation, and presence instead of low-context outreach.</p></div>
+    <div class="why-card"><div class="why-icon">▰</div><div class="why-title">Founder Networks</div><p class="why-desc">Connect with founders, builders, operators, and people creating things together.</p></div>
+    <div class="why-card"><div class="why-icon">↗</div><div class="why-title">Career Opportunities</div><p class="why-desc">Meet people who can open doors, share roles, referrals, and industry insight.</p></div>
+    <div class="why-card"><div class="why-icon">◎</div><div class="why-title">Mentorship</div><p class="why-desc">Learn from people ahead of you or offer guidance in a more human way.</p></div>
+    <div class="why-card"><div class="why-icon">♡</div><div class="why-title">Communities</div><p class="why-desc">Build trusted local, professional, faith, alumni, and interest-based circles.</p></div>
+    <div class="why-card"><div class="why-icon">★</div><div class="why-title">Events</div><p class="why-desc">Extend online trust into curated gatherings and hosted rooms with intentional access.</p></div>
   </div>
 </div>
 
 <!-- LIVE TOPICS -->
 <div class="section reveal" id="live-topics">
   <div class="section-eyebrow">Live Topics</div>
-  <h2 class="section-title">Live conversations,<br><em>not empty profiles.</em></h2>
-  <p class="section-sub">Join pop-up conversations with hosts, co-hosts, speakers, and viewers. Follow people you hear. Spark the conversations worth continuing.</p>
+  <h2 class="section-title">Live Topics turn interest<br><em>into real conversation.</em></h2>
+  <p class="section-sub">Join hosted conversations around professional connections, founder networks, career opportunities, mentorship, communities, and events.</p>
   <div class="events-preview-grid">
-    <div class="events-preview-card"><div class="events-preview-icon">▰</div><h3>Founder/operator rooms</h3><p>Talk with builders, founders, operators, and people shaping new ideas.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">↗</div><h3>Career opportunity rooms</h3><p>Find conversations around roles, referrals, industries, and paths forward.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">◎</div><h3>Mentorship sessions</h3><p>Learn from people ahead of you or share what you know with others.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">♡</div><h3>Meaningful conversation rooms</h3><p>Meet thoughtful people around topics that deserve more than a feed comment.</p></div>
+    <div class="events-preview-card"><div class="events-preview-icon">▰</div><h3>Founder rooms</h3><p>Talk with builders, founders, operators, and people shaping new ideas.</p></div>
+    <div class="events-preview-card"><div class="events-preview-icon">↗</div><h3>Career rooms</h3><p>Find conversations around roles, referrals, industries, and paths forward.</p></div>
+    <div class="events-preview-card"><div class="events-preview-icon">◎</div><h3>Mentorship rooms</h3><p>Learn from people ahead of you or share what you know with others.</p></div>
+    <div class="events-preview-card"><div class="events-preview-icon">♡</div><h3>Community rooms</h3><p>Meet thoughtful people around shared interests, local circles, and real-world communities.</p></div>
   </div>
   <a class="events-preview-cta" href="/#live-topics">Explore Live Topics →</a>
 </div>
@@ -513,7 +562,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <div class="section reveal" id="founding-circle">
   <div class="section-eyebrow">Founding Circle</div>
   <h2 class="section-title">Join the FaceMeet<br><em>Founding Circle.</em></h2>
-  <p class="section-sub">We’re opening FaceMeet with a limited group of people who want better professional and meaningful connections. Founding Members get early access, a founding badge, and limited invite passes.</p>
+  <p class="section-sub">We’re opening FaceMeet with a limited group of people who want trusted connections, professional introductions, founder networks, mentorship, communities, Live Topics, and events.</p>
   <div class="hero-proof" style="margin-top:28px;max-width:720px;">
     <div class="hero-proof-title">Bring 3 people you would actually want in the room</div>
     <p style="color:var(--cream-dim);font-size:15px;line-height:1.75;margin:0 0 18px;">Founding Circle access is limited while we build the first trusted rooms.</p>
@@ -525,15 +574,15 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 48px;" id="safety">
   <div style="max-width:1200px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:36px;">
-      <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;">Safety and trust</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:10px;">Real people. Clear intent.<br><em style="font-style:italic;color:var(--coral);">Better boundaries.</em></h2>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;">Trusted Connections</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:10px;">Real people. Real context.<br><em style="font-style:italic;color:var(--coral);">Better conversations.</em></h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Video-first profiles</div><p class="why-desc">Members start with short video intros so people can see presence before investing time.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Reporting and blocking</div><p class="why-desc">Members can report and block behavior that does not fit the community standards.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Profile moderation</div><p class="why-desc">Profile-video moderation and admin review help keep the network intentional.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Controlled Live Topic access</div><p class="why-desc">Curated rooms and admin controls support safer, more useful conversations.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">No cold DMs without mutual intent</div><p class="why-desc">FaceMeet is designed around intentional follow, Spark, and FaceMeeting behavior.</p></div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Conversation before messaging</div><p class="why-desc">FaceMeet is designed around intentional context before private chat becomes the center of the relationship.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Clear community standards</div><p class="why-desc">Public policies explain what belongs on FaceMeet and what does not.</p></div>
     </div>
   </div>
@@ -541,8 +590,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 
 <div class="section reveal" id="events-preview">
   <div class="section-eyebrow">Events</div>
-  <h2 class="section-title">Live Topics and gatherings<br><em>for trusted connection circles.</em></h2>
-  <p class="section-sub">Start with video-first conversations. Continue through FaceMeetings, Live Topics, and curated community events.</p>
+  <h2 class="section-title">Events turn trusted context<br><em>into community.</em></h2>
+  <p class="section-sub">Start with real conversations. Continue through Live Topics, FaceMeetings, and curated gatherings for communities that should exist beyond a message thread.</p>
   <div class="events-preview-grid">
     <div class="events-preview-card"><div class="events-preview-icon">◎</div><h3>Limited rooms</h3><p>Events and rooms stay intentionally focused so conversations can actually happen.</p></div>
     <div class="events-preview-card"><div class="events-preview-icon">✦</div><h3>Reviewed access</h3><p>Access can be reviewed to keep each experience intentional and aligned.</p></div>
@@ -558,13 +607,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
   <div style="max-width:920px;margin:0 auto;position:relative;z-index:1;" class="reveal">
     <div style="text-align:center;margin-bottom:44px;">
       <div class="section-eyebrow">Get FaceMeet</div>
-      <h2 class="section-title">Start with video.<br><em>Continue with intent.</em></h2>
-      <p class="section-sub" style="margin:0 auto;">Android is live on Google Play. Web access is available for supported public links and app routes. iPhone access will be announced when it is ready.</p>
+      <h2 class="section-title">Start with conversation.<br><em>Continue with trust.</em></h2>
+      <p class="section-sub" style="margin:0 auto;">Android is live on Google Play. Join FaceMeet to discover trusted connections, professional conversations, Live Topics, and events.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
       <div class="beta-download-card" style="max-width:none;">
         <div class="beta-download-title">Download on Google Play</div>
-        <p class="beta-download-sub">Install the approved Android app, create your video intro, follow interesting people, join Live Topics, and Spark real FaceMeetings.</p>
+        <p class="beta-download-sub">Install the approved Android app, create your video intro, discover trusted communities, join Live Topics, and start conversations worth continuing.</p>
         <a class="store-button primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')">
           <span><span class="store-small">Android app</span><span class="store-main">Download on Google Play</span></span>
           <span>→</span>
@@ -587,7 +636,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <footer class="fm-site-footer">
   <div class="fm-site-footer__brand">
     <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
+    <div class="fm-site-footer__tagline">Meaningful relationships begin through real conversations, trusted communities, Live Topics, and events.</div>
   </div>
   <div class="fm-site-footer__links">
     <a href="/why-facemeet-exists">Why FaceMeet</a>

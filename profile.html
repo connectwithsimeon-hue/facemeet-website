@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FaceMeet Public Profile</title>
-<meta name="description" content="Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.">
+<meta name="description" content="A FaceMeet public profile for trusted, video-first connection through real conversations, communities, Live Topics, and Events.">
 <meta property="og:title" content="FaceMeet Public Profile">
-<meta property="og:description" content="Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.">
+<meta property="og:description" content="A FaceMeet public profile for trusted, video-first connection through real conversations, communities, Live Topics, and Events.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FaceMeet Public Profile">
-<meta name="twitter:description" content="Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.">
+<meta name="twitter:description" content="A FaceMeet public profile for trusted, video-first connection through real conversations, communities, Live Topics, and Events.">
 <meta name="twitter:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
@@ -501,7 +501,7 @@ a { color:inherit; }
 <div class="page-shell">
 <main id="loading-state" class="loading">
     <h1>Loading FaceMeet profile...</h1>
-    <p>Opening a public video-first profile preview.</p>
+    <p>Opening a public FaceMeet preview built around trusted, video-first connection.</p>
   </main>
 
   <main id="profile-state" class="profile-layout hidden">
@@ -520,15 +520,15 @@ a { color:inherit; }
     </section>
 
     <section class="copy-column" aria-label="FaceMeet profile details">
-      <div class="eyebrow">Verified video-first connections</div>
-      <h2 class="headline"><span id="headline-name">Meet someone</span> <em>face-to-face.</em></h2>
+      <div class="eyebrow">Trusted video-first connection</div>
+      <h2 class="headline"><span id="headline-name">Meet someone</span> through <em>real conversation.</em></h2>
       <div class="category-strip" aria-label="FaceMeet connection categories">
         <div class="category-pill"><span>◆</span>Professional Connections</div>
         <div class="category-pill"><span>+</span>Friendship</div>
         <div class="category-pill"><span>♡</span>Social Connections</div>
         <div class="category-pill"><span>★</span>Live Topic Conversations</div>
       </div>
-      <p class="intro-text">FaceMeet is a verified video-first social connection platform for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.</p>
+      <p class="intro-text">FaceMeet is a trusted network where meaningful relationships begin through real conversations, Professional Connections, Communities, Live Topics, and Events.</p>
       <div class="bio-block" id="bio-block">
         <div class="bio-label">About Me</div>
         <p class="bio-text" id="profile-bio"></p>
@@ -551,7 +551,7 @@ a { color:inherit; }
 <footer class="fm-site-footer">
   <div class="fm-site-footer__brand">
     <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meet the people behind the profile. Follow people. Join Live Topics. Spark real FaceMeetings.</div>
+    <div class="fm-site-footer__tagline">Meaningful relationships begin through real conversations, trusted communities, Live Topics, and events.</div>
   </div>
   <div class="fm-site-footer__links">
     <a href="/why-facemeet-exists">Why FaceMeet</a>
@@ -698,7 +698,7 @@ function renderMedia(profile) {
     `;
     return;
   }
-  frame.innerHTML = '<div class="media-placeholder">This member has a video-first FaceMeet profile.</div>';
+  frame.innerHTML = '<div class="media-placeholder">This member has a FaceMeet profile built for trusted, video-first connection.</div>';
 }
 
 function renderProfile(profile) {
@@ -710,7 +710,7 @@ function renderProfile(profile) {
   const bio = text(profile.bio);
 
   document.title = `${name} is on FaceMeet`;
-  const description = 'Video-first social connections for Professional Connections, Friendship, Social Connections, and Live Topic Conversations.';
+  const description = 'A FaceMeet public profile for trusted, video-first connection through real conversations, communities, Live Topics, and Events.';
   document.querySelector('meta[name="description"]')?.setAttribute('content', description);
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${name} is on FaceMeet`);
   document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
