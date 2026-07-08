@@ -2515,7 +2515,34 @@ tr:hover td { background: var(--surface2); }
     <!-- REVENUE PAGE -->
     <div class="page" id="page-revenue">
       <div class="section-title">Revenue</div>
-      <div class="section-sub">Subscription tiers and payment tracking</div>
+      <div class="section-sub">Real platform economy — payments, Sparks purchased and consumed</div>
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+        <div class="stat-card coral">
+          <div class="stat-value coral" id="eco-revenue">—</div>
+          <div class="stat-label">Total Revenue (real payments)</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-value green" id="eco-purchased">—</div>
+          <div class="stat-label">Sparks Purchased (bundles)</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-value gold" id="eco-consumed">—</div>
+          <div class="stat-label">Sparks Consumed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="eco-outstanding">—</div>
+          <div class="stat-label">Outstanding Spark Balances</div>
+        </div>
+      </div>
+      <div class="table-card" style="margin-bottom:24px;">
+        <div class="table-header">
+          <div class="table-title">Daily Economy (last 30 days)</div>
+          <div class="table-count" id="eco-table-count"></div>
+        </div>
+        <div id="eco-table-body">
+          <div class="loading"><span class="spinner"></span>Loading...</div>
+        </div>
+      </div>
       <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px;">
         <div class="stat-card green">
           <div class="stat-value green" id="r-spark-plus">—</div>
@@ -7832,7 +7859,45 @@ async function loadSessions() {
   document.getElementById('sessions-table-body').innerHTML = html;
 }
 
+async function loadEconomyDaily() {
+  try {
+    const data = await rpc('admin_get_economy_daily', { p_days: 30 });
+    if (!data || data.error) throw new Error(data && data.error ? data.error : 'no data');
+    const t = data.totals || {};
+    setText('eco-revenue', '$' + ((t.revenue_cents || 0) / 100).toFixed(2));
+    setText('eco-purchased', t.sparks_purchased || 0);
+    setText('eco-consumed', t.sparks_consumed || 0);
+    setText('eco-outstanding', t.outstanding_spark_balance || 0);
+
+    const days = (data.days || []).filter(d =>
+      (d.revenue_cents || 0) > 0 || (d.sparks_consumed_total || 0) > 0 || (d.payment_count || 0) > 0);
+    setText('eco-table-count', days.length + ' active days');
+    let html = '<table><thead><tr><th>Day</th><th>Revenue</th><th>Payments</th><th>Sparks Bought</th><th>Stage Joins</th><th>Replay Unlocks</th><th>Spark Sessions</th><th>Live Topic Costs</th><th>Consumed Total</th></tr></thead><tbody>';
+    if (days.length === 0) {
+      html += '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">No economy activity yet</td></tr>';
+    }
+    days.forEach(d => {
+      html += '<tr><td>' + d.day + '</td>'
+        + '<td>$' + ((d.revenue_cents || 0) / 100).toFixed(2) + '</td>'
+        + '<td>' + (d.payment_count || 0) + '</td>'
+        + '<td>' + (d.sparks_purchased || 0) + '</td>'
+        + '<td>' + (d.sparks_stage_joins || 0) + '</td>'
+        + '<td>' + (d.sparks_replay_unlocks || 0) + '</td>'
+        + '<td>' + (d.sparks_spark_sessions || 0) + '</td>'
+        + '<td>' + (d.sparks_live_topic_costs || 0) + '</td>'
+        + '<td><strong>' + (d.sparks_consumed_total || 0) + '</strong></td></tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('eco-table-body').innerHTML = html;
+  } catch (e) {
+    console.warn('economy load failed', e);
+    document.getElementById('eco-table-body').innerHTML =
+      '<div style="text-align:center;color:var(--muted);padding:24px">Economy data unavailable</div>';
+  }
+}
+
 async function loadRevenue() {
+  loadEconomyDaily();
   const users = await query('users', 'id,first_name,email,subscription_tier,subscription_expires_at,created_at', {}, 500, 'created_at');
   const sparkPlus = users.filter(u => u.subscription_tier === 'spark_plus').length;
   const gold = users.filter(u => u.subscription_tier === 'gold').length;
