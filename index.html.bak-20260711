@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>FaceMeet — Where founders, investors and talent meet face to face</title>
+<title>FaceMeet — Trusted connections through real conversations</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="description" content="FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host.">
-<meta property="og:title" content="FaceMeet — Where founders, investors and talent meet face to face">
-<meta property="og:description" content="A video-first network for the startup ecosystem. Pitch live, meet co-founders, find first hires, and earn from the conversations you host.">
+<meta name="description" content="FaceMeet is a trusted network where meaningful relationships begin through real conversations instead of profiles and messages.">
+<meta property="og:title" content="FaceMeet — Trusted connections through real conversations">
+<meta property="og:description" content="A trusted network where meaningful relationships begin through real conversations instead of profiles and messages.">
 <meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta property="og:url" content="https://facemeet.app/">
 <meta property="og:type" content="website">
@@ -381,116 +381,52 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <body>
 
 <nav class="fm-site-nav" aria-label="FaceMeet site navigation">
-<style>
-.fm2-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
-.fm2-brand{display:flex;align-items:center;gap:10px;color:#f5f0e8;text-decoration:none;font-size:19px;font-weight:800}
-.fm2-brand img{width:40px;height:40px;border-radius:11px;object-fit:cover}
-.fm2-brand b{font-weight:800}.fm2-brand b span{color:#e8503a}
-.fm2-links{display:flex;align-items:center;gap:4px;margin-left:auto}
-.fm2-item{position:relative}
-.fm2-top{display:inline-flex;align-items:center;gap:5px;color:rgba(245,240,232,.75);text-decoration:none;font-size:14px;padding:9px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.fm2-top:hover{color:#f5f0e8;background:rgba(245,240,232,.06)}
-.fm2-caret{font-size:9px;opacity:.7}
-.fm2-menu{position:absolute;top:100%;left:0;min-width:190px;background:#141110;border:1px solid rgba(245,240,232,.14);border-radius:14px;padding:6px;display:none;box-shadow:0 18px 50px rgba(0,0,0,.5);z-index:60}
-.fm2-item:hover .fm2-menu,.fm2-item:focus-within .fm2-menu{display:block}
-.fm2-menu a{display:block;color:rgba(245,240,232,.78);text-decoration:none;font-size:13.5px;padding:9px 12px;border-radius:9px;white-space:nowrap}
-.fm2-menu a:hover{color:#f5f0e8;background:rgba(232,80,58,.12)}
-.fm2-cta{background:#e8503a;color:#fff !important;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;margin-left:6px}
-.fm2-burger{display:none;background:none;border:1px solid rgba(245,240,232,.18);border-radius:10px;color:#f5f0e8;font-size:17px;line-height:1;padding:8px 11px;cursor:pointer;margin-left:auto}
-.fm2-sheet{display:none;position:fixed;inset:0;background:#0a0807;z-index:9999;overflow-y:auto;padding:18px 22px 40px}
-.fm2-sheet.open{display:block}
-.fm2-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.fm2-close{background:none;border:none;color:#f5f0e8;font-size:24px;line-height:1;cursor:pointer}
-.fm2-group{color:#8a7e72;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:18px 0 4px;font-weight:700}
-.fm2-sheet a{display:block;color:#f5f0e8;text-decoration:none;font-size:16px;padding:11px 0;border-bottom:1px solid rgba(245,240,232,.06)}
-.fm2-sheet a.fm2-cta{display:block;text-align:center;margin:22px 0 0;border-bottom:none}
-@media(max-width:900px){.fm2-links{display:none}.fm2-burger{display:block}}
-</style>
-<div class="fm2-inner">
-  <a href="/" class="fm2-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-  <div class="fm2-links">
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Product <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/why-facemeet-exists">Why FaceMeet</a>
-        <a href="/#how">How it works</a>
-        <a href="/sparks">Sparks</a>
-        <a href="/#pitch-rooms">Pitch Rooms</a>
-        <a href="/#live-topics">Live Topics</a>
-      </div>
+  <div class="fm-site-nav__inner">
+    <a href="/" class="fm-site-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-nav__links">
+      <a href="/why-facemeet-exists">Why FaceMeet</a>
+      <a href="/sparks">Sparks</a>
+      <a href="/#how">How it works</a>
+      <a href="/#live-topics">Live Topics</a>
+      <a href="/join">Founding Circle</a>
+      <a href="/events">Events</a>
+      <a href="/community-guidelines">Safety</a>
+      <a href="/faq">FAQ</a>
+      <a class="fm-site-nav__cta" href="/#install">Get FaceMeet</a>
     </div>
-    <a class="fm2-top" href="/recruiters">Recruiters</a>
-    <a class="fm2-top" href="/events">Events</a>
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Company <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/join">Join</a>
-        <a href="/community-guidelines">Safety</a>
-        <a href="/faq">FAQ</a>
-        <a href="mailto:hello@facemeet.app">Contact</a>
-      </div>
-    </div>
-    <a class="fm2-cta" href="/#install">Get FaceMeet</a>
   </div>
-  <button class="fm2-burger" type="button" aria-label="Open menu" onclick="var s=document.getElementById('fm2Sheet');if(s.parentElement!==document.body){document.body.appendChild(s)}s.classList.toggle('open')">&#9776;</button>
-</div>
-<div class="fm2-sheet" id="fm2Sheet">
-  <div class="fm2-sheet-head">
-    <a href="/" class="fm2-brand"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-    <button class="fm2-close" type="button" aria-label="Close menu" onclick="document.getElementById('fm2Sheet').classList.remove('open')">&#215;</button>
-  </div>
-  <div class="fm2-group">Product</div>
-  <a href="/why-facemeet-exists">Why FaceMeet</a>
-  <a href="/#how">How it works</a>
-  <a href="/sparks">Sparks</a>
-  <a href="/#pitch-rooms">Pitch Rooms</a>
-  <a href="/#live-topics">Live Topics</a>
-  <div class="fm2-group">Explore</div>
-  <a href="/recruiters">Recruiters</a>
-  <a href="/events">Events</a>
-  <div class="fm2-group">Company</div>
-  <a href="/join">Join</a>
-  <a href="/community-guidelines">Safety</a>
-  <a href="/faq">FAQ</a>
-  <a class="fm2-cta" href="/#install">Get FaceMeet</a>
-</div>
 </nav>
-
 
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-eyebrow">⚡ The startup ecosystem, face to face</div>
+      <div class="hero-eyebrow">⚡ Trusted connection network</div>
       <h1 class="hero-headline">
-        <span>Where founders, investors and talent</span><br>
-        <span class="c">meet face to face.</span>
+        <span>Meaningful relationships</span><br>
+        <span class="c">begin with real conversations.</span>
       </h1>
-      <p class="hero-sub" style="font-size:20px;color:var(--cream);font-weight:500;margin-bottom:16px;">Founders. Investors. Talent. Mentors. Co-founders. First hires.</p>
-      <p class="hero-sub">FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host — no cold outreach, no endless messages.</p>
+      <p class="hero-sub" style="font-size:20px;color:var(--cream);font-weight:500;margin-bottom:16px;">Trusted Connections. Professional Connections. Founder Networks. Career Opportunities. Mentorship. Communities.</p>
+      <p class="hero-sub">FaceMeet is a trusted network where meaningful relationships begin through real conversations instead of profiles and messages.</p>
 
-      <div class="dl-row" style="margin-bottom:18px;gap:10px;">
-        <a href="https://testflight.apple.com/join/TrH8nRKr" class="dl-btn ios" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('ios_testflight_hero')">
-          <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.98-.2 1.92-.86 3.14-.78 1.42.11 2.49.67 3.19 1.7-2.94 1.76-2.24 5.63.44 6.87-.53 1.4-1.22 2.79-2.85 4.38zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.85;">iPhone Beta</span><span style="display:block;font-size:13.5px;">TestFlight</span></span>
+      <div class="dl-row" style="margin-bottom:18px;">
+        <a href="#install" class="dl-btn primary" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'});return false;">
+          <span class="dl-icon" aria-hidden="true">↗</span>
+          <span>Get FaceMeet</span>
         </a>
-        <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" class="dl-btn android" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('android_play_hero')">
-          <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35zm13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27zm3.35-4.31c.34.27.59.69.59 1.19s-.25.92-.59 1.19l-2.29 1.32-2.5-2.51 2.5-2.5 2.29 1.31zM6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.75;">Android</span><span style="display:block;font-size:13.5px;">Google Play</span></span>
-        </a>
-        <a href="https://app.facemeet.app" class="dl-btn android" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('webapp_hero')">
-          <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.75;">Any device</span><span style="display:block;font-size:13.5px;">Web App</span></span>
+        <a href="#founding-circle" class="dl-btn secondary">
+          <span class="dl-icon" aria-hidden="true">✦</span>
+          <span>Join the Founding Circle</span>
         </a>
       </div>
 
       <div class="hero-proof" style="margin-bottom:24px;">
-        <div class="hero-proof-title">Built for people building things</div>
+        <div class="hero-proof-title">Built for trusted relationships</div>
         <div class="hero-proof-chips">
-          <span class="hero-proof-chip"><strong>Pitch Rooms</strong></span>
-          <span class="hero-proof-chip"><strong>Co-founder Matching</strong></span>
-          <span class="hero-proof-chip"><strong>First Hires</strong></span>
-          <span class="hero-proof-chip"><strong>Host Earnings</strong></span>
+          <span class="hero-proof-chip"><strong>Trusted Connections</strong></span>
+          <span class="hero-proof-chip"><strong>Professional Connections</strong></span>
+          <span class="hero-proof-chip"><strong>Founder Networks</strong></span>
+          <span class="hero-proof-chip"><strong>Mentorship</strong></span>
           <span class="hero-proof-chip"><strong>Live Topics</strong></span>
         </div>
       </div>
@@ -510,8 +446,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
           <span>Sound</span>
         </button>
         <div class="hero-video-overlay">
-          <div class="hero-video-kicker">The startup ecosystem, live</div>
-          <div class="hero-video-title">Founders, investors and talent worth meeting.</div>
+          <div class="hero-video-kicker">Conversation-first network</div>
+          <div class="hero-video-title">People, topics, and relationships worth continuing.</div>
           <div class="hero-video-sub">A trusted network built around presence, intent, and real conversation.</div>
         </div>
       </div>
@@ -529,7 +465,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
         <div class="step-num">1</div>
         <span class="step-icon">＋</span>
         <div class="step-title">Discover intent</div>
-        <p class="step-desc">A curated feed of founders, investors and talent — with a reason why each person is worth meeting, framed for you.</p>
+        <p class="step-desc">Find people through trusted interests, communities, Live Topics, and shared professional context.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
@@ -546,8 +482,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       <div class="step">
         <div class="step-num">4</div>
         <span class="step-icon">▣</span>
-        <div class="step-title">Build connections</div>
-        <p class="step-desc">Move from a live conversation to a co-founder, an investor intro, a first hire — the connections that change a company.</p>
+        <div class="step-title">Build relationships</div>
+        <p class="step-desc">Move from context to real conversation, then into meaningful professional, social, or community relationships.</p>
       </div>
     </div>
   </div>
@@ -556,23 +492,23 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <!-- ONBOARDING ILLUSTRATIONS -->
 <div class="section reveal" id="onboarding">
   <div class="section-eyebrow">Onboarding paths</div>
-  <h2 class="section-title">Choose the room where your<br><em>next connection can begin.</em></h2>
-  <p class="section-sub">FaceMeet asks who you are and what you need, then guides you into the right rooms from day one.</p>
+  <h2 class="section-title">Choose the room where your<br><em>next relationship can begin.</em></h2>
+  <p class="section-sub">These placeholder illustrations represent the six onboarding paths FaceMeet will use to guide people into the right kinds of conversations while final brand artwork is being produced.</p>
   <div class="onboarding-grid">
     <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="F"></div>
-      <h3>Founders</h3>
-      <p>Say what you're building and what you need. Meet co-founders, advisors, early users — and pitch investors live.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="I"></div>
-      <h3>Investors</h3>
-      <p>See founders speak before the deck. Host Pitch Rooms, meet filtered deal flow, and back people you've actually met.</p>
-    </article>
-    <article class="onboarding-card">
       <div class="onboarding-art" data-symbol="T"></div>
-      <h3>Talent</h3>
-      <p>Show what you've shipped with a video profile and experience credential, and meet the startups you want to build.</p>
+      <h3>Trusted Connections</h3>
+      <p>Meet real people through video-first context, shared intent, and community standards that make trust easier to build.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="P"></div>
+      <h3>Professional Connections</h3>
+      <p>Replace cold outreach with conversations that show presence, credibility, and mutual relevance from the start.</p>
+    </article>
+    <article class="onboarding-card">
+      <div class="onboarding-art" data-symbol="F"></div>
+      <h3>Founder Networks</h3>
+      <p>Help founders, builders, operators, and early teams meet around ideas, momentum, and useful introductions.</p>
     </article>
     <article class="onboarding-card">
       <div class="onboarding-art" data-symbol="C"></div>
@@ -596,7 +532,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <!-- INTENT CATEGORIES -->
 <div class="section reveal" id="connection-intent">
   <div class="section-eyebrow">Connection intent</div>
-  <h2 class="section-title">Built for connections<br><em>with a reason to start.</em></h2>
+  <h2 class="section-title">Built for relationships<br><em>with a reason to start.</em></h2>
   <p class="section-sub">FaceMeet helps people enter the right conversation path instead of guessing from profiles and messages.</p>
   <div class="why-grid">
     <div class="why-card"><div class="why-icon">✦</div><div class="why-title">Professional Connections</div><p class="why-desc">Meet useful people through context, conversation, and presence instead of low-context outreach.</p></div>
@@ -623,81 +559,6 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 </div>
 
 <!-- FOUNDING CIRCLE -->
-<!-- PITCH ROOMS -->
-<div class="section reveal" id="pitch-rooms">
-  <div class="section-eyebrow">Pitch Rooms</div>
-  <h2 class="section-title">Pitch live. Get seen.<br><em>Match with real interest.</em></h2>
-  <p class="section-sub">Investors host live Pitch Rooms. Founders take the stage for timed pitches. The room watches, and mutual interest becomes a direct introduction — no cold emails, no decks into the void.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <span class="step-icon">◈</span>
-      <div class="step-title">Investors host</div>
-      <p class="step-desc">An investor opens a Pitch Room around their thesis — pre-seed fintech, B2B SaaS, whatever they back.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <span class="step-icon">⚡</span>
-      <div class="step-title">Founders take the stage</div>
-      <p class="step-desc">Founders apply with Sparks and pitch live in timed rounds — everyone in the room sees presence, not paperwork.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <span class="step-icon">▣</span>
-      <div class="step-title">Interest becomes introduction</div>
-      <p class="step-desc">When interest is mutual, FaceMeet opens the conversation directly. The pitch was the meeting.</p>
-    </div>
-  </div>
-</div>
-
-<!-- HOST EARNINGS -->
-<div class="section reveal" id="host-earnings">
-  <div class="section-eyebrow">Host earnings</div>
-  <h2 class="section-title">Great hosts<br><em>get paid.</em></h2>
-  <p class="section-sub">When people spend Sparks to join your rooms or unlock your replays, you earn a share — automatically. Host the conversations your corner of the ecosystem needs, build a following, and cash out as your rooms grow.</p>
-  <div class="steps">
-    <div class="step">
-      <span class="step-icon">◉</span>
-      <div class="step-title">Host conversations</div>
-      <p class="step-desc">Live Topics, Pitch Rooms, and replays of your best conversations all earn when members join or unlock them.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">⚡</span>
-      <div class="step-title">Earn on every Spark</div>
-      <p class="step-desc">A share of every Spark spent in your rooms is credited to you automatically — solo hosts and co-hosts both earn.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">＄</span>
-      <div class="step-title">Cash out</div>
-      <p class="step-desc">Earnings accumulate in your balance and convert to real money once you cross the payout threshold.</p>
-    </div>
-  </div>
-</div>
-
-<!-- AI PROFILE COACH -->
-<div class="section reveal" id="ai-coach">
-  <div class="section-eyebrow">Your AI coach</div>
-  <h2 class="section-title">An AI coach that makes sure<br><em>the right people see you.</em></h2>
-  <p class="section-sub">FaceMeet doesn't just host your profile — it coaches it, frames it for each viewer, and proves the right audience is watching.</p>
-  <div class="steps">
-    <div class="step">
-      <span class="step-icon">✎</span>
-      <div class="step-title">Coached video intros</div>
-      <p class="step-desc">Before you record, FaceMeet writes you a personal script angle from your goals — who you are, what you're building, the one thing you need.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">◈</span>
-      <div class="step-title">Framed per viewer</div>
-      <p class="step-desc">An investor sees your raising angle. A potential co-founder sees the gap on your team. Talent sees what they'd build. Same you, the right frame.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">👁</span>
-      <div class="step-title">Proof you're being seen</div>
-      <p class="step-desc">Weekly receipts — "Seen by 3 investors · 7 founders" — show exactly who's watching. Real counts, never inflated.</p>
-    </div>
-  </div>
-</div>
-
 <div class="section reveal" id="founding-circle">
   <div class="section-eyebrow">Founding Circle</div>
   <h2 class="section-title">Join the FaceMeet<br><em>Founding Circle.</em></h2>
@@ -721,7 +582,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Reporting and blocking</div><p class="why-desc">Members can report and block behavior that does not fit the community standards.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Profile moderation</div><p class="why-desc">Profile-video moderation and admin review help keep the network intentional.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Controlled Live Topic access</div><p class="why-desc">Curated rooms and admin controls support safer, more useful conversations.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Conversation before messaging</div><p class="why-desc">FaceMeet is designed around intentional context before private chat becomes the center of the connection.</p></div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Conversation before messaging</div><p class="why-desc">FaceMeet is designed around intentional context before private chat becomes the center of the relationship.</p></div>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Clear community standards</div><p class="why-desc">Public policies explain what belongs on FaceMeet and what does not.</p></div>
     </div>
   </div>
@@ -747,17 +608,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
     <div style="text-align:center;margin-bottom:44px;">
       <div class="section-eyebrow">Get FaceMeet</div>
       <h2 class="section-title">Start with conversation.<br><em>Continue with trust.</em></h2>
-      <p class="section-sub" style="margin:0 auto;">The iOS beta is open, Android is live on Google Play, and the web app runs anywhere. Create your video intro and start meeting the ecosystem.</p>
+      <p class="section-sub" style="margin:0 auto;">Android is live on Google Play. Join FaceMeet to discover trusted connections, professional conversations, Live Topics, and events.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
       <div class="beta-download-card" style="max-width:none;">
-        <div class="beta-download-title">Get FaceMeet on your phone</div>
-        <p class="beta-download-sub">Join the iOS beta or install the Android app. Create your video intro, meet founders, investors and talent, join Live Topics, and start conversations worth continuing.</p>
-        <a class="store-button primary" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('ios_testflight')">
-          <span><span class="store-small">iPhone — beta</span><span class="store-main">Join the iOS Beta on TestFlight</span></span>
-          <span>→</span>
-        </a>
-        <a class="store-button" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" style="margin-top:10px;" onclick="trackDownloadClick('android_play_store')">
+        <div class="beta-download-title">Download on Google Play</div>
+        <p class="beta-download-sub">Install the approved Android app, create your video intro, discover trusted communities, join Live Topics, and start conversations worth continuing.</p>
+        <a class="store-button primary" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('android_play_store')">
           <span><span class="store-small">Android app</span><span class="store-main">Download on Google Play</span></span>
           <span>→</span>
         </a>
@@ -767,22 +624,11 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
         </a>
       </div>
       <div class="qr-card" style="padding:28px;">
-        <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:12px;">Scan to get FaceMeet</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div style="text-align:center;">
-            <div class="qr-frame" style="margin-bottom:8px;">
-              <img alt="Scan to join the FaceMeet iOS beta on TestFlight" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Ftestflight.apple.com%2Fjoin%2FTrH8nRKr">
-            </div>
-            <div style="font-size:12.5px;font-weight:700;color:var(--cream);">iPhone — iOS Beta</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qr-frame" style="margin-bottom:8px;">
-              <img alt="Scan to download FaceMeet on Google Play" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.ononobi.facemeet">
-            </div>
-            <div style="font-size:12.5px;font-weight:700;color:var(--cream);">Android — Google Play</div>
-          </div>
+        <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:12px;">Scan to Download on Google Play</div>
+        <div class="qr-frame" style="margin-bottom:14px;">
+          <img alt="Scan to download FaceMeet on Google Play" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.ononobi.facemeet">
         </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.55;margin:0;">Scan with your phone camera — iPhone opens the TestFlight beta, Android opens the official Google Play listing.</p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.55;margin:0;">Scan with your Android phone camera to open the official FaceMeet Google Play listing.</p>
       </div>
     </div>
   </div>
@@ -790,7 +636,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-i
 <footer class="fm-site-footer">
   <div class="fm-site-footer__brand">
     <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</div>
+    <div class="fm-site-footer__tagline">Meaningful relationships begin through real conversations, trusted communities, Live Topics, and events.</div>
   </div>
   <div class="fm-site-footer__links">
     <a href="/why-facemeet-exists">Why FaceMeet</a>
@@ -860,7 +706,6 @@ function trackDownloadClick(platform) {
     const key = `fm_${platform}_download_clicks`;
     const next = Number(localStorage.getItem(key) || 0) + 1;
     localStorage.setItem(key, String(next));
-    if (window.fmTrack) window.fmTrack('click_' + platform);
   } catch (e) {
     // Local click tracking should never block the store link.
   }
@@ -901,30 +746,6 @@ const revealObserver = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-</script>
-<script>
-(function(){
-  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
-  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
-  function send(ev){
-    try{
-      var vid=localStorage.getItem('fm_vid');
-      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
-      var q=new URLSearchParams(location.search);
-      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
-        p_referrer:(document.referrer||'').slice(0,300),
-        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
-        p_visitor:vid.slice(0,64)});
-      if(navigator.sendBeacon){
-        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
-      }else{
-        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
-      }
-    }catch(e){}
-  }
-  window.fmTrack=send;
-  send('page_view');
-})();
 </script>
 </body>
 </html>

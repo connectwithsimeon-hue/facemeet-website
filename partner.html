@@ -315,5 +315,29 @@
 
     loadPartnerDashboard();
   </script>
+<script>
+(function(){
+  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
+  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  function send(ev){
+    try{
+      var vid=localStorage.getItem('fm_vid');
+      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
+      var q=new URLSearchParams(location.search);
+      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
+        p_referrer:(document.referrer||'').slice(0,300),
+        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
+        p_visitor:vid.slice(0,64)});
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
+      }else{
+        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
+      }
+    }catch(e){}
+  }
+  window.fmTrack=send;
+  send('page_view');
+})();
+</script>
 </body>
 </html>

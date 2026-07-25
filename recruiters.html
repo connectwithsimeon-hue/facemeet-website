@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FaceMeet for Recruiters | Conversations, Not Resumes</title>
+  <meta name="description" content="Recruiters pitch roles in 60 second videos, salary included. Talent applies with the video they already have. Interviews are 3 minute face to face calls.">
+  <meta property="og:title" content="FaceMeet for Recruiters | Conversations, Not Resumes">
+  <meta property="og:description" content="Pitch your role in 60 seconds. Get applicants as faces, not resumes. Recruiter seats are open.">
+  <meta property="og:image" content="https://facemeet.app/brand/facemeet-logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile-app.css?v=2">
+  <style>
+    :root{--bg:#0a0807;--surface:#141110;--surface2:#1f1a17;--surface3:#2a2420;--coral:#e8503a;--coral-light:#ff6f56;--coral-dim:rgba(232,80,58,.12);--gold:#d4a847;--gold-dim:rgba(212,168,71,.12);--cream:#f5f0e8;--cream-dim:rgba(245,240,232,.68);--muted:#8a7e72;--border:rgba(245,240,232,.08);--border2:rgba(245,240,232,.14);--green:#06d6a0}
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{min-height:100vh;background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.65;overflow-x:hidden}body:before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 18% 8%,rgba(232,80,58,.16),transparent 30%),radial-gradient(circle at 82% 4%,rgba(212,168,71,.14),transparent 28%);pointer-events:none}
+    .hero{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:112px 28px 70px}.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--coral-dim);border:1px solid rgba(232,80,58,.22);color:var(--coral);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:7px 16px;border-radius:999px;margin-bottom:24px}.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);line-height:.94;letter-spacing:-2px;max-width:900px;margin-bottom:22px}.lead{max-width:760px;color:var(--cream-dim);font-size:19px;line-height:1.8}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:999px;padding:14px 22px;font-weight:800;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:15px}.btn.primary{background:var(--coral);color:white;box-shadow:0 14px 36px rgba(232,80,58,.24)}.btn.secondary{background:rgba(245,240,232,.06);border:1px solid var(--border2);color:var(--cream)}
+    section{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:60px 28px}.section-head{max-width:760px;margin-bottom:28px}.kicker{color:var(--coral);font-size:11px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:12px}h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);line-height:1;margin-bottom:16px;letter-spacing:-1px}h2 em{color:var(--coral);font-style:italic}.section-copy{color:var(--cream-dim);font-size:16px;line-height:1.85}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:linear-gradient(180deg,rgba(245,240,232,.055),rgba(245,240,232,.022));border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.card h3{font-size:18px;margin-bottom:8px}.card p{color:var(--muted);font-size:14px;line-height:1.75}.spark-icon{width:38px;height:38px;border-radius:14px;background:var(--coral-dim);border:1px solid rgba(232,80,58,.22);display:flex;align-items:center;justify-content:center;color:var(--coral);font-weight:900;margin-bottom:16px}.note{margin-top:18px;background:rgba(212,168,71,.08);border:1px solid rgba(212,168,71,.22);border-radius:20px;padding:18px;color:var(--cream-dim);font-size:14px}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.price-card{position:relative;overflow:hidden}.price-card.featured{border-color:rgba(232,80,58,.32);background:linear-gradient(135deg,rgba(232,80,58,.14),rgba(212,168,71,.08))}.price{font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1;margin:10px 0;color:var(--cream)}.price small{font-family:'Outfit',sans-serif;font-size:14px;color:var(--muted);font-weight:400}.spark-count{color:var(--gold);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.6px}.cost-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cost-item{display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(245,240,232,.04);border:1px solid var(--border);border-radius:16px;padding:14px 16px}.cost-item span:first-child{color:var(--cream-dim)}.cost-badge{white-space:nowrap;color:var(--cream);font-weight:800;background:rgba(10,8,7,.35);border:1px solid var(--border2);border-radius:999px;padding:7px 10px}.free{color:var(--green)}.live-panel{background:radial-gradient(circle at 20% 0%,rgba(232,80,58,.18),transparent 45%),linear-gradient(180deg,rgba(245,240,232,.055),rgba(245,240,232,.025));border:1px solid var(--border2);border-radius:30px;padding:34px}.final-cta{padding-bottom:96px}.cta-box{text-align:center;background:radial-gradient(circle at 50% 0%,rgba(232,80,58,.2),transparent 48%),linear-gradient(180deg,rgba(245,240,232,.06),rgba(245,240,232,.025));border:1px solid var(--border2);border-radius:32px;padding:48px 28px}.cta-box p{max-width:650px;margin:0 auto;color:var(--cream-dim)}.cta-box .actions{justify-content:center}
+    .waitlist-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:26px}.waitlist-row input{flex:1;min-width:240px;max-width:380px;background:rgba(245,240,232,.06);border:1px solid var(--border2);border-radius:999px;padding:14px 20px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:15px;outline:none}.waitlist-row input:focus{border-color:var(--coral)}.waitlist-done{color:var(--green);font-weight:700;margin-top:14px}
+    @media(max-width:920px){.grid,.pricing-grid,.cost-grid{grid-template-columns:1fr 1fr}.hero{padding-top:82px}}@media(max-width:720px){.hero{padding:68px 20px 42px}.hero h1{font-size:48px}.lead{font-size:17px}.actions{flex-direction:column}.btn{width:100%}section{padding:46px 20px}.grid,.pricing-grid,.cost-grid{grid-template-columns:1fr}.card,.live-panel{padding:22px}}
+  </style>
+  <link rel="stylesheet" href="site-chrome.css?v=1">
+</head>
+<body>
+  <nav class="fm-site-nav" aria-label="FaceMeet site navigation">
+<style>
+.fm2-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.fm2-brand{display:flex;align-items:center;gap:10px;color:#f5f0e8;text-decoration:none;font-size:19px;font-weight:800}
+.fm2-brand img{width:40px;height:40px;border-radius:11px;object-fit:cover}
+.fm2-brand b{font-weight:800}.fm2-brand b span{color:#e8503a}
+.fm2-links{display:flex;align-items:center;gap:4px;margin-left:auto}
+.fm2-item{position:relative}
+.fm2-top{display:inline-flex;align-items:center;gap:5px;color:rgba(245,240,232,.75);text-decoration:none;font-size:14px;padding:9px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.fm2-top:hover{color:#f5f0e8;background:rgba(245,240,232,.06)}
+.fm2-caret{font-size:9px;opacity:.7}
+.fm2-menu{position:absolute;top:100%;left:0;min-width:190px;background:#141110;border:1px solid rgba(245,240,232,.14);border-radius:14px;padding:6px;display:none;box-shadow:0 18px 50px rgba(0,0,0,.5);z-index:60}
+.fm2-item:hover .fm2-menu,.fm2-item:focus-within .fm2-menu{display:block}
+.fm2-menu a{display:block;color:rgba(245,240,232,.78);text-decoration:none;font-size:13.5px;padding:9px 12px;border-radius:9px;white-space:nowrap}
+.fm2-menu a:hover{color:#f5f0e8;background:rgba(232,80,58,.12)}
+.fm2-cta{background:#e8503a;color:#fff !important;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;margin-left:6px}
+.fm2-burger{display:none;background:none;border:1px solid rgba(245,240,232,.18);border-radius:10px;color:#f5f0e8;font-size:17px;line-height:1;padding:8px 11px;cursor:pointer;margin-left:auto}
+.fm2-sheet{display:none;position:fixed;inset:0;background:#0a0807;z-index:9999;overflow-y:auto;padding:18px 22px 40px}
+.fm2-sheet.open{display:block}
+.fm2-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.fm2-close{background:none;border:none;color:#f5f0e8;font-size:24px;line-height:1;cursor:pointer}
+.fm2-group{color:#8a7e72;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:18px 0 4px;font-weight:700}
+.fm2-sheet a{display:block;color:#f5f0e8;text-decoration:none;font-size:16px;padding:11px 0;border-bottom:1px solid rgba(245,240,232,.06)}
+.fm2-sheet a.fm2-cta{display:block;text-align:center;margin:22px 0 0;border-bottom:none}
+@media(max-width:900px){.fm2-links{display:none}.fm2-burger{display:block}}
+</style>
+<div class="fm2-inner">
+  <a href="/" class="fm2-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
+  <div class="fm2-links">
+    <div class="fm2-item">
+      <button class="fm2-top" type="button" aria-haspopup="true">Product <span class="fm2-caret">&#9662;</span></button>
+      <div class="fm2-menu">
+        <a href="/why-facemeet-exists">Why FaceMeet</a>
+        <a href="/#how">How it works</a>
+        <a href="/sparks">Sparks</a>
+        <a href="/#pitch-rooms">Pitch Rooms</a>
+        <a href="/#live-topics">Live Topics</a>
+      </div>
+    </div>
+    <a class="fm2-top" href="/recruiters">Recruiters</a>
+    <a class="fm2-top" href="/events">Events</a>
+    <div class="fm2-item">
+      <button class="fm2-top" type="button" aria-haspopup="true">Company <span class="fm2-caret">&#9662;</span></button>
+      <div class="fm2-menu">
+        <a href="/join">Join</a>
+        <a href="/community-guidelines">Safety</a>
+        <a href="/faq">FAQ</a>
+        <a href="mailto:hello@facemeet.app">Contact</a>
+      </div>
+    </div>
+    <a class="fm2-cta" href="/#install">Get FaceMeet</a>
+  </div>
+  <button class="fm2-burger" type="button" aria-label="Open menu" onclick="var s=document.getElementById('fm2Sheet');if(s.parentElement!==document.body){document.body.appendChild(s)}s.classList.toggle('open')">&#9776;</button>
+</div>
+<div class="fm2-sheet" id="fm2Sheet">
+  <div class="fm2-sheet-head">
+    <a href="/" class="fm2-brand"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
+    <button class="fm2-close" type="button" aria-label="Close menu" onclick="document.getElementById('fm2Sheet').classList.remove('open')">&#215;</button>
+  </div>
+  <div class="fm2-group">Product</div>
+  <a href="/why-facemeet-exists">Why FaceMeet</a>
+  <a href="/#how">How it works</a>
+  <a href="/sparks">Sparks</a>
+  <a href="/#pitch-rooms">Pitch Rooms</a>
+  <a href="/#live-topics">Live Topics</a>
+  <div class="fm2-group">Explore</div>
+  <a href="/recruiters">Recruiters</a>
+  <a href="/events">Events</a>
+  <div class="fm2-group">Company</div>
+  <a href="/join">Join</a>
+  <a href="/community-guidelines">Safety</a>
+  <a href="/faq">FAQ</a>
+  <a class="fm2-cta" href="/#install">Get FaceMeet</a>
+</div>
+</nav>
+
+
+  <main class="hero">
+    <div class="eyebrow">Post roles free until August 18, 2026</div>
+    <h1>The best hires reveal themselves in <em style="color:var(--coral);font-style:italic">conversation</em>, not on a resume.</h1>
+    <p class="lead">Pitch your open role in a 60 second video, salary included. Applicants arrive as faces, not PDFs: every candidate is a verified member whose 30 second video you watch before you ever book a call. Then you talk, face to face, in 3 minutes.</p>
+    <div class="actions">
+      <a class="btn primary" href="#waitlist" onclick="window.fmTrack&&fmTrack('recruiters_cta_click')">Get the Recruiter Seat</a>
+      <a class="btn secondary" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer">Open FaceMeet</a>
+    </div>
+  </main>
+
+  <section>
+    <div class="section-head">
+      <div class="kicker">Why FaceMeet</div>
+      <h2>Cut the screening. Keep the judgment.</h2>
+      <p class="section-copy">A resume tells you what someone has done. A conversation shows you how they think. FaceMeet removes the document layer entirely so your week goes to the part only you can do: deciding who is great.</p>
+    </div>
+    <div class="grid">
+      <article class="card"><div class="spark-icon">1</div><h3>Pitch your role in 60 seconds</h3><p>Record your pitch with on-screen guidance: the company, the problem they will own, the team, why it is exciting. Salary range required before publish, or an honest "not set yet."</p></article>
+      <article class="card"><div class="spark-icon">2</div><h3>Applicants arrive as faces</h3><p>Matching talent gets notified automatically. Applying takes one tap: their verified 30 second video profile is the application. No cover letters on either side.</p></article>
+      <article class="card"><div class="spark-icon">3</div><h3>Interview in minutes, not weeks</h3><p>Book a 3 minute face to face call with any applicant. Run final rounds in a private Interview Room with scheduled slots and calendar invites.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="live-panel">
+      <div class="kicker">Recruiter Seat</div>
+      <h2>$99 a month. Locked for 12 months.</h2>
+      <p class="section-copy">Anyone can post roles free until August 18, 2026. After that, the seat is the door, and the $99 rate is locked for a full year for everyone who takes it now. The seat includes talent search filters, 3 active video job posts, the Recruiter badge, a monthly bundle of 30 Sparks, and a daily outreach cap that keeps the network human. LinkedIn Recruiter Lite is about $170 a month before a single InMail. Agencies take 20 percent of first year salary. A serious FaceMeet pipeline month of 200 real conversations runs about $300 total.</p>
+      <div class="note">Talent never pays to be found, notified, or to apply. You pay for attention, they show up as themselves. No shows refund your Sparks automatically.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="kicker">Clear costs</div>
+      <h2>Every action has one honest price.</h2>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><span>Recruiter Seat</span><strong class="cost-badge">$99 / month</strong></div>
+      <div class="cost-item"><span>Included monthly Sparks</span><strong class="cost-badge">30 Sparks</strong></div>
+      <div class="cost-item"><span>Video job posts</span><strong class="cost-badge">3 active, included</strong></div>
+      <div class="cost-item"><span>Call with an applicant (3 minutes, both sides covered)</span><strong class="cost-badge">1 Spark</strong></div>
+      <div class="cost-item"><span>Invite someone who has not applied yet</span><strong class="cost-badge">3 Sparks</strong></div>
+      <div class="cost-item"><span>Private Interview Room</span><strong class="cost-badge">5 Sparks</strong></div>
+      <div class="cost-item"><span>Talent: found, notified, applying</span><strong class="cost-badge free">Free, always</strong></div>
+      <div class="cost-item"><span>No show on a booked call</span><strong class="cost-badge free">Auto refund</strong></div>
+    </div>
+  </section>
+
+  <section class="final-cta" id="waitlist">
+    <div class="cta-box">
+      <h2>Recruiter seats are limited.</h2>
+      <p>Leave your work email and we will onboard you personally. The $99 rate is locked for 12 months.</p>
+      <div class="waitlist-row">
+        <input type="email" id="wl-email" placeholder="you@company.com" autocomplete="email">
+        <button class="btn primary" id="wl-btn" onclick="joinWaitlist()">Join the waitlist</button>
+      </div>
+      <div class="waitlist-done" id="wl-done" style="display:none">You are on the list. We will be in touch within a day.</div>
+    </div>
+  </section>
+
+  <footer class="fm-site-footer">
+  <div class="fm-site-footer__brand">
+    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
+    <div class="fm-site-footer__tagline">Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</div>
+  </div>
+  <div class="fm-site-footer__links">
+    <a href="/why-facemeet-exists">Why FaceMeet</a>
+    <a href="/sparks">Sparks</a>
+    <a href="/recruiters">Recruiters</a>
+    <a href="/faq">FAQ</a>
+    <a href="/events">Events</a>
+    <a href="/community-guidelines">Community Guidelines</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="mailto:hello@facemeet.app">Contact</a>
+  </div>
+  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
+</footer>
+<script>
+(function(){
+  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
+  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  function send(ev){
+    try{
+      var vid=localStorage.getItem('fm_vid');
+      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
+      var q=new URLSearchParams(location.search);
+      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
+        p_referrer:(document.referrer||'').slice(0,300),
+        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
+        p_visitor:vid.slice(0,64)});
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
+      }else{
+        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
+      }
+    }catch(e){}
+  }
+  window.fmTrack=send;
+  send('page_view');
+})();
+function joinWaitlist(){
+  var input=document.getElementById('wl-email');
+  var email=(input.value||'').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){input.focus();input.style.borderColor='#e8503a';return;}
+  var btn=document.getElementById('wl-btn');btn.disabled=true;btn.textContent='Joining...';
+  var q=new URLSearchParams(location.search);
+  fetch('https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/join_recruiter_waitlist',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w'},
+    body:JSON.stringify({p_email:email,p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80)})
+  }).then(function(r){
+    if(!r.ok)throw new Error('failed');
+    document.querySelector('.waitlist-row').style.display='none';
+    document.getElementById('wl-done').style.display='block';
+    window.fmTrack&&fmTrack('recruiter_waitlist_joined');
+  }).catch(function(){
+    btn.disabled=false;btn.textContent='Join the waitlist';
+    input.style.borderColor='#e8503a';
+  });
+}
+</script>
+</body>
+</html>

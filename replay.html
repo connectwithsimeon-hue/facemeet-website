@@ -127,6 +127,15 @@ h1 em {
   font-size:13px;
 }
 a.host-block:hover .host-name { color:var(--coral-light); }
+.people-row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin:4px 0 14px}
+.person{display:flex;align-items:center;gap:10px}
+.person img,.person .pf{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid var(--border2)}
+.person .pf{background:linear-gradient(135deg,var(--surface2),var(--surface3));display:flex;align-items:center;justify-content:center;color:var(--cream-dim);font-weight:700;font-size:20px}
+.get-app{margin-top:20px;padding-top:18px;border-top:1px solid var(--border2)}
+.get-app>p{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;margin:0 0 12px}
+.stores{display:flex;flex-wrap:wrap;gap:10px}
+.store{display:inline-flex;align-items:center;gap:9px;min-height:48px;border-radius:12px;padding:10px 18px;text-decoration:none;font-weight:600;font-size:13.5px;background:var(--surface2,rgba(245,240,232,0.05));color:var(--cream);border:1px solid var(--border2)}
+.store svg{width:18px;height:18px;fill:currentColor;flex:none}
 .meta-row {
   display:flex;
   flex-wrap:wrap;
@@ -235,21 +244,81 @@ a.host-block:hover .host-name { color:var(--coral-light); }
 </head>
 <body>
 <nav class="fm-site-nav" aria-label="FaceMeet site navigation">
-  <div class="fm-site-nav__inner">
-    <a href="/" class="fm-site-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-nav__links">
-      <a href="/why-facemeet-exists">Why FaceMeet</a>
-      <a href="/sparks">Sparks</a>
-      <a href="/#how">How it works</a>
-      <a href="/#live-topics">Live Topics</a>
-      <a href="/join">Founding Circle</a>
-      <a href="/events">Events</a>
-      <a href="/community-guidelines">Safety</a>
-      <a href="/faq">FAQ</a>
-      <a class="fm-site-nav__cta" href="/#install">Get FaceMeet</a>
+<style>
+.fm2-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.fm2-brand{display:flex;align-items:center;gap:10px;color:#f5f0e8;text-decoration:none;font-size:19px;font-weight:800}
+.fm2-brand img{width:40px;height:40px;border-radius:11px;object-fit:cover}
+.fm2-brand b{font-weight:800}.fm2-brand b span{color:#e8503a}
+.fm2-links{display:flex;align-items:center;gap:4px;margin-left:auto}
+.fm2-item{position:relative}
+.fm2-top{display:inline-flex;align-items:center;gap:5px;color:rgba(245,240,232,.75);text-decoration:none;font-size:14px;padding:9px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.fm2-top:hover{color:#f5f0e8;background:rgba(245,240,232,.06)}
+.fm2-caret{font-size:9px;opacity:.7}
+.fm2-menu{position:absolute;top:100%;left:0;min-width:190px;background:#141110;border:1px solid rgba(245,240,232,.14);border-radius:14px;padding:6px;display:none;box-shadow:0 18px 50px rgba(0,0,0,.5);z-index:60}
+.fm2-item:hover .fm2-menu,.fm2-item:focus-within .fm2-menu{display:block}
+.fm2-menu a{display:block;color:rgba(245,240,232,.78);text-decoration:none;font-size:13.5px;padding:9px 12px;border-radius:9px;white-space:nowrap}
+.fm2-menu a:hover{color:#f5f0e8;background:rgba(232,80,58,.12)}
+.fm2-cta{background:#e8503a;color:#fff !important;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;margin-left:6px}
+.fm2-burger{display:none;background:none;border:1px solid rgba(245,240,232,.18);border-radius:10px;color:#f5f0e8;font-size:17px;line-height:1;padding:8px 11px;cursor:pointer;margin-left:auto}
+.fm2-sheet{display:none;position:fixed;inset:0;background:#0a0807;z-index:9999;overflow-y:auto;padding:18px 22px 40px}
+.fm2-sheet.open{display:block}
+.fm2-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.fm2-close{background:none;border:none;color:#f5f0e8;font-size:24px;line-height:1;cursor:pointer}
+.fm2-group{color:#8a7e72;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:18px 0 4px;font-weight:700}
+.fm2-sheet a{display:block;color:#f5f0e8;text-decoration:none;font-size:16px;padding:11px 0;border-bottom:1px solid rgba(245,240,232,.06)}
+.fm2-sheet a.fm2-cta{display:block;text-align:center;margin:22px 0 0;border-bottom:none}
+@media(max-width:900px){.fm2-links{display:none}.fm2-burger{display:block}}
+</style>
+<div class="fm2-inner">
+  <a href="/" class="fm2-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
+  <div class="fm2-links">
+    <div class="fm2-item">
+      <button class="fm2-top" type="button" aria-haspopup="true">Product <span class="fm2-caret">&#9662;</span></button>
+      <div class="fm2-menu">
+        <a href="/why-facemeet-exists">Why FaceMeet</a>
+        <a href="/#how">How it works</a>
+        <a href="/sparks">Sparks</a>
+        <a href="/#pitch-rooms">Pitch Rooms</a>
+        <a href="/#live-topics">Live Topics</a>
+      </div>
     </div>
+    <a class="fm2-top" href="/recruiters">Recruiters</a>
+    <a class="fm2-top" href="/events">Events</a>
+    <div class="fm2-item">
+      <button class="fm2-top" type="button" aria-haspopup="true">Company <span class="fm2-caret">&#9662;</span></button>
+      <div class="fm2-menu">
+        <a href="/join">Join</a>
+        <a href="/community-guidelines">Safety</a>
+        <a href="/faq">FAQ</a>
+        <a href="mailto:hello@facemeet.app">Contact</a>
+      </div>
+    </div>
+    <a class="fm2-cta" href="/#install">Get FaceMeet</a>
   </div>
+  <button class="fm2-burger" type="button" aria-label="Open menu" onclick="var s=document.getElementById('fm2Sheet');if(s.parentElement!==document.body){document.body.appendChild(s)}s.classList.toggle('open')">&#9776;</button>
+</div>
+<div class="fm2-sheet" id="fm2Sheet">
+  <div class="fm2-sheet-head">
+    <a href="/" class="fm2-brand"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
+    <button class="fm2-close" type="button" aria-label="Close menu" onclick="document.getElementById('fm2Sheet').classList.remove('open')">&#215;</button>
+  </div>
+  <div class="fm2-group">Product</div>
+  <a href="/why-facemeet-exists">Why FaceMeet</a>
+  <a href="/#how">How it works</a>
+  <a href="/sparks">Sparks</a>
+  <a href="/#pitch-rooms">Pitch Rooms</a>
+  <a href="/#live-topics">Live Topics</a>
+  <div class="fm2-group">Explore</div>
+  <a href="/recruiters">Recruiters</a>
+  <a href="/events">Events</a>
+  <div class="fm2-group">Company</div>
+  <a href="/join">Join</a>
+  <a href="/community-guidelines">Safety</a>
+  <a href="/faq">FAQ</a>
+  <a class="fm2-cta" href="/#install">Get FaceMeet</a>
+</div>
 </nav>
+
 <div class="page-shell">
   <section id="loading-state" class="state-panel" aria-live="polite">
     <div class="spinner" aria-hidden="true"></div>
@@ -260,19 +329,30 @@ a.host-block:hover .host-name { color:var(--coral-light); }
   <main id="replay-state" class="replay-layout hidden">
     <div class="eyebrow">Conversation Replay</div>
     <h1 id="replay-title">A FaceMeet <em>conversation.</em></h1>
-    <a class="host-block" id="host-block" href="#">
-      <img class="host-photo hidden" id="host-photo" alt="" referrerpolicy="no-referrer">
-      <div class="host-photo-fallback" id="host-photo-fallback" aria-hidden="true"></div>
-      <div>
-        <div class="host-name" id="host-name">Host</div>
-        <div class="host-role">Host</div>
-      </div>
-    </a>
+    <div class="people-row">
+      <a class="host-block" id="host-block" href="#">
+        <img class="host-photo hidden" id="host-photo" alt="" referrerpolicy="no-referrer">
+        <div class="host-photo-fallback" id="host-photo-fallback" aria-hidden="true"></div>
+        <div>
+          <div class="host-name" id="host-name">Host</div>
+          <div class="host-role">Host</div>
+        </div>
+      </a>
+      <span id="speakers-row" style="display:contents"></span>
+    </div>
     <div class="meta-row" id="meta-row"></div>
     <p class="replay-description" id="replay-description"></p>
     <div class="cta-row">
       <a class="cta primary" href="https://app.facemeet.app" id="open-app-link">Continue in FaceMeet</a>
       <button class="cta share" type="button" id="share-link">Copy link</button>
+    </div>
+    <div class="get-app">
+      <p>Get the FaceMeet app to watch</p>
+      <div class="stores">
+        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>iPhone · TestFlight</a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.7.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg>Android · Google Play</a>
+        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.02a15.7 15.7 0 0 0-1.1-5.06A8.03 8.03 0 0 1 19.93 11zM12 4.04c.83 1.2 1.48 2.94 1.83 4.96h-3.66c.35-2.02 1-3.76 1.83-4.96zM4.07 13h3.02c.14 1.8.52 3.53 1.1 5.06A8.03 8.03 0 0 1 4.07 13zm3.02-2H4.07a8.03 8.03 0 0 1 4.12-5.06A15.7 15.7 0 0 0 7.09 11zm4.91 8.96c-.83-1.2-1.48-2.94-1.83-4.96h3.66c-.35 2.02-1 3.76-1.83 4.96zm2.09-6.96H9.91A13.7 13.7 0 0 1 9.86 11h4.28a13.7 13.7 0 0 1-.05 2zm.72 6.02c.58-1.53.96-3.26 1.1-5.06h3.02a8.03 8.03 0 0 1-4.12 5.06z"/></svg>Continue on the web</a>
+      </div>
     </div>
     <p class="small-note" id="host-note"></p>
   </main>
@@ -290,7 +370,7 @@ a.host-block:hover .host-name { color:var(--coral-light); }
 <footer class="fm-site-footer">
   <div class="fm-site-footer__brand">
     <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meaningful relationships begin through real conversations, trusted communities, Live Topics, and events.</div>
+    <div class="fm-site-footer__tagline">Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</div>
   </div>
   <div class="fm-site-footer__links">
     <a href="/why-facemeet-exists">Why FaceMeet</a>
@@ -422,6 +502,20 @@ function recordEvent(eventType) {
   }).then(() => {}, () => {});
 }
 
+function renderSpeakers(replay) {
+  const row = document.getElementById('speakers-row');
+  if (!row) return;
+  const speakers = Array.isArray(replay.speakers) ? replay.speakers : [];
+  row.innerHTML = speakers.map(s => {
+    const name = escapeHtml(text(s.name) || 'Speaker');
+    const photo = text(s.photo_url);
+    const face = photo
+      ? `<img src="${escapeHtml(photo)}" alt="${name}" referrerpolicy="no-referrer">`
+      : `<div class="pf">${name.charAt(0).toUpperCase()}</div>`;
+    return `<span class="person">${face}<span><span class="host-name" style="font-size:15px;">${name}</span><span class="host-role" style="display:block;">Co-host</span></span></span>`;
+  }).join('');
+}
+
 function renderHost(replay) {
   const hostName = text(replay.host_name) || 'Host';
   const hostSlug = text(replay.host_profile_slug);
@@ -480,6 +574,7 @@ function renderReplay(replay) {
   setMeta(`${title} | FaceMeet Conversation`, metaDescription);
   document.getElementById('replay-title').textContent = title;
   renderHost(replay);
+  renderSpeakers(replay);
   renderMeta(replay);
   const descriptionEl = document.getElementById('replay-description');
   if (description) {
@@ -551,6 +646,30 @@ document.getElementById('share-link')?.addEventListener('click', async () => {
 
 applySmartFaceMeetCtas();
 loadReplay();
+</script>
+<script>
+(function(){
+  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
+  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  function send(ev){
+    try{
+      var vid=localStorage.getItem('fm_vid');
+      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
+      var q=new URLSearchParams(location.search);
+      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
+        p_referrer:(document.referrer||'').slice(0,300),
+        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
+        p_visitor:vid.slice(0,64)});
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
+      }else{
+        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
+      }
+    }catch(e){}
+  }
+  window.fmTrack=send;
+  send('page_view');
+})();
 </script>
 </body>
 </html>

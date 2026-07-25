@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /partner
+
+Sitemap: https://facemeet.app/sitemap.xml

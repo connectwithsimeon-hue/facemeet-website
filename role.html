@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Open Role on FaceMeet</title>
+<meta name="description" content="A recruiter pitches this role on video, salary included. Applying is free — your FaceMeet video profile is your application.">
+<meta property="og:title" content="Open Role on FaceMeet">
+<meta property="og:description" content="Watch the recruiter pitch this role on video, salary included. Applying is free on FaceMeet.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://facemeet.app/brand/facemeet-logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0a0807;--coral:#e8503a;--coral-light:#ff6f56;--cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.68);--muted:#8a7e72;--border2:rgba(245,240,232,0.14);--surface:rgba(245,240,232,0.05);--green:#7fd6a8;--green-bg:#12251a;--green-border:#2f7d59}
+*{box-sizing:border-box;margin:0;padding:0}
+html{min-height:100%;background:var(--bg)}
+body{min-height:100vh;background:radial-gradient(circle at 12% 16%,rgba(232,80,58,.18),transparent 31%),linear-gradient(180deg,#0a0807,#080706);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6}
+.shell{width:min(760px,100%);margin:0 auto;padding:34px 20px 60px}
+.eyebrow{display:inline-flex;color:var(--coral-light);background:rgba(232,80,58,.11);border:1px solid rgba(232,80,58,.28);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:22px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-height:1.04;margin-bottom:10px}
+.poster{color:var(--cream);font-weight:600;font-size:16px;margin-bottom:16px}
+.videobox{width:100%;border-radius:18px;overflow:hidden;background:#000;margin:6px 0 18px;border:1px solid var(--border2)}
+.videobox video{display:block;width:100%;max-height:62vh;background:#000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{display:inline-flex;align-items:center;border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;background:#1d1d22;border:1px solid #34343a;color:#ccc}
+.chip.salary{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+.chip.salary.unset{background:#1d1d22;border-color:#34343a;color:var(--muted)}
+.desc{color:var(--cream-dim);font-size:16px;line-height:1.75;margin:0 0 26px;white-space:pre-line}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;border-radius:999px;padding:14px 26px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;border:1px solid transparent;font-family:'Outfit',sans-serif;margin-right:10px;margin-bottom:10px}
+.cta.primary{background:linear-gradient(135deg,var(--coral),var(--coral-light));color:#fff}
+.cta.ghost{background:var(--surface);color:var(--cream);border-color:var(--border2)}
+.hidden{display:none!important}
+.note{color:var(--muted);font-size:13px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="eyebrow">Open Role</div>
+  <div id="state-loading"><h1>Loading <em>role.</em></h1></div>
+  <main id="state-role" class="hidden">
+    <h1 id="ro-title"></h1>
+    <div class="poster" id="ro-poster"></div>
+    <div class="videobox hidden" id="ro-videobox"><video id="ro-video" controls playsinline preload="metadata"></video></div>
+    <div class="chips" id="ro-chips"></div>
+    <p class="desc" id="ro-desc"></p>
+    <a class="cta primary" id="ro-cta" href="https://app.facemeet.app">Apply free on FaceMeet</a>
+    <a class="cta ghost" href="https://facemeet.app/recruiters">Hiring? Post your role</a>
+    <p class="note">Applying is free. Your FaceMeet video profile is your application — no cover letter, no resume upload.</p>
+  </main>
+  <div id="state-missing" class="hidden"><h1>This role is <em>no longer open.</em></h1>
+    <p class="desc">More roles are open on FaceMeet, where recruiters pitch on video and salary honesty is the rule.</p>
+    <a class="cta primary" href="https://app.facemeet.app">Browse open roles</a>
+  </div>
+</div>
+<script>
+const SUPABASE_URL='https://vbaiivsvjdntzaffboue.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+const GOOGLE_PLAY_URL='https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+const SECTOR_LABELS={fintech:'Fintech',ai_ml:'AI / ML',deeptech:'Deep Tech',health_bio:'Health / Bio',climate:'Climate / Energy',saas_b2b:'SaaS / B2B',consumer:'Consumer',marketplace:'Marketplace',crypto_web3:'Crypto / Web3',dev_tools:'Dev Tools',edtech:'EdTech',ecommerce:'Ecommerce',hardware:'Hardware',media:'Media / Content'};
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+
+function slugFromPath(){
+  const parts=window.location.pathname.split('/').filter(Boolean);
+  const i=parts.indexOf('roles');
+  return i>=0&&parts[i+1]?decodeURIComponent(parts[i+1]):'';
+}
+function show(id){['state-loading','state-role','state-missing'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));}
+function chip(text,cls){const el=document.createElement('span');el.className='chip'+(cls?' '+cls:'');el.textContent=text;return el;}
+function salaryLine(r){
+  if(r.salary_not_set||r.salary_min==null||r.salary_max==null)return 'Salary not disclosed yet';
+  const k=n=>'$'+Math.round(n/1000)+'k';
+  return k(r.salary_min)+' to '+k(r.salary_max);
+}
+
+async function load(){
+  const slug=slugFromPath();
+  if(!slug){show('state-missing');return;}
+  try{
+    const {data,error}=await client.rpc('get_public_job_post',{p_slug:slug});
+    if(error||!data){show('state-missing');return;}
+    const r=data;
+    document.title=r.title+' at '+r.poster_name+' | FaceMeet';
+    document.getElementById('ro-title').textContent=r.title;
+    document.getElementById('ro-poster').textContent='Posted by '+r.poster_name;
+    if(r.role_video_url){
+      document.getElementById('ro-video').src=r.role_video_url;
+      document.getElementById('ro-videobox').classList.remove('hidden');
+    }
+    const chips=document.getElementById('ro-chips');
+    const unset=r.salary_not_set||r.salary_min==null||r.salary_max==null;
+    chips.appendChild(chip(salaryLine(r),'salary'+(unset?' unset':'')));
+    if(r.location_type)chips.appendChild(chip(r.location_type.charAt(0).toUpperCase()+r.location_type.slice(1)));
+    if(r.location)chips.appendChild(chip(r.location));
+    (r.sector_tags||[]).forEach(t=>chips.appendChild(chip(SECTOR_LABELS[t]||t)));
+    document.getElementById('ro-desc').textContent=r.description||'';
+    const cta=document.getElementById('ro-cta');
+    const isAndroid=/android/i.test(navigator.userAgent);
+    cta.href=isAndroid?GOOGLE_PLAY_URL:'https://app.facemeet.app/roles/'+encodeURIComponent(slug);
+    show('state-role');
+  }catch(e){console.warn('role load failed',e);show('state-missing');}
+}
+load();
+</script>
+<script>
+(function(){
+  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
+  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  function send(ev){
+    try{
+      var vid=localStorage.getItem('fm_vid');
+      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
+      var q=new URLSearchParams(location.search);
+      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
+        p_referrer:(document.referrer||'').slice(0,300),
+        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
+        p_visitor:vid.slice(0,64)});
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
+      }else{
+        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
+      }
+    }catch(e){}
+  }
+  window.fmTrack=send;
+  send('page_view');
+})();
+</script>
+</body>
+</html>

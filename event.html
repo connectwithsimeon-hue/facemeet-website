@@ -20,15 +20,24 @@ html{min-height:100%;background:var(--bg)}
 body{min-height:100vh;background:radial-gradient(circle at 12% 16%,rgba(232,80,58,.18),transparent 31%),linear-gradient(180deg,#0a0807,#080706);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6}
 .shell{width:min(760px,100%);margin:0 auto;padding:34px 20px 60px}
 .eyebrow{display:inline-flex;color:var(--coral-light);background:rgba(232,80,58,.11);border:1px solid rgba(232,80,58,.28);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:22px}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-height:1.04;margin-bottom:18px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-height:1.04;margin-bottom:16px}
+.faces{display:flex;align-items:center;margin:6px 0 14px}
+.face{width:86px;height:86px;border-radius:50%;border:3px solid var(--bg);object-fit:cover;background:#231f1c;box-shadow:0 0 0 2px rgba(232,80,58,.55)}
+.face+.face{margin-left:-20px}
+.face-fallback{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:var(--coral-light)}
 .meta{color:var(--cream-dim);font-size:16px;margin-bottom:8px}
-.hosts{color:var(--cream);font-weight:600;margin-bottom:22px}
+.hosts{color:var(--cream);font-weight:600;margin-bottom:6px}
 .desc{color:var(--cream-dim);font-size:16px;line-height:1.75;margin:18px 0 26px}
 .cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;border-radius:999px;padding:14px 26px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;border:1px solid transparent;font-family:'Outfit',sans-serif;margin-right:10px;margin-bottom:10px}
 .cta.primary{background:linear-gradient(135deg,var(--coral),var(--coral-light));color:#fff}
 .cta.ghost{background:var(--surface);color:var(--cream);border-color:var(--border2)}
+.get-app{margin-top:18px;padding-top:18px;border-top:1px solid var(--border2)}
+.get-app p{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:12px}
+.stores{display:flex;flex-wrap:wrap;gap:10px}
+.store{display:inline-flex;align-items:center;gap:9px;min-height:48px;border-radius:12px;padding:10px 18px;text-decoration:none;font-weight:600;font-size:13.5px;background:var(--surface);color:var(--cream);border:1px solid var(--border2)}
+.store svg{width:18px;height:18px;fill:currentColor;flex:none}
 .hidden{display:none!important}
-.note{color:var(--muted);font-size:13px}
+.note{color:var(--muted);font-size:13px;margin-top:16px}
 </style>
 </head>
 <body>
@@ -36,13 +45,22 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-he
   <div class="eyebrow">Scheduled Live Conversation</div>
   <div id="state-loading"><h1>Loading <em>conversation.</em></h1></div>
   <main id="state-event" class="hidden">
+    <div class="faces" id="ev-faces"></div>
     <h1 id="ev-title"></h1>
-    <div class="meta" id="ev-when"></div>
     <div class="hosts" id="ev-hosts"></div>
+    <div class="meta" id="ev-when"></div>
     <div class="meta" id="ev-interested"></div>
     <p class="desc" id="ev-desc"></p>
     <a class="cta primary" id="ev-cta" href="https://app.facemeet.app">Open in FaceMeet</a>
     <button class="cta ghost" id="ev-cal" type="button">Add to Calendar (.ics)</button>
+    <div class="get-app">
+      <p>Get the FaceMeet app</p>
+      <div class="stores">
+        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_ios')"><svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>iPhone · TestFlight</a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_android')"><svg viewBox="0 0 24 24"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.7.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg>Android · Google Play</a>
+        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_web')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.02a15.7 15.7 0 0 0-1.1-5.06A8.03 8.03 0 0 1 19.93 11zM12 4.04c.83 1.2 1.48 2.94 1.83 4.96h-3.66c.35-2.02 1-3.76 1.83-4.96zM4.07 13h3.02c.14 1.8.52 3.53 1.1 5.06A8.03 8.03 0 0 1 4.07 13zm3.02-2H4.07a8.03 8.03 0 0 1 4.12-5.06A15.7 15.7 0 0 0 7.09 11zm4.91 8.96c-.83-1.2-1.48-2.94-1.83-4.96h3.66c-.35 2.02-1 3.76-1.83 4.96zm2.09-6.96H9.91A13.7 13.7 0 0 1 9.86 11h4.28a13.7 13.7 0 0 1-.05 2zm.72 6.02c.58-1.53.96-3.26 1.1-5.06h3.02a8.03 8.03 0 0 1-4.12 5.06z"/></svg>Continue on the web</a>
+      </div>
+    </div>
     <p class="note">Live conversations happen inside FaceMeet — the trusted network for real conversations.</p>
   </main>
   <div id="state-missing" class="hidden"><h1>This conversation is <em>unavailable.</em></h1></div>
@@ -61,6 +79,14 @@ function slugFromPath(){
 }
 function show(id){['state-loading','state-event','state-missing'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));}
 function icsDate(iso){return new Date(iso).toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function faceEl(person){
+  const name=esc(person&&person.name||'');
+  const url=person&&person.thumbnail_url?String(person.thumbnail_url):'';
+  if(url){return '<img class="face" src="'+esc(url)+'" alt="'+name+'" title="'+name+'">';}
+  return '<div class="face face-fallback" title="'+name+'">'+esc((name||'?').charAt(0).toUpperCase())+'</div>';
+}
 
 function downloadIcs(){
   if(!eventData)return;
@@ -93,9 +119,12 @@ async function load(){
     eventData=data;
     document.title=data.title+' | FaceMeet';
     document.getElementById('ev-title').textContent=data.title;
+    const people=[data.host].concat(data.cohosts||[]).filter(Boolean);
+    document.getElementById('ev-faces').innerHTML=people.map(faceEl).join('');
     const start=new Date(data.starts_at);
-    document.getElementById('ev-when').textContent=start.toLocaleString(undefined,{weekday:'long',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'});
-    const hosts=[data.host&&data.host.name].concat((data.cohosts||[]).map(c=>c.name)).filter(Boolean);
+    const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'').split('/').pop().replace(/_/g,' ');
+    document.getElementById('ev-when').textContent=start.toLocaleString(undefined,{weekday:'long',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'})+(tz?' — your time ('+tz+')':'');
+    const hosts=people.map(p=>p.name).filter(Boolean);
     document.getElementById('ev-hosts').textContent='Hosted by '+hosts.join(' & ');
     document.getElementById('ev-interested').textContent=(data.interested_count||0)+' interested';
     document.getElementById('ev-desc').textContent=data.description||'';
@@ -112,6 +141,30 @@ async function load(){
   }catch(e){console.warn('event load failed',e);show('state-missing');}
 }
 load();
+</script>
+<script>
+(function(){
+  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
+  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  function send(ev){
+    try{
+      var vid=localStorage.getItem('fm_vid');
+      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
+      var q=new URLSearchParams(location.search);
+      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
+        p_referrer:(document.referrer||'').slice(0,300),
+        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
+        p_visitor:vid.slice(0,64)});
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
+      }else{
+        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
+      }
+    }catch(e){}
+  }
+  window.fmTrack=send;
+  send('page_view');
+})();
 </script>
 </body>
 </html>

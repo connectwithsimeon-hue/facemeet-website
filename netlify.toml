@@ -1,3 +1,19 @@
+[[edge_functions]]
+  function = "profile-og"
+  path = "/p/*"
+
+[[edge_functions]]
+  function = "event-og"
+  path = "/events/*"
+
+[[edge_functions]]
+  function = "replay-og"
+  path = "/replay/*"
+
+[[edge_functions]]
+  function = "role-og"
+  path = "/roles/*"
+
 [functions]
   directory = "netlify/functions"
 
@@ -7,29 +23,16 @@
 [functions."scheduled-event-reminder"]
   schedule = "*/5 * * * *"
 
-[[headers]]
-  for = "/admin"
-  [headers.values]
-    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-    Pragma = "no-cache"
-    Expires = "0"
-
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-    Pragma = "no-cache"
-    Expires = "0"
 
 [[redirects]]
-  from = "/admin"
-  to = "/admin/index.html"
-  status = 200
+  from = "/invite/*"
+  to = "https://app.facemeet.app/?ref=:splat"
+  status = 302
 
 [[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
+  from = "/invite"
+  to = "https://app.facemeet.app/"
+  status = 302
 
 [[redirects]]
   from = "/p/*"
@@ -132,6 +135,11 @@
   status = 200
 
 [[redirects]]
+  from = "/recruiters"
+  to = "/recruiters.html"
+  status = 200
+
+[[redirects]]
   from = "/creators"
   to = "/creators.html"
   status = 200
@@ -144,6 +152,11 @@
 [[redirects]]
   from = "/events/*"
   to = "/event.html"
+  status = 200
+
+[[redirects]]
+  from = "/roles/*"
+  to = "/role.html"
   status = 200
 
 [[redirects]]
