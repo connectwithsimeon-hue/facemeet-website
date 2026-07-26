@@ -14,6 +14,10 @@
   function = "role-og"
   path = "/roles/*"
 
+[[edge_functions]]
+  function = "radar-og"
+  path = "/radar/*"
+
 [functions]
   directory = "netlify/functions"
 
@@ -52,6 +56,16 @@
 [[redirects]]
   from = "/live"
   to = "/live.html"
+  status = 200
+
+[[redirects]]
+  from = "/radar/*"
+  to = "/radar.html"
+  status = 200
+
+[[redirects]]
+  from = "/radar"
+  to = "/radar.html"
   status = 200
 
 [[redirects]]
