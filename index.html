@@ -3,957 +3,468 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>FaceMeet — Where founders, investors and talent meet face to face</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/redesign.css">
+<title>FaceMeet — Where founders, investors and talent meet face to face</title>
 <meta name="description" content="FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host.">
 <meta property="og:title" content="FaceMeet — Where founders, investors and talent meet face to face">
-<meta property="og:description" content="A video-first network for the startup ecosystem. Pitch live, meet co-founders, find first hires, and earn from the conversations you host.">
+<meta property="og:description" content="FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host.">
 <meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
-<meta property="og:url" content="https://facemeet.app/">
 <meta property="og:type" content="website">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init("PPCJ6SdLIShiRJgRH");</script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:#0a0807;--surface:#141110;--surface2:#1f1a17;--surface3:#2a2420;
-  --coral:#e8503a;--coral-light:#ff6f56;--coral-dim:rgba(232,80,58,0.12);
-  --gold:#d4a847;--gold-dim:rgba(212,168,71,0.12);
-  --green:#06d6a0;
-  --cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.6);--muted:#8a7e72;
-  --border:rgba(245,240,232,0.06);--border2:rgba(245,240,232,0.12);
-}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;line-height:1.6;}
 
-
-nav#navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-  background: rgba(10,8,7,0.0); backdrop-filter: blur(0px);
-  transition: all 0.3s ease; border-bottom: 1px solid transparent;
-}
-nav#navbar.scrolled {
-  background: rgba(10,8,7,0.94); backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(245,240,232,0.06);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.3);
-}
-.nav-inner {
-  max-width: 1200px; margin: 0 auto;
-  padding: 18px 48px; display: flex;
-  align-items: center; justify-content: space-between;
-}
-.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.nav-logo-mark{width:44px;height:44px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(232,80,58,0.18);}
-.footer-brand{display:flex;flex-direction:column;gap:10px;max-width:300px;}
-.footer-brand-mark{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.footer-brand-mark img{width:44px;height:44px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(232,80,58,0.18);}
-.footer-tagline{font-size:12px;color:var(--muted);line-height:1.5;}
-
-.logo-text { font-size: 20px; font-weight: 700; color: #f5f0e8; }
-.logo-text span { color: #e8503a; }
-.nav-links { display: flex; align-items: center; gap: 8px; }
-.nav-link {
-  color: rgba(245,240,232,0.7); text-decoration: none; font-size: 14px;
-  font-weight: 400; padding: 8px 14px; border-radius: 8px;
-  transition: all 0.2s;
-}
-.nav-link:hover { color: #f5f0e8; background: rgba(245,240,232,0.06); }
-.nav-link.active { color: #e8503a; }
-.nav-cta {
-  background: #e8503a; color: white; text-decoration: none;
-  font-size: 14px; font-weight: 600; padding: 10px 22px;
-  border-radius: 30px; margin-left: 8px;
-  transition: all 0.2s;
-}
-.nav-cta:hover { background: #ff6f56; box-shadow: 0 6px 20px rgba(232,80,58,0.35); }
-.mob-btn {
-  display: none; background: rgba(245,240,232,0.08);
-  border: 1px solid rgba(245,240,232,0.1);
-  border-radius: 8px; padding: 8px 12px;
-  color: #f5f0e8; font-size: 18px; cursor: pointer;
-}
-@media (max-width: 768px) {
-  .nav-inner { padding: 14px 20px; }
-  .mob-btn { display: flex; align-items: center; }
-  .nav-links {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(10,8,7,0.97); flex-direction: column;
-    justify-content: center; align-items: center; gap: 8px; z-index: 998;
-  }
-  .nav-links.open { display: flex; }
-  .nav-link { font-size: 20px; padding: 14px 28px; width: 260px; text-align: center; }
-  .nav-cta { font-size: 16px; padding: 14px 32px; margin: 8px 0 0; width: 260px; text-align: center; }
-}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 20px 60px;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(232,80,58,0.1) 0%,transparent 65%);pointer-events:none;}
-.hero-inner{max-width:1120px;width:100%;display:grid;grid-template-columns:minmax(0,560px) minmax(320px,360px);gap:110px;align-items:center;position:relative;z-index:1;margin:0 auto;}
-.hero-content{max-width:560px;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--coral-dim);border:1px solid rgba(232,80,58,0.2);color:var(--coral);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:28px;animation:fadeUp 0.8s both;}
-.hero-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,6vw,74px);font-weight:700;line-height:1.0;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp 0.8s 0.1s both;}
-.hero-headline .c{color:var(--coral);font-style:italic;}
-.intent-strip{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:560px;margin:0 0 22px;padding:7px;background:rgba(245,240,232,0.045);border:1px solid var(--border2);border-radius:999px;box-shadow:0 18px 46px rgba(0,0,0,0.18);backdrop-filter:blur(14px);animation:fadeUp 0.8s 0.16s both;}
-.intent-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border-radius:999px;background:rgba(245,240,232,0.035);border:1px solid rgba(245,240,232,0.06);color:var(--cream);font-size:12px;font-weight:700;white-space:nowrap;}
-.intent-pill span{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:999px;background:rgba(232,80,58,0.13);color:var(--coral);font-size:11px;line-height:1;}
-.hero-sub{font-size:17px;color:var(--cream-dim);line-height:1.7;max-width:500px;margin-bottom:32px;animation:fadeUp 0.8s 0.22s both;font-weight:300;}
-.hero-sub strong{color:var(--cream);font-weight:500;}
-
-/* Waitlist */
-.waitlist-wrap{animation:fadeUp 0.8s 0.35s both;margin-bottom:32px;}
-.wl-row{display:flex;gap:10px;max-width:420px;}
-.wl-input{flex:1;background:var(--surface);border:1px solid rgba(245,240,232,0.1);border-radius:50px;padding:13px 20px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
-.wl-input:focus{border-color:rgba(232,80,58,0.4);}
-.wl-input::placeholder{color:var(--muted);}
-.wl-btn{background:var(--coral);color:white;border:none;border-radius:50px;padding:13px 22px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-.wl-btn:hover{background:var(--coral-light);box-shadow:0 8px 20px rgba(232,80,58,0.35);}
-.wl-success{display:none;color:#06d6a0;font-size:14px;font-weight:500;margin-top:10px;}
-.wl-note{font-size:11px;color:var(--muted);margin-top:8px;}
-
-/* Download buttons */
-.dl-row{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 0.8s 0.4s both;}
-.dl-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.25s;min-height:56px;}
-.dl-btn.ios{background:var(--coral);color:white;}
-.dl-btn.ios:hover{background:var(--coral-light);box-shadow:0 10px 28px rgba(232,80,58,0.35);transform:translateY(-2px);}
-.dl-btn.android{background:var(--surface2);border:1px solid var(--border2);color:var(--cream);}
-.dl-btn.android:hover{border-color:rgba(245,240,232,0.25);transform:translateY(-2px);}
-.dl-btn.primary{background:var(--coral);color:white;}
-.dl-btn.primary:hover{background:var(--coral-light);box-shadow:0 10px 28px rgba(232,80,58,0.35);transform:translateY(-2px);}
-.dl-btn.secondary{background:var(--surface2);border:1px solid var(--border2);color:var(--cream);}
-.dl-btn.secondary:hover{border-color:rgba(245,240,232,0.25);transform:translateY(-2px);}
-.dl-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,0.12);font-size:16px;flex-shrink:0;}
-.dl-btn.secondary .dl-icon{background:rgba(232,80,58,0.12);color:var(--coral);}
-.dl-btn.primary .dl-icon{background:rgba(255,255,255,0.18);}
-.play-store-mark{position:relative;display:inline-flex;width:18px;height:20px;flex-shrink:0;overflow:hidden;border-radius:4px;clip-path:polygon(0 0,100% 50%,0 100%);}
-.play-store-mark::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#5eead4 0 34%,#f8e16c 34% 58%,#ff6b6b 58% 100%);}
-.platform-status{display:flex;gap:10px;flex-wrap:wrap;margin-top:-4px;margin-bottom:22px;animation:fadeUp 0.8s 0.42s both;}
-.platform-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);border-radius:999px;padding:9px 13px;color:var(--cream-dim);font-size:12px;font-weight:600;}
-.platform-pill strong{color:var(--cream);}
-.platform-pill.soon{color:var(--muted);}
-.platform-pill.soon::before{content:'Soon';font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
-.dl-sub{font-size:10px;opacity:0.75;font-weight:400;}
-.dl-main{font-size:14px;font-weight:600;}
-.install-link-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);color:var(--cream);padding:12px 18px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;transition:all 0.25s;animation:fadeUp 0.8s 0.45s both;}
-.install-link-btn:hover{border-color:rgba(232,80,58,0.35);background:rgba(232,80,58,0.08);transform:translateY(-2px);}
-.install-link-btn .dl-icon{width:26px;height:26px;font-size:14px;background:rgba(232,80,58,0.12);color:var(--coral);}
-.hero-proof{max-width:540px;background:linear-gradient(180deg,rgba(245,240,232,0.05),rgba(245,240,232,0.02));border:1px solid var(--border2);border-radius:20px;padding:18px 20px;animation:fadeUp 0.8s 0.5s both;}
-.hero-proof-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.hero-proof-chips{display:flex;flex-wrap:wrap;gap:10px;}
-.hero-proof-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(245,240,232,0.04);border:1px solid var(--border);border-radius:999px;padding:10px 14px;font-size:13px;color:var(--cream-dim);}
-.hero-proof-chip strong{color:var(--cream);font-weight:600;}
-.hero-learn-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:540px;margin-top:-4px;margin-bottom:24px;animation:fadeUp 0.8s 0.55s both;}
-.hero-learn-link{display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(245,240,232,0.04);border:1px solid var(--border2);border-radius:18px;padding:14px 16px;color:var(--cream);text-decoration:none;transition:all .22s;}
-.hero-learn-link:hover{transform:translateY(-2px);border-color:rgba(232,80,58,.35);background:rgba(232,80,58,.08);}
-.hero-learn-link span:first-child{font-size:13px;font-weight:700;}
-.hero-learn-link span:last-child{color:var(--coral);}
-.beta-download-card{max-width:440px;background:linear-gradient(180deg,rgba(245,240,232,0.055),rgba(245,240,232,0.025));border:1px solid var(--border2);border-radius:20px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.28);}
-.beta-download-title{font-size:15px;font-weight:700;color:var(--cream);margin-bottom:6px;}
-.beta-download-sub{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;}
-.store-buttons{display:grid;gap:10px;}
-.store-button{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;color:var(--cream);text-decoration:none;transition:all .2s;}
-.store-button:hover{transform:translateY(-2px);border-color:rgba(232,80,58,.45);box-shadow:0 18px 42px rgba(0,0,0,.26);}
-.store-button.primary{background:var(--coral);border-color:rgba(232,80,58,.55);color:white;}
-.store-button.disabled,.store-button.disabled:hover{cursor:default;opacity:.68;transform:none;box-shadow:none;border-color:var(--border2);}
-.store-small{display:block;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;opacity:.72;margin-bottom:2px;}
-.store-main{display:block;font-size:15px;font-weight:700;}
-.qr-card{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:24px;text-align:center;}
-.qr-frame{width:190px;height:190px;margin:0 auto 16px;border-radius:18px;background:#fff;padding:12px;display:flex;align-items:center;justify-content:center;}
-.qr-frame img{width:100%;height:100%;object-fit:contain;}
-.counter-note{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;}
-#vip-form,#hero-vip-success,#founding-form,#founding-success{display:none!important;}
-
-/* Hero video */
-.hero-visual{display:flex;justify-content:center;align-items:center;position:relative;animation:fadeUp 0.8s 0.2s both;}
-.hero-video-frame{width:min(430px,100%);aspect-ratio:9/19.5;border-radius:46px;overflow:hidden;border:6px solid #181312;background:#050403;box-shadow:0 42px 95px rgba(0,0,0,.62),0 0 80px rgba(232,80,58,.16),inset 0 0 0 1px rgba(255,255,255,.08);position:relative;}
-.hero-video-frame::after{content:'';position:absolute;inset:0;border-radius:40px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);pointer-events:none;z-index:2;}
-.hero-video-frame video{width:100%;height:100%;object-fit:contain;display:block;background:#050403;}
-.hero-video-overlay{display:none;}
-.hero-sound-toggle{position:absolute;right:14px;top:14px;z-index:4;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(245,240,232,.18);background:rgba(10,8,7,.72);color:var(--cream);border-radius:999px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(14px);box-shadow:0 12px 28px rgba(0,0,0,.35);}
-.hero-sound-toggle:hover{border-color:rgba(232,80,58,.4);background:rgba(232,80,58,.16);}
-.hero-video-kicker{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
-.hero-video-title{font-size:18px;font-weight:700;color:var(--cream);}
-.hero-video-sub{font-size:12px;color:var(--cream-dim);line-height:1.5;margin-top:4px;}
-
-.phone-wrap{position:relative;width:280px;}
-.phone-glow{position:absolute;inset:-40px;background:radial-gradient(circle,rgba(232,80,58,0.18) 0%,transparent 70%);border-radius:50%;animation:pulse 4s ease-in-out infinite;}
-.phone{width:280px;height:580px;background:var(--surface);border-radius:42px;border:1px solid rgba(245,240,232,0.1);overflow:hidden;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.04);}
-.phone-notch{width:100px;height:28px;background:var(--bg);border-radius:0 0 20px 20px;margin:0 auto;position:relative;z-index:2;}
-.phone-screen{padding:0 14px 14px;height:calc(100% - 28px);display:flex;flex-direction:column;}
-.phone-header{display:flex;align-items:center;justify-content:space-between;padding:10px 0;}
-.phone-logo-text{font-size:15px;font-weight:700;}
-.phone-logo-text span{color:var(--coral);}
-.spark-pill{background:var(--coral-dim);border:1px solid rgba(232,80,58,0.3);color:var(--coral);font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
-.phone-card{flex:1;background:var(--surface2);border-radius:22px;overflow:hidden;position:relative;border:1px solid var(--border);}
-.phone-video-wrap{width:100%;height:65%;position:relative;overflow:hidden;background:#1a0808;flex-shrink:0;}
-.phone-video-wrap video,.phone-video-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
-.phone-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(10,8,7,0.75) 100%);pointer-events:none;z-index:1;}
-.live-badge{position:absolute;top:8px;left:8px;z-index:2;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.6);border-radius:20px;padding:3px 8px;}
-.live-dot{width:5px;height:5px;background:#ff4444;border-radius:50%;animation:pulse 1.5s ease-in-out infinite;}
-.live-txt{font-size:9px;font-weight:700;color:white;letter-spacing:1px;}
-.mute-btn{position:absolute;top:8px;right:8px;z-index:2;background:rgba(0,0,0,0.6);border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;}
-.sound-bars{position:absolute;bottom:8px;right:8px;z-index:2;display:flex;align-items:flex-end;gap:2px;opacity:0.5;}
-.sb{width:2px;border-radius:2px;background:var(--coral);}
-.phone-info{padding:12px 14px;}
-.phone-name{font-size:18px;font-weight:700;font-family:'Cormorant Garamond',serif;margin-bottom:3px;}
-.phone-loc{font-size:11px;color:var(--muted);margin-bottom:8px;}
-.phone-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.phone-tag{background:rgba(245,240,232,0.06);border:1px solid var(--border);color:var(--cream-dim);font-size:9px;padding:2px 7px;border-radius:20px;}
-.phone-actions{display:flex;justify-content:center;gap:14px;padding:10px 0 0;}
-.pa-skip{width:44px;height:44px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);}
-.pa-spark{width:52px;height:52px;background:var(--coral);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 24px rgba(232,80,58,0.4);animation:sparkPulse 2s ease-in-out infinite;}
-.pa-info{width:44px;height:44px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);}
-
-/* Float badges */
-.float-badge{position:absolute;background:var(--surface);border:1px solid rgba(245,240,232,0.1);border-radius:14px;padding:10px 14px;backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4);font-size:13px;animation:float 6s ease-in-out infinite;}
-.fb1{left:-60px;top:80px;animation-delay:0s;}
-.fb2{right:-50px;bottom:160px;animation-delay:2s;}
-.badge-icon{font-size:16px;margin-bottom:4px;}
-.badge-label{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:1px;}
-.badge-value{font-weight:600;font-size:13px;color:var(--cream);}
-
-/* SECTIONS */
-.section{padding:100px 48px;max-width:1200px;margin:0 auto;}
-.section-eyebrow{display:inline-block;color:var(--coral);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,56px);font-weight:700;line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px;}
-.section-title em{font-style:italic;color:var(--coral);}
-.section-sub{font-size:16px;color:var(--cream-dim);max-width:520px;line-height:1.75;}
-.events-preview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:28px;}
-.events-preview-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;min-height:180px;display:flex;flex-direction:column;gap:10px;}
-.events-preview-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(232,80,58,0.12);color:var(--coral);font-size:20px;}
-.events-preview-card h3{font-size:16px;font-weight:700;color:var(--cream);margin:0;}
-.events-preview-card p{font-size:14px;line-height:1.7;color:var(--cream-dim);margin:0;}
-.events-preview-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;background:var(--coral);color:white;text-decoration:none;padding:14px 24px;border-radius:999px;font-size:14px;font-weight:700;}
-.onboarding-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:42px;}
-.onboarding-card{background:linear-gradient(180deg,rgba(245,240,232,0.055),rgba(245,240,232,0.022));border:1px solid var(--border);border-radius:24px;padding:22px;min-height:300px;display:flex;flex-direction:column;gap:18px;box-shadow:0 22px 60px rgba(0,0,0,0.2);}
-.onboarding-art{height:138px;border-radius:20px;background:radial-gradient(circle at 24% 26%,rgba(232,80,58,0.35),transparent 26%),radial-gradient(circle at 72% 20%,rgba(212,168,71,0.24),transparent 24%),linear-gradient(135deg,rgba(245,240,232,0.08),rgba(245,240,232,0.025));border:1px solid rgba(245,240,232,0.08);position:relative;overflow:hidden;}
-.onboarding-art::before{content:'';position:absolute;left:22px;right:22px;bottom:22px;height:44px;border-radius:18px;background:rgba(10,8,7,0.42);border:1px solid rgba(245,240,232,0.08);}
-.onboarding-art::after{content:attr(data-symbol);position:absolute;inset:auto 22px 24px auto;width:54px;height:54px;border-radius:18px;background:var(--coral-dim);border:1px solid rgba(232,80,58,0.25);display:flex;align-items:center;justify-content:center;color:var(--coral);font-size:24px;font-weight:800;}
-.onboarding-card h3{font-size:18px;color:var(--cream);margin:0;}
-.onboarding-card p{font-size:14px;line-height:1.75;color:var(--cream-dim);margin:0;}
-.onboarding-note{color:var(--muted);font-size:13px;line-height:1.7;margin-top:18px;max-width:720px;}
-
-/* HOW IT WORKS */
-.how-section{padding:100px 0;background:linear-gradient(to bottom,transparent,rgba(232,80,58,0.04),transparent);}
-.how-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative;}
-.steps::before{content:'';position:absolute;top:50px;left:calc(16.66% + 20px);right:calc(16.66% + 20px);height:1px;background:linear-gradient(90deg,var(--coral),rgba(232,80,58,0.2),var(--coral));}
-.step{text-align:center;padding:0 28px;}
-.step-num{width:60px;height:60px;background:var(--surface);border:2px solid var(--coral);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--coral);margin:0 auto 20px;position:relative;z-index:1;box-shadow:0 0 0 8px var(--bg);}
-.step-icon{font-size:28px;margin-bottom:14px;display:block;}
-.step-title{font-size:17px;font-weight:600;margin-bottom:10px;color:var(--cream);}
-.step-desc{font-size:14px;color:var(--muted);line-height:1.65;}
-
-/* WHY FACEMEET */
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px;}
-.why-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 26px;transition:all 0.25s;position:relative;overflow:hidden;}
-.why-card:hover{transform:translateY(-5px);border-color:rgba(232,80,58,0.2);box-shadow:0 20px 48px rgba(0,0,0,0.3);}
-.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--coral),var(--coral-light));transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
-.why-card:hover::before{transform:scaleX(1);}
-.why-icon{width:48px;height:48px;background:var(--coral-dim);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;border:1px solid rgba(232,80,58,0.2);}
-.why-title{font-size:17px;font-weight:600;margin-bottom:10px;color:var(--cream);}
-.why-desc{font-size:14px;color:var(--muted);line-height:1.7;}
-
-/* CITY UNLOCK */
-.city-unlock-section{padding:96px 48px;background:linear-gradient(to bottom,rgba(232,80,58,0.035),transparent);}
-.city-unlock-inner{max-width:1200px;margin:0 auto;}
-.city-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:42px;}
-.city-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;position:relative;overflow:hidden;}
-.city-card.leader{border-color:rgba(232,80,58,0.32);box-shadow:0 24px 60px rgba(232,80,58,0.08);}
-.city-card.leader::before{content:'First market';position:absolute;top:16px;right:16px;background:var(--coral-dim);border:1px solid rgba(232,80,58,0.25);color:var(--coral);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;}
-.city-name{font-size:21px;font-weight:700;color:var(--cream);margin-bottom:8px;}
-.city-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-.city-status{display:inline-flex;align-items:center;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;}
-.city-status.waitlist{background:var(--gold-dim);color:var(--gold);}
-.city-status.profile_upload{background:rgba(6,214,160,0.1);color:var(--green);}
-.city-status.beta_live{background:var(--coral-dim);color:var(--coral);}
-.city-status.public_live{background:rgba(6,214,160,0.14);color:var(--green);}
-.city-count{font-size:12px;color:var(--muted);}
-.city-progress{height:10px;background:var(--surface2);border:1px solid var(--border);border-radius:30px;overflow:hidden;margin-bottom:12px;}
-.city-progress-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--gold));border-radius:30px;transition:width .4s ease;}
-.city-card-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.city-target{font-size:12px;color:var(--cream-dim);}
-.city-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--cream);border-radius:30px;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
-.city-btn:hover{border-color:rgba(232,80,58,.4);color:var(--coral);}
-.checkbox-line{display:flex;align-items:flex-start;gap:9px;color:var(--muted);font-size:11px;line-height:1.45;margin:8px 0;}
-.checkbox-line input{margin-top:2px;accent-color:var(--coral);}
-.referral-rewards{display:grid;gap:7px;margin-top:12px;text-align:left;}
-.referral-reward{font-size:12px;color:var(--cream-dim);padding:8px 0;border-bottom:1px solid var(--border);}
-.referral-reward:last-child{border-bottom:none;}
-
-/* TESTIMONIALS */
-.testimonials-section{padding:100px 0;background:var(--surface);}
-.testimonials-inner{max-width:1200px;margin:0 auto;padding:0 48px;}
-.quotes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px;}
-.quote-card{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:28px;transition:transform 0.2s;}
-.quote-card:hover{transform:translateY(-4px);}
-.quote-mark{font-family:'Cormorant Garamond',serif;font-size:64px;color:var(--coral);line-height:0.6;margin-bottom:14px;display:block;opacity:0.35;}
-.quote-text{font-size:14px;color:var(--cream-dim);line-height:1.75;margin-bottom:22px;font-style:italic;}
-.quote-author{display:flex;align-items:center;gap:12px;}
-.qa{width:38px;height:38px;background:var(--coral-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--coral);border:1px solid rgba(232,80,58,0.2);}
-.qn{font-weight:600;font-size:14px;color:var(--cream);}
-.qm{font-size:11px;color:var(--muted);}
-
-/* CTA */
-.cta-section{padding:120px 48px;text-align:center;position:relative;overflow:hidden;}
-.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(232,80,58,0.09) 0%,transparent 65%);}
-.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto;}
-.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,70px);font-weight:700;letter-spacing:-2px;line-height:1.0;margin-bottom:18px;}
-.cta-title em{font-style:italic;color:var(--coral);}
-.cta-sub{font-size:17px;color:var(--cream-dim);margin-bottom:40px;line-height:1.7;}
-.store-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
-.store-btn{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid rgba(245,240,232,0.1);color:var(--cream);padding:14px 22px;border-radius:14px;text-decoration:none;transition:all 0.25s;min-width:176px;}
-.store-btn:hover{border-color:rgba(232,80,58,0.4);background:var(--surface);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,0.3);}
-.store-icon{font-size:26px;}
-.store-ts{font-size:10px;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;}
-.store-tb{font-size:15px;font-weight:600;letter-spacing:-0.3px;}
-.cta-note{font-size:13px;color:var(--muted);}
-.cta-note span{color:var(--coral);}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-.footer-logo{font-size:18px;font-weight:700;color:var(--cream);}
-.footer-logo span{color:var(--coral);}
-.footer-links{display:flex;gap:28px;flex-wrap:wrap;}
-.footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;}
-.footer-links a:hover{color:var(--cream);}
-.footer-copy{font-size:12px;color:var(--muted);}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes pulse{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
-@keyframes sparkPulse{0%,100%{box-shadow:0 8px 24px rgba(232,80,58,0.4)}50%{box-shadow:0 8px 32px rgba(232,80,58,0.7)}}
-@keyframes soundWave{0%,100%{transform:scaleY(0.5);opacity:0.7}50%{transform:scaleY(1);opacity:1}}
-.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s,transform 0.7s;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .hero-inner{max-width:960px;grid-template-columns:minmax(0,520px) minmax(280px,320px);gap:70px;}
-  .intent-strip{max-width:520px;}
-}
-
-@media(max-width:900px){
-  #install > div > div:last-child { grid-template-columns: 1fr !important; gap: 32px !important; }
-  #install { padding: 60px 20px !important; }
-  #install .announce { flex-direction: column; text-align: center; }
-
-  .hero{padding:90px 20px 60px;}
-  .hero-inner{grid-template-columns:1fr;gap:0;text-align:center;}
-  .hero-content{order:2;max-width:100%;}
-  .hero-visual{order:1;margin-bottom:24px;}
-  .hero-inner{grid-template-columns:1fr!important;gap:32px!important;}
-  .hero-eyebrow{margin:0 auto 20px;}
-  .intent-strip{justify-content:center;border-radius:22px;margin-left:auto;margin-right:auto;}
-  .hero-sub{max-width:100%;margin-left:auto;margin-right:auto;}
-  .dl-row{justify-content:center;flex-direction:column;align-items:center;}
-  .dl-btn{width:100%;max-width:280px;justify-content:center;}
-  .hero-learn-links{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto;}
-  .wl-row{max-width:100%;flex-direction:column;}
-  .float-badge{display:none;}
-  .phone-wrap{width:220px;}
-  .phone{width:280px;height:580px;}
-  .hero-video-frame{width:min(340px,90vw);margin:0 auto;}
-
-  .section{padding:70px 20px;}
-  .how-section,.testimonials-section{padding:70px 0;}
-  .how-inner,.testimonials-inner{padding:0 20px;}
-  .steps{grid-template-columns:1fr;gap:32px;}
-  .steps::before{display:none;}
-  .why-grid,.quotes-grid,.events-preview-grid,.onboarding-grid{grid-template-columns:1fr;}
-  .city-unlock-section{padding:70px 20px;}
-  .city-grid{grid-template-columns:1fr;}
-  .cta-section{padding:80px 20px;}
-  .store-btns{flex-direction:column;align-items:center;}
-  .store-btn{width:100%;max-width:280px;justify-content:center;}
-  footer{padding:28px 20px;flex-direction:column;text-align:center;}
-  .footer-links{justify-content:center;gap:18px;}
-}
-</style>
-<meta name="theme-color" content="#0a0807">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="mobile-app.css?v=2">
-  <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
 <body>
-
-<nav class="fm-site-nav" aria-label="FaceMeet site navigation">
-<style>
-.fm2-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
-.fm2-brand{display:flex;align-items:center;gap:10px;color:#f5f0e8;text-decoration:none;font-size:19px;font-weight:800}
-.fm2-brand img{width:40px;height:40px;border-radius:11px;object-fit:cover}
-.fm2-brand b{font-weight:800}.fm2-brand b span{color:#e8503a}
-.fm2-links{display:flex;align-items:center;gap:4px;margin-left:auto}
-.fm2-item{position:relative}
-.fm2-top{display:inline-flex;align-items:center;gap:5px;color:rgba(245,240,232,.75);text-decoration:none;font-size:14px;padding:9px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.fm2-top:hover{color:#f5f0e8;background:rgba(245,240,232,.06)}
-.fm2-caret{font-size:9px;opacity:.7}
-.fm2-menu{position:absolute;top:100%;left:0;min-width:190px;background:#141110;border:1px solid rgba(245,240,232,.14);border-radius:14px;padding:6px;display:none;box-shadow:0 18px 50px rgba(0,0,0,.5);z-index:60}
-.fm2-item:hover .fm2-menu,.fm2-item:focus-within .fm2-menu{display:block}
-.fm2-menu a{display:block;color:rgba(245,240,232,.78);text-decoration:none;font-size:13.5px;padding:9px 12px;border-radius:9px;white-space:nowrap}
-.fm2-menu a:hover{color:#f5f0e8;background:rgba(232,80,58,.12)}
-.fm2-cta{background:#e8503a;color:#fff !important;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;margin-left:6px}
-.fm2-burger{display:none;background:none;border:1px solid rgba(245,240,232,.18);border-radius:10px;color:#f5f0e8;font-size:17px;line-height:1;padding:8px 11px;cursor:pointer;margin-left:auto}
-.fm2-sheet{display:none;position:fixed;inset:0;background:#0a0807;z-index:9999;overflow-y:auto;padding:18px 22px 40px}
-.fm2-sheet.open{display:block}
-.fm2-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.fm2-close{background:none;border:none;color:#f5f0e8;font-size:24px;line-height:1;cursor:pointer}
-.fm2-group{color:#8a7e72;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:18px 0 4px;font-weight:700}
-.fm2-sheet a{display:block;color:#f5f0e8;text-decoration:none;font-size:16px;padding:11px 0;border-bottom:1px solid rgba(245,240,232,.06)}
-.fm2-sheet a.fm2-cta{display:block;text-align:center;margin:22px 0 0;border-bottom:none}
-@media(max-width:900px){.fm2-links{display:none}.fm2-burger{display:block}}
-</style>
-<div class="fm2-inner">
-  <a href="/" class="fm2-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-  <div class="fm2-links">
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Product <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/why-facemeet-exists">Why FaceMeet</a>
-        <a href="/#how">How it works</a>
-        <a href="/sparks">Sparks</a>
-        <a href="/#pitch-rooms">Pitch Rooms</a>
-        <a href="/#live-topics">Live Topics</a>
+<nav><div class="bar">
+  <a class="brand" href="#"><img class="blogo" src="data:image/png;base64,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" alt=""><b style="font-weight:800">Face<span>Meet</span></b></a>
+  <a class="item on" href="/">Home</a>
+  <a class="item" href="/sparks.html">Sparks</a>
+  <a class="item" href="/radar-home.html">Radar</a>
+  <a class="item" href="/events.html">Events</a>
+  <a class="item" href="/recruiters.html">Recruiters</a>
+  <span class="spacer"></span>
+  <a class="mini" href="/#get">Get FaceMeet</a>
+</div></nav>
+<div class="hero">
+  <canvas id="net"></canvas>
+  <div class="veil"></div>
+  <div class="wrap"><div class="hgrid">
+    <div class="hcopy">
+      <p class="k">A video-first startup network</p>
+      <div class="hswap" id="hswap">
+        <h1 style="margin-top:12px" id="hh">Where founders, investors and talent meet <span class="grad">face to face.</span></h1>
+        <p class="sub" id="hb">FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host — no cold outreach, no endless messages.</p>
       </div>
-    </div>
-    <a class="fm2-top" href="/recruiters">Recruiters</a>
-    <a class="fm2-top" href="/events">Events</a>
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Company <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/join">Join</a>
-        <a href="/community-guidelines">Safety</a>
-        <a href="/faq">FAQ</a>
-        <a href="mailto:hello@facemeet.app">Contact</a>
+      <div><a class="cta" href="/#get">Join FaceMeet — it's free</a>&nbsp;&nbsp;<a class="cta ghost" href="/sparks.html">How Sparks work</a></div>
+      <div class="stores">
+        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 384 512" width="20" height="20" style="display:block"><path fill="#f5f0e8" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.7-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span><span><small>iPhone — beta</small><b>TestFlight</b></span></a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 512 512" width="19" height="19" style="display:block"><path fill="#00E070" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/><path fill="#00C3FF" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256.6L47 0z"/><path fill="#FFD500" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/><path fill="#FF3A44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></span><span><small>Android</small><b>Google Play</b></span></a>
+        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f5f0e8" stroke-width="1.5" style="display:block"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.6 3.2 14.4 0 18M12 3c-3.2 3.6-3.2 14.4 0 18"/></svg></span><span><small>Any device</small><b>Web App</b></span></a>
       </div>
+      <p class="warm">Founders · Investors · Talent · Mentors · Co-founders · First hires</p>
     </div>
-    <a class="fm2-cta" href="/#install">Get FaceMeet</a>
-  </div>
-  <button class="fm2-burger" type="button" aria-label="Open menu" onclick="var s=document.getElementById('fm2Sheet');if(s.parentElement!==document.body){document.body.appendChild(s)}s.classList.toggle('open')">&#9776;</button>
+    <div>
+      <div class="hphone">
+        <div class="hscreen"><img class="hslide on" src="/assets/screens/call.jpg" alt=""><img class="hslide" src="/assets/screens/radar.jpg" alt=""><img class="hslide" src="/assets/screens/sessions.jpg" alt=""><img class="hslide" src="/assets/screens/investor.jpg" alt=""><img class="hslide" src="/assets/screens/founder.jpg" alt=""><img class="hslide" src="/assets/screens/live.jpg" alt=""><img class="hslide" src="/assets/screens/role.jpg" alt=""><img class="hslide" src="/assets/screens/chat.jpg" alt=""></div>
+      </div>
+      <div class="hdots" id="hdots"><span class="hdot on" data-i="0"></span><span class="hdot" data-i="1"></span><span class="hdot" data-i="2"></span><span class="hdot" data-i="3"></span><span class="hdot" data-i="4"></span><span class="hdot" data-i="5"></span><span class="hdot" data-i="6"></span><span class="hdot" data-i="7"></span></div>
+    </div>
+  </div></div>
 </div>
-<div class="fm2-sheet" id="fm2Sheet">
-  <div class="fm2-sheet-head">
-    <a href="/" class="fm2-brand"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-    <button class="fm2-close" type="button" aria-label="Close menu" onclick="document.getElementById('fm2Sheet').classList.remove('open')">&#215;</button>
+
+<section style="padding-top:30px"><div class="wrap">
+  <div style="text-align:center;max-width:640px;margin:0 auto">
+    <p class="k">Inside FaceMeet</p>
+    <h2 style="margin-top:10px">One app. Tap through it.</h2>
   </div>
-  <div class="fm2-group">Product</div>
-  <a href="/why-facemeet-exists">Why FaceMeet</a>
-  <a href="/#how">How it works</a>
-  <a href="/sparks">Sparks</a>
-  <a href="/#pitch-rooms">Pitch Rooms</a>
-  <a href="/#live-topics">Live Topics</a>
-  <div class="fm2-group">Explore</div>
-  <a href="/recruiters">Recruiters</a>
-  <a href="/events">Events</a>
-  <div class="fm2-group">Company</div>
-  <a href="/join">Join</a>
-  <a href="/community-guidelines">Safety</a>
-  <a href="/faq">FAQ</a>
-  <a class="fm2-cta" href="/#install">Get FaceMeet</a>
-</div>
-</nav>
-
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-eyebrow">⚡ The startup ecosystem, face to face</div>
-      <h1 class="hero-headline">
-        <span>Where founders, investors and talent</span><br>
-        <span class="c">meet face to face.</span>
-      </h1>
-      <p class="hero-sub" style="font-size:20px;color:var(--cream);font-weight:500;margin-bottom:16px;">Founders. Investors. Talent. Mentors. Co-founders. First hires.</p>
-      <p class="hero-sub">FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host — no cold outreach, no endless messages.</p>
-
-      <div class="dl-row" style="margin-bottom:18px;gap:10px;">
-        <a href="https://testflight.apple.com/join/TrH8nRKr" class="dl-btn ios" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('ios_testflight_hero')">
-          <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.98-.2 1.92-.86 3.14-.78 1.42.11 2.49.67 3.19 1.7-2.94 1.76-2.24 5.63.44 6.87-.53 1.4-1.22 2.79-2.85 4.38zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.85;">iPhone Beta</span><span style="display:block;font-size:13.5px;">TestFlight</span></span>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" class="dl-btn android" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('android_play_hero')">
-          <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35zm13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27zm3.35-4.31c.34.27.59.69.59 1.19s-.25.92-.59 1.19l-2.29 1.32-2.5-2.51 2.5-2.5 2.29 1.31zM6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.75;">Android</span><span style="display:block;font-size:13.5px;">Google Play</span></span>
-        </a>
-        <a href="https://app.facemeet.app" class="dl-btn android" style="padding:10px 16px;min-height:48px;gap:9px;" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick && trackDownloadClick('webapp_hero')">
-          <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span style="text-align:left;line-height:1.2;white-space:nowrap;"><span style="display:block;font-size:10px;font-weight:500;opacity:.75;">Any device</span><span style="display:block;font-size:13.5px;">Web App</span></span>
-        </a>
-      </div>
-
-      <div class="hero-proof" style="margin-bottom:24px;">
-        <div class="hero-proof-title">Built for people building things</div>
-        <div class="hero-proof-chips">
-          <span class="hero-proof-chip"><strong>Pitch Rooms</strong></span>
-          <span class="hero-proof-chip"><strong>Co-founder Matching</strong></span>
-          <span class="hero-proof-chip"><strong>First Hires</strong></span>
-          <span class="hero-proof-chip"><strong>Host Earnings</strong></span>
-          <span class="hero-proof-chip"><strong>Live Topics</strong></span>
-        </div>
-      </div>
-      <div class="hero-learn-links" aria-label="Learn more about FaceMeet">
-        <a class="hero-learn-link" href="/why-facemeet-exists"><span>Why FaceMeet exists</span><span>→</span></a>
-        <a class="hero-learn-link" href="/sparks"><span>How Sparks work</span><span>→</span></a>
-      </div>
-    </div>
-
-    <div class="hero-visual" aria-label="FaceMeet video preview">
-      <div class="hero-video-frame">
-        <video id="hero-video" autoplay muted loop playsinline webkit-playsinline poster="assets/brand/facemeet-icon.png">
-          <source src="assets/brand/facemeet-hero-video.mp4" type="video/mp4">
-        </video>
-        <button class="hero-sound-toggle" type="button" id="hero-sound-toggle" onclick="toggleHeroSound()" aria-label="Turn hero video sound on">
-          <span aria-hidden="true">🔇</span>
-          <span>Sound</span>
-        </button>
-        <div class="hero-video-overlay">
-          <div class="hero-video-kicker">The startup ecosystem, live</div>
-          <div class="hero-video-title">Founders, investors and talent worth meeting.</div>
-          <div class="hero-video-sub">A trusted network built around presence, intent, and real conversation.</div>
-        </div>
-      </div>
+  <div class="tourcard">
+    <div class="tchips" id="tchips"><span class="tchip on" data-i="0">The Spark</span><span class="tchip" data-i="1">Radar</span><span class="tchip" data-i="2">Sparks</span><span class="tchip" data-i="3">Investors</span><span class="tchip" data-i="4">Founders</span><span class="tchip" data-i="5">Chats</span><span class="tchip" data-i="6">Live</span><span class="tchip" data-i="7">Following</span><span class="tchip" data-i="8">Testers</span><span class="tchip" data-i="9">Recruiters</span><span class="tchip" data-i="10">Profile</span></div>
+    <div class="tstage" id="tstage"><div class="tslide on" data-i="0"><div class="ttext"><p class="k">Spark Session</p><h2 style="margin-top:8px">Three minutes, face to face.</h2><p class="tbody">This is the whole product in one screen: two people who both said yes, on a timed video call. Three minutes is enough to know — and if it&rsquo;s going somewhere, you extend it together, one Spark each.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/call.jpg" alt="Spark Session screen" loading="lazy"></div><span class="co" style="left:31%;top:6.5%"><i></i>A gentle three-minute timer</span><span class="co co-r" style="left:82%;top:16%"><i></i>Both of you, live</span><span class="co" style="left:30%;top:62%"><i></i>People talking, not profiles</span></div></div><div class="tslide" data-i="1"><div class="ttext"><p class="k">Radar</p><h2 style="margin-top:8px">The morning read that leads to meetings.</h2><p class="tbody">Grants, accelerators, investors and AI news — summarised, sourced, and served daily. Every card shows who else is on it, so a good read becomes a good conversation.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/radar.jpg" alt="Radar screen" loading="lazy"></div><span class="co" style="left:50%;top:15.5%"><i></i>Tuned to your lanes</span><span class="co" style="left:23%;top:69%"><i></i>&ldquo;Interested&rdquo; — meet others on it</span><span class="co co-r" style="left:70%;top:23.5%"><i></i>Real sources, daily</span></div></div><div class="tslide" data-i="2"><div class="ttext"><p class="k">Sparks</p><h2 style="margin-top:8px">Two yeses become a call.</h2><p class="tbody">When both people say yes, that&rsquo;s a Mutual Spark — start the video call now or schedule it. Chats stay locked until you&rsquo;ve actually met, so every message here follows a real conversation.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/sessions.jpg" alt="Sparks screen" loading="lazy"></div><span class="co co-r" style="left:76%;top:21%"><i></i>Mutual Spark — start or schedule</span><span class="co" style="left:26%;top:34%"><i></i>Chats unlock after you meet</span><span class="co co-r" style="left:56%;top:72%"><i></i>Grants shared into chat</span></div></div><div class="tslide" data-i="3"><div class="ttext"><p class="k">Investors</p><h2 style="margin-top:8px">Pitch a real investor in thirty seconds.</h2><p class="tbody">Investors on FaceMeet are faces, not logos. See your mutual connections, see what they invest in, and send a thirty-second video pitch — it costs 3 Sparks, so every pitch they receive is intentional.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/investor.jpg" alt="Investors screen" loading="lazy"></div><span class="co" style="left:27%;top:50%"><i></i>Real people, real cities</span><span class="co" style="left:28%;top:53.5%"><i></i>Mutual connections you trust</span><span class="co co-r" style="left:74%;top:68.5%"><i></i>30-second video pitch · 3 Sparks</span></div></div><div class="tslide" data-i="4"><div class="ttext"><p class="k">Founders</p><h2 style="margin-top:8px">Know what they need before you say hello.</h2><p class="tbody">Every founder card is a living video with the ask right on it — customers, mentorship, funding, partnerships. Connecting starts a real conversation, not a cold DM.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/founder.jpg" alt="Founders screen" loading="lazy"></div><span class="co" style="left:24%;top:47%"><i></i>Founders everywhere</span><span class="co" style="left:48%;top:62%"><i></i>The ask, upfront</span><span class="co co-r" style="left:74%;top:68%"><i></i>Connect = a conversation · 1 Spark</span></div></div><div class="tslide" data-i="5"><div class="ttext"><p class="k">Chats</p><h2 style="margin-top:8px">Conversations that started face to face.</h2><p class="tbody">Reactions, quoted replies, photos and voice notes — and when typing isn&rsquo;t enough, jump straight back into a live Spark call from the top of the thread.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/chat.jpg" alt="Chats screen" loading="lazy"></div><span class="co co-r" style="left:56%;top:19.5%"><i></i>Back to video in one tap</span><span class="co" style="left:14%;top:37%"><i></i>Reactions &amp; replies</span><span class="co" style="left:22%;top:58%"><i></i>Voice notes</span></div></div><div class="tslide" data-i="6"><div class="ttext"><p class="k">Live</p><h2 style="margin-top:8px">Pitch Rooms and live topics.</h2><p class="tbody">Founders pitch live to a room of investors — mutual interest unlocks a private intro. Schedule a topic and your followers get invited; every conversation can live on as a replay.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/live.jpg" alt="Live screen" loading="lazy"></div><span class="co co-r" style="left:74%;top:46%"><i></i>Schedule — followers get invited</span><span class="co" style="left:30%;top:62%"><i></i>Pitch Rooms</span><span class="co" style="left:26%;top:88%"><i></i>Replays live on</span></div></div><div class="tslide" data-i="7"><div class="ttext"><p class="k">Following</p><h2 style="margin-top:8px">Show your work to people who showed their face.</h2><p class="tbody">Post what you&rsquo;re building to members who follow you. No engagement bait — a stream of real builders, with the faces to prove it.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/posts.jpg" alt="Following screen" loading="lazy"></div><span class="co" style="left:50%;top:19.5%"><i></i>Share what you&rsquo;re building</span><span class="co co-r" style="left:74%;top:25.5%"><i></i>Ask for testers</span><span class="co" style="left:50%;top:55%"><i></i>Follow real founders</span></div></div><div class="tslide" data-i="8"><div class="ttext"><p class="k">Test Requests</p><h2 style="margin-top:8px">Your first testers are already here.</h2><p class="tbody">Pre-launch? Ask the network to test your product and reward every accepted test with Sparks. Feedback from verified humans, paid in the currency of the network.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/testers.jpg" alt="Test Requests screen" loading="lazy"></div><span class="co" style="left:50%;top:17%"><i></i>Ask the network to test</span><span class="co" style="left:19%;top:47%"><i></i>⚡3 per accepted test</span><span class="co" style="left:37%;top:38%"><i></i>Android · iPhone · Web</span></div></div><div class="tslide" data-i="9"><div class="ttext"><p class="k">Recruiters</p><h2 style="margin-top:8px">Roles are pitched, not posted.</h2><p class="tbody">A role on FaceMeet is a sixty-second video pitch with the salary handled honestly — a range, or a visible &ldquo;not set yet.&rdquo; Candidates answer with their face, not a PDF.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/role.jpg" alt="Recruiters screen" loading="lazy"></div><span class="co" style="left:50%;top:64.5%"><i></i>60-second role pitch on video</span><span class="co" style="left:40%;top:78%"><i></i>Salary honesty, by design</span><span class="co" style="left:30%;top:40%"><i></i>Sector tags</span></div></div><div class="tslide" data-i="10"><div class="ttext"><p class="k">Profile</p><h2 style="margin-top:8px">Your thirty seconds. Your whole profile.</h2><p class="tbody">No walls of text. A member is a short video, a city, and real numbers — sessions held, matches made. People decide with their eyes, the way people always have.</p></div><div class="pwrap"><div class="pframe"><img src="/assets/screens/profile.jpg" alt="Profile screen" loading="lazy"></div><span class="co" style="left:50%;top:32%"><i></i>The video IS the profile</span><span class="co" style="left:50%;top:67%"><i></i>Real numbers, not vanity</span><span class="co" style="left:20%;top:51%"><i></i>A face and a city</span></div></div></div>
+    <div class="tnav">
+      <button class="tarrow" id="tprev" aria-label="Previous">‹</button>
+      <span class="tcount" id="tcount">1 / 11</span>
+      <button class="tarrow" id="tnext" aria-label="Next">›</button>
     </div>
   </div>
-</section>
+</div></section>
 
-<!-- HOW IT WORKS -->
-<div class="how-section" id="how">
-  <div class="how-inner reveal">
-    <div class="section-eyebrow">How FaceMeet works</div>
-    <h2 class="section-title">A simple loop for<br><em>trusted connection.</em></h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <span class="step-icon">＋</span>
-        <div class="step-title">Discover intent</div>
-        <p class="step-desc">A curated feed of founders, investors and talent — with a reason why each person is worth meeting, framed for you.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <span class="step-icon">◉</span>
-        <div class="step-title">Live Topics</div>
-        <p class="step-desc">Join hosted conversations where people can show presence before a private message ever starts.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <span class="step-icon">⚡</span>
-        <div class="step-title">Signal interest</div>
-        <p class="step-desc">Use Sparks when a conversation, person, or opportunity deserves a more intentional next step.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <span class="step-icon">▣</span>
-        <div class="step-title">Build connections</div>
-        <p class="step-desc">Move from a live conversation to a co-founder, an investor intro, a first hire — the connections that change a company.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ONBOARDING ILLUSTRATIONS -->
-<div class="section reveal" id="onboarding">
-  <div class="section-eyebrow">Onboarding paths</div>
-  <h2 class="section-title">Choose the room where your<br><em>next connection can begin.</em></h2>
-  <p class="section-sub">FaceMeet asks who you are and what you need, then guides you into the right rooms from day one.</p>
-  <div class="onboarding-grid">
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="F"></div>
-      <h3>Founders</h3>
-      <p>Say what you're building and what you need. Meet co-founders, advisors, early users — and pitch investors live.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="I"></div>
-      <h3>Investors</h3>
-      <p>See founders speak before the deck. Host Pitch Rooms, meet filtered deal flow, and back people you've actually met.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="T"></div>
-      <h3>Talent</h3>
-      <p>Show what you've shipped with a video profile and experience credential, and meet the startups you want to build.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="C"></div>
-      <h3>Career Opportunities</h3>
-      <p>Create better paths to roles, referrals, hiring conversations, industry insight, and people who can open doors.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="M"></div>
-      <h3>Mentorship</h3>
-      <p>Make guidance more human by connecting mentors and learners through live context, not anonymous messages.</p>
-    </article>
-    <article class="onboarding-card">
-      <div class="onboarding-art" data-symbol="C"></div>
-      <h3>Communities</h3>
-      <p>Bring trusted groups, local circles, faith communities, alumni networks, and interest-based rooms into real conversation.</p>
-    </article>
-  </div>
-  <p class="onboarding-note">Live Topics and Events extend these paths into hosted conversations and curated gatherings as the network grows.</p>
-</div>
-
-<!-- INTENT CATEGORIES -->
-<div class="section reveal" id="connection-intent">
-  <div class="section-eyebrow">Connection intent</div>
-  <h2 class="section-title">Built for connections<br><em>with a reason to start.</em></h2>
-  <p class="section-sub">FaceMeet helps people enter the right conversation path instead of guessing from profiles and messages.</p>
-  <div class="why-grid">
-    <div class="why-card"><div class="why-icon">✦</div><div class="why-title">Professional Connections</div><p class="why-desc">Meet useful people through context, conversation, and presence instead of low-context outreach.</p></div>
-    <div class="why-card"><div class="why-icon">▰</div><div class="why-title">Founder Networks</div><p class="why-desc">Connect with founders, builders, operators, and people creating things together.</p></div>
-    <div class="why-card"><div class="why-icon">↗</div><div class="why-title">Career Opportunities</div><p class="why-desc">Meet people who can open doors, share roles, referrals, and industry insight.</p></div>
-    <div class="why-card"><div class="why-icon">◎</div><div class="why-title">Mentorship</div><p class="why-desc">Learn from people ahead of you or offer guidance in a more human way.</p></div>
-    <div class="why-card"><div class="why-icon">♡</div><div class="why-title">Communities</div><p class="why-desc">Build trusted local, professional, faith, alumni, and interest-based circles.</p></div>
-    <div class="why-card"><div class="why-icon">★</div><div class="why-title">Events</div><p class="why-desc">Extend online trust into curated gatherings and hosted rooms with intentional access.</p></div>
-  </div>
-</div>
-
-<!-- LIVE TOPICS -->
-<div class="section reveal" id="live-topics">
-  <div class="section-eyebrow">Live Topics</div>
-  <h2 class="section-title">Live Topics turn interest<br><em>into real conversation.</em></h2>
-  <p class="section-sub">Join hosted conversations around professional connections, founder networks, career opportunities, mentorship, communities, and events.</p>
-  <div class="events-preview-grid">
-    <div class="events-preview-card"><div class="events-preview-icon">▰</div><h3>Founder rooms</h3><p>Talk with builders, founders, operators, and people shaping new ideas.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">↗</div><h3>Career rooms</h3><p>Find conversations around roles, referrals, industries, and paths forward.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">◎</div><h3>Mentorship rooms</h3><p>Learn from people ahead of you or share what you know with others.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">♡</div><h3>Community rooms</h3><p>Meet thoughtful people around shared interests, local circles, and real-world communities.</p></div>
-  </div>
-  <a class="events-preview-cta" href="/#live-topics">Explore Live Topics →</a>
-</div>
-
-<!-- FOUNDING CIRCLE -->
-<!-- PITCH ROOMS -->
-<div class="section reveal" id="pitch-rooms">
-  <div class="section-eyebrow">Pitch Rooms</div>
-  <h2 class="section-title">Pitch live. Get seen.<br><em>Match with real interest.</em></h2>
-  <p class="section-sub">Investors host live Pitch Rooms. Founders take the stage for timed pitches. The room watches, and mutual interest becomes a direct introduction — no cold emails, no decks into the void.</p>
+<section><div class="wrap">
+  <div class="sechead"><p class="k">How FaceMeet works</p>
+  <h2 style="margin-top:10px">A simple loop for trusted connection.</h2></div>
   <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <span class="step-icon">◈</span>
-      <div class="step-title">Investors host</div>
-      <p class="step-desc">An investor opens a Pitch Room around their thesis — pre-seed fintech, B2B SaaS, whatever they back.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <span class="step-icon">⚡</span>
-      <div class="step-title">Founders take the stage</div>
-      <p class="step-desc">Founders apply with Sparks and pitch live in timed rounds — everyone in the room sees presence, not paperwork.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <span class="step-icon">▣</span>
-      <div class="step-title">Interest becomes introduction</div>
-      <p class="step-desc">When interest is mutual, FaceMeet opens the conversation directly. The pitch was the meeting.</p>
-    </div>
+    <div class="step"><div class="num">1</div><h4>Discover intent</h4><p>A curated feed of founders, investors and talent — with a reason why each person is worth meeting, framed for you.</p></div>
+    <div class="step"><div class="num">2</div><h4>Live Topics</h4><p>Join hosted conversations where people can show presence before a private message ever starts.</p></div>
+    <div class="step"><div class="num">3</div><h4>Signal interest</h4><p>Use Sparks when a conversation, person, or opportunity deserves a more intentional next step.</p></div>
+    <div class="step"><div class="num">4</div><h4>Build connections</h4><p>Move from a live conversation to a co-founder, an investor intro, a first hire — the connections that change a company.</p></div>
   </div>
-</div>
+</div></section>
 
-<!-- HOST EARNINGS -->
-<div class="section reveal" id="host-earnings">
-  <div class="section-eyebrow">Host earnings</div>
-  <h2 class="section-title">Great hosts<br><em>get paid.</em></h2>
-  <p class="section-sub">When people spend Sparks to join your rooms or unlock your replays, you earn a share — automatically. Host the conversations your corner of the ecosystem needs, build a following, and cash out as your rooms grow.</p>
-  <div class="steps">
-    <div class="step">
-      <span class="step-icon">◉</span>
-      <div class="step-title">Host conversations</div>
-      <p class="step-desc">Live Topics, Pitch Rooms, and replays of your best conversations all earn when members join or unlock them.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">⚡</span>
-      <div class="step-title">Earn on every Spark</div>
-      <p class="step-desc">A share of every Spark spent in your rooms is credited to you automatically — solo hosts and co-hosts both earn.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">＄</span>
-      <div class="step-title">Cash out</div>
-      <p class="step-desc">Earnings accumulate in your balance and convert to real money once you cross the payout threshold.</p>
-    </div>
+<section style="padding-top:10px"><div class="wrap">
+  <div class="sechead"><p class="k">Onboarding paths</p>
+  <h2 style="margin-top:10px">Choose the room where your next connection can begin.</h2>
+  <p class="secsub">FaceMeet asks who you are and what you need, then guides you into the right rooms from day one.</p></div>
+  <div class="grid6">
+    <div class="card"><h4>Founders</h4><p>Say what you're building and what you need. Meet co-founders, advisors, early users — and pitch investors live.</p></div>
+    <div class="card"><h4>Investors</h4><p>See founders speak before the deck. Host Pitch Rooms, meet filtered deal flow, and back people you've actually met.</p></div>
+    <div class="card"><h4>Talent</h4><p>Show what you've shipped with a video profile and experience credential, and meet the startups you want to build.</p></div>
+    <div class="card"><h4>Career Opportunities</h4><p>Create better paths to roles, referrals, hiring conversations, industry insight, and people who can open doors.</p></div>
+    <div class="card"><h4>Mentorship</h4><p>Make guidance more human by connecting mentors and learners through live context, not anonymous messages.</p></div>
+    <div class="card"><h4>Communities</h4><p>Bring trusted groups, local circles, faith communities, alumni networks, and interest-based rooms into real conversation.</p></div>
   </div>
-</div>
+</div></section>
 
-<!-- AI PROFILE COACH -->
-<div class="section reveal" id="ai-coach">
-  <div class="section-eyebrow">Your AI coach</div>
-  <h2 class="section-title">An AI coach that makes sure<br><em>the right people see you.</em></h2>
-  <p class="section-sub">FaceMeet doesn't just host your profile — it coaches it, frames it for each viewer, and proves the right audience is watching.</p>
-  <div class="steps">
-    <div class="step">
-      <span class="step-icon">✎</span>
-      <div class="step-title">Coached video intros</div>
-      <p class="step-desc">Before you record, FaceMeet writes you a personal script angle from your goals — who you are, what you're building, the one thing you need.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">◈</span>
-      <div class="step-title">Framed per viewer</div>
-      <p class="step-desc">An investor sees your raising angle. A potential co-founder sees the gap on your team. Talent sees what they'd build. Same you, the right frame.</p>
-    </div>
-    <div class="step">
-      <span class="step-icon">👁</span>
-      <div class="step-title">Proof you're being seen</div>
-      <p class="step-desc">Weekly receipts — "Seen by 3 investors · 7 founders" — show exactly who's watching. Real counts, never inflated.</p>
-    </div>
+<section style="padding-top:10px"><div class="wrap">
+  <div class="sechead"><p class="k">Live Topics</p>
+  <h2 style="margin-top:10px">Live Topics turn interest into real conversation.</h2>
+  <p class="secsub">Join hosted conversations around professional connections, founder networks, career opportunities, mentorship, communities, and events.</p></div>
+  <div class="grid6 two">
+    <div class="card"><h4>▰ Founder rooms</h4><p>Talk with builders, founders, operators, and people shaping new ideas.</p></div>
+    <div class="card"><h4>↗ Career rooms</h4><p>Find conversations around roles, referrals, industries, and paths forward.</p></div>
+    <div class="card"><h4>◎ Mentorship rooms</h4><p>Learn from people ahead of you or share what you know with others.</p></div>
+    <div class="card"><h4>♡ Community rooms</h4><p>Meet thoughtful people around shared interests, local circles, and real-world communities.</p></div>
   </div>
-</div>
+</div></section>
 
-<div class="section reveal" id="founding-circle">
-  <div class="section-eyebrow">Founding Circle</div>
-  <h2 class="section-title">Join the FaceMeet<br><em>Founding Circle.</em></h2>
-  <p class="section-sub">We’re opening FaceMeet with a limited group of people who want trusted connections, professional introductions, founder networks, mentorship, communities, Live Topics, and events.</p>
-  <div class="hero-proof" style="margin-top:28px;max-width:720px;">
-    <div class="hero-proof-title">Bring 3 people you would actually want in the room</div>
-    <p style="color:var(--cream-dim);font-size:15px;line-height:1.75;margin:0 0 18px;">Founding Circle access is limited while we build the first trusted rooms.</p>
-    <a class="events-preview-cta" href="/join">Join the Founding Circle →</a>
+<section style="padding-top:10px"><div class="wrap">
+  <div class="sechead"><p class="k">Pitch Rooms</p>
+  <h2 style="margin-top:10px">Pitch live. Get seen. Match with real interest.</h2>
+  <p class="secsub">Investors host live Pitch Rooms. Founders take the stage for timed pitches. The room watches, and mutual interest becomes a direct introduction — no cold emails, no decks into the void.</p></div>
+  <div class="steps three">
+    <div class="step"><div class="num">1</div><h4>Investors host</h4><p>An investor opens a Pitch Room around their thesis — pre-seed fintech, B2B SaaS, whatever they back.</p></div>
+    <div class="step"><div class="num">2</div><h4>Founders take the stage</h4><p>Founders apply with Sparks and pitch live in timed rounds — everyone in the room sees presence, not paperwork.</p></div>
+    <div class="step"><div class="num">3</div><h4>Interest becomes introduction</h4><p>When interest is mutual, FaceMeet opens the conversation directly. The pitch was the meeting.</p></div>
   </div>
-</div>
+</div></section>
 
-<!-- SAFETY -->
-<div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 48px;" id="safety">
-  <div style="max-width:1200px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:36px;">
-      <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;">Trusted Connections</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:10px;">Real people. Real context.<br><em style="font-style:italic;color:var(--coral);">Better conversations.</em></h2>
+<section style="padding-top:10px"><div class="wrap">
+  <div class="grid2">
+    <div class="card" style="padding:30px">
+      <p class="k">Host earnings</p><h2 style="margin-top:8px;font-size:24px">Great hosts get paid.</h2>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:10px">When people spend Sparks to join your rooms or unlock your replays, you earn a share — automatically. Host the conversations your corner of the ecosystem needs, build a following, and cash out as your rooms grow.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Video-first profiles</div><p class="why-desc">Members start with short video intros so people can see presence before investing time.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Reporting and blocking</div><p class="why-desc">Members can report and block behavior that does not fit the community standards.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Profile moderation</div><p class="why-desc">Profile-video moderation and admin review help keep the network intentional.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Controlled Live Topic access</div><p class="why-desc">Curated rooms and admin controls support safer, more useful conversations.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Conversation before messaging</div><p class="why-desc">FaceMeet is designed around intentional context before private chat becomes the center of the connection.</p></div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;"><div class="why-title">Clear community standards</div><p class="why-desc">Public policies explain what belongs on FaceMeet and what does not.</p></div>
+    <div class="card" style="padding:30px">
+      <p class="k">Your AI coach</p><h2 style="margin-top:8px;font-size:24px">The right people see you.</h2>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:10px">FaceMeet coaches your video intro before you record, frames it differently for an investor, a co-founder, or talent — and sends weekly receipts like "Seen by 3 investors · 7 founders." Real counts, never inflated.</p>
     </div>
   </div>
-</div>
+</div></section>
 
-<div class="section reveal" id="events-preview">
-  <div class="section-eyebrow">Events</div>
-  <h2 class="section-title">Events turn trusted context<br><em>into community.</em></h2>
-  <p class="section-sub">Start with real conversations. Continue through Live Topics, FaceMeetings, and curated gatherings for communities that should exist beyond a message thread.</p>
-  <div class="events-preview-grid">
-    <div class="events-preview-card"><div class="events-preview-icon">◎</div><h3>Limited rooms</h3><p>Events and rooms stay intentionally focused so conversations can actually happen.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">✦</div><h3>Reviewed access</h3><p>Access can be reviewed to keep each experience intentional and aligned.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">✉</div><h3>Community density</h3><p>FaceMeet uses events to build trusted connection circles in the places where people are active.</p></div>
-    <div class="events-preview-card"><div class="events-preview-icon">★</div><h3>Topic-led connection</h3><p>Live Topics give people a reason to meet before a FaceMeeting is ever requested.</p></div>
+<section style="padding-top:10px"><div class="wrap">
+  <div class="sechead"><p class="k">FaceMeet Radar</p>
+  <h2 style="margin-top:10px">Radar finds what builders need — grants, backers, competitions.</h2>
+  <p class="secsub">Radar hunts the ecosystem daily: grants you can actually apply for — including government programmes and ones for women-led teams — accelerators with money behind them, competitions worth entering, investors in motion, and the AI news your next conversation will be about. Every card is summarised, deadlined, shareable, and shows who else is on it. These six are live from today's feed:</p></div>
+  <div class="radar-strip">
+    <div class="rcard"><span class="lane">GRANT</span><h5>CIG Motors Management Trainee Programme 2026</h5><p>Structured learning, mentorship and competitive benefits for young graduates.</p><span class="pin">⏳ Closes in 2 days</span></div>
+    <div class="rcard"><span class="lane">GRANT</span><h5>Echoing Green 9th Follow-on Funding Cycle</h5><p>$475,000 across 11 organizations — including first-ever sustainability and scale grants.</p><span class="pin">$475,000</span></div>
+    <div class="rcard"><span class="lane">GOVERNMENT</span><h5>BOI Impact Report: ₦644.9bn disbursed to 1.68M businesses</h5><p>Government-scale financing reaching founders most networks never mention.</p><span class="pin">₦644.9bn</span></div>
+    <div class="rcard"><span class="lane">ACCELERATOR</span><h5>Mastercard Foundation EdTech Fellowship backs 12 early-stage teams</h5><p>A sponsor actively putting money behind early-stage builders.</p><span class="pin">Sponsor-backed</span></div>
+    <div class="rcard"><span class="lane">FELLOWSHIP</span><h5>FRIAS Sustainable Governance Senior Fellowship</h5><p>A funded research fellowship with a real deadline — pinned until it passes.</p><span class="pin">⏳ Sep 18</span></div>
+    <div class="rcard"><span class="lane">COMPETITION</span><h5>Dublin hacx · Banana Hacks</h5><p>Hackathons worth building for — see who else from the network is entering.</p><span class="pin">Open now</span></div>
   </div>
-  <a class="events-preview-cta" href="/events">Explore Events →</a>
-</div>
-<!-- CTA -->
-<!-- GET FACEMEET -->
-<section id="radar-teaser" style="padding:88px 48px;max-width:1080px;margin:0 auto;">
-  <p style="color:#ff6f56;background:rgba(232,80,58,0.11);border:1px solid rgba(232,80,58,0.28);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;display:inline-flex;margin-bottom:18px;">Live from FaceMeet Radar</p>
-  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.5vw,46px);line-height:1.06;margin:0 0 10px;">Grants, accelerators, investors, and AI news &mdash; <em style="color:#e8503a;font-style:italic;">verified daily.</em></h2>
-  <p style="color:rgba(245,240,232,0.68);max-width:560px;margin:0 0 26px;">Every card below is live from the feed members wake up to. Deadlines stay pinned until they pass.</p>
-  <div id="radar-teaser-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;"></div>
-</section>
+  <p style="margin-top:18px"><a class="cta ghost" href="/radar-home.html" style="padding:11px 24px;font-size:13.5px">Explore Radar →</a></p>
+</div></section>
+
+<section style="padding-top:10px;padding-bottom:80px"><div class="wrap">
+  <div class="dlband" id="get">
+    <div>
+      <p class="k">Get FaceMeet</p>
+      <h2 style="margin-top:10px">Start with conversation. Continue with trust.</h2>
+      <p class="secsub">The iOS beta is open, Android is live on Google Play, and the web app runs anywhere. Create your video intro and start meeting the ecosystem.</p>
+      <div class="stores">
+        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 384 512" width="20" height="20" style="display:block"><path fill="#f5f0e8" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.7-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span><span><small>iPhone — beta</small><b>Join the iOS Beta on TestFlight</b></span></a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 512 512" width="19" height="19" style="display:block"><path fill="#00E070" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/><path fill="#00C3FF" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256.6L47 0z"/><path fill="#FFD500" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/><path fill="#FF3A44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></span><span><small>Android app</small><b>Download on Google Play</b></span></a>
+        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f5f0e8" stroke-width="1.5" style="display:block"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.6 3.2 14.4 0 18M12 3c-3.2 3.6-3.2 14.4 0 18"/></svg></span><span><small>Web access</small><b>Open FaceMeet Web</b></span></a>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <div><div style="background:#fff;border-radius:14px;padding:10px;display:inline-block"><img src="/assets/qr-testflight.png" alt="Scan to join the FaceMeet iOS beta on TestFlight" style="width:120px;height:120px;display:block"></div>
+          <p style="color:var(--dim);font-size:11.5px;font-weight:700;margin-top:8px">iPhone — iOS Beta</p></div>
+        <div><div style="background:#fff;border-radius:14px;padding:10px;display:inline-block"><img src="/assets/qr-googleplay.png" alt="Scan to download FaceMeet on Google Play" style="width:120px;height:120px;display:block"></div>
+          <p style="color:var(--dim);font-size:11.5px;font-weight:700;margin-top:8px">Android — Google Play</p></div>
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-top:12px;max-width:280px;margin-left:auto;margin-right:auto">Scan with your phone camera — iPhone opens the TestFlight beta, Android opens the official Google Play listing.</p>
+    </div>
+  </div>
+</div></section>
+<div class="bigfoot"><div class="wrap">
+  <div class="fgrid">
+    <div class="fbrand">
+      <span class="brand" style="font-size:22px"><img class="blogo" style="width:30px;height:30px" src="/brand/facemeet-logo.png" alt=""><b style="font-weight:800">Face<span style="color:var(--coral)">Meet</span></b></span>
+      <p>Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</p>
+      <div class="stores" style="margin-top:16px">
+        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer" style="min-width:0;padding:8px 14px"><span class="ic"><svg viewBox="0 0 384 512" width="20" height="20" style="display:block"><path fill="#f5f0e8" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.7-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span><span><small>iOS Beta</small></span></a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" style="min-width:0;padding:8px 14px"><span class="ic"><svg viewBox="0 0 512 512" width="19" height="19" style="display:block"><path fill="#00E070" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/><path fill="#00C3FF" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256.6L47 0z"/><path fill="#FFD500" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/><path fill="#FF3A44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></span><span><small>Google Play</small></span></a>
+        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer" style="min-width:0;padding:8px 14px"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f5f0e8" stroke-width="1.5" style="display:block"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.6 3.2 14.4 0 18M12 3c-3.2 3.6-3.2 14.4 0 18"/></svg></span><span><small>Web</small></span></a>
+      </div>
+    </div>
+    <div class="fcol"><h6>Product</h6>
+      <a href="/why-facemeet-exists.html">Why FaceMeet</a><a href="/sparks.html">Sparks</a><a href="/radar-home.html">Radar</a>
+      <a href="/events.html">Events</a><a href="/recruiters.html">Recruiters</a><a href="/pricing.html">Plans</a>
+      <a href="/join.html">Join the Founding Circle</a><a href="/creators.html">Founding Hosts</a></div>
+    <div class="fcol"><h6>Community</h6>
+      <a href="/community-guidelines.html">Community Guidelines</a><a href="/content-policy.html">Content Policy</a>
+      <a href="/moderation-policy.html">Moderation Policy</a><a href="/child-safety.html">Child Safety</a><a href="/faq.html">FAQ</a></div>
+    <div class="fcol"><h6>Legal &amp; Contact</h6>
+      <a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a>
+      <a href="/refund-policy.html">Refund Policy</a><a href="/payment-terms.html">Payment Terms</a>
+      <a href="/contact.html">Contact</a><a href="/contact.html">Support</a></div>
+  </div>
+  <div class="fbottom"><span>© 2026 FaceMeet.</span><span>Where founders, investors and talent meet face to face.</span></div>
+</div></div>
+
+
 <script>
+
+document.querySelectorAll('.goget').forEach(function(el){
+  el.addEventListener('click',function(e){e.preventDefault();
+    document.querySelectorAll('.page').forEach(function(pg){pg.classList.toggle('on',pg.id==='p-home');});
+    document.querySelectorAll('nav .item').forEach(function(it){it.classList.toggle('on',it.getAttribute('data-p')==='home');});
+    setTimeout(function(){var t=document.getElementById('getband');if(t)t.scrollIntoView({behavior:'smooth',block:'center'});},60);
+  });
+});
+
+document.querySelectorAll('[data-p]').forEach(function(el){
+  el.addEventListener('click',function(e){e.preventDefault();
+    var p=el.getAttribute('data-p');
+    document.querySelectorAll('.page').forEach(function(pg){pg.classList.toggle('on',pg.id==='p-'+p);});
+    document.querySelectorAll('nav .item').forEach(function(it){it.classList.toggle('on',it.getAttribute('data-p')===p);});
+    window.scrollTo({top:0});
+  });
+});
+
+// ── hero: image + copy change together ──
 (function(){
-  var LANES={ai_news:['AI · News','#ff6f56'],grants:['Grant','#d4a847'],accelerators:['Accelerator','#06d6a0'],investors:['Investors','#aab4f0'],events:['Event','#5ac7c7'],talks:['Talk','#c77dd8']};
-  var esc=function(v){return String(v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
-  fetch('https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/get_public_radar_teaser',{method:'POST',headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w','Content-Type':'application/json'},body:'{"p_limit":6}'})
-  .then(function(r){return r.json();})
-  .then(function(rows){
-    if(!Array.isArray(rows)||!rows.length) return;
-    var grid=document.getElementById('radar-teaser-grid');
-    grid.innerHTML=rows.map(function(r){
-      var lane=LANES[r.lane]||['Radar','#f5f0e8'];
-      var chip='';
-      if(r.deadline_at){
-        var days=Math.floor((new Date(r.deadline_at)-Date.now())/86400000);
-        if(days>=0) chip='<span style="color:#d4a847;font-size:11px;font-weight:700;">&#9203; closes in '+days+' day'+(days===1?'':'s')+'</span>';
+  var copy=[["Where founders, investors and talent meet <span class=\"grad\">face to face.</span>", "FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host \u2014 no cold outreach, no endless messages."],["Radar finds the doors — <span class=\"grad\">before they close.</span>","Grants, accelerators, competitions and investors — hunted daily, summarised with real deadlines, and shared with the people you want to meet on them."], ["When you both say yes, <span class=\"grad\">that&rsquo;s a Spark.</span>", "Mutual interest becomes a timed video call \u2014 start it now or schedule it for later. Chats unlock only after you&rsquo;ve actually met."], ["Pitch a real investor, <span class=\"grad\">not a form.</span>", "Investors here are faces you can meet. See your mutual connections and send a thirty-second video pitch straight to them."], ["Meet founders <span class=\"grad\">the human way.</span>", "Every founder is a living video with their ask right on it \u2014 customers, funding, mentorship, co-founders. Say hello already knowing how you can help."], ["Pitch Rooms and live topics \u2014 <span class=\"grad\">real rooms.</span>", "Founders pitch live to rooms of investors, mutual interest unlocks private intros, and hosts earn from the conversations they run."], ["Real people on video \u2014 <span class=\"grad\">not a pile of r&eacute;sum&eacute;s.</span>", "Our AI matching pairs you with people actually worth meeting. Recruiters pitch roles in sixty seconds; candidates answer with their face."], ["Conversations that started <span class=\"grad\">with a face.</span>", "Reactions, voice notes, photos \u2014 and one tap back into live video when typing isn&rsquo;t enough."]];
+  var slides=document.querySelectorAll('.hslide');
+  var dots=document.querySelectorAll('.hdot');
+  var swap=document.getElementById('hswap');
+  var hh=document.getElementById('hh'), hb=document.getElementById('hb');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var i=0, timer=null;
+  function show(n){
+    i=n%copy.length;
+    slides.forEach(function(sl,j){sl.classList.toggle('on',j===i);});
+    dots.forEach(function(d,j){d.classList.toggle('on',j===i);});
+    swap.style.opacity=0;
+    setTimeout(function(){hh.innerHTML=copy[i][0];hb.innerHTML=copy[i][1];swap.style.opacity=1;},300);
+  }
+  dots.forEach(function(d){d.addEventListener('click',function(){show(+d.getAttribute('data-i'));restart();});});
+  function restart(){if(timer)clearInterval(timer);if(!reduced)timer=setInterval(function(){show(i+1);},9500);}
+  var ph=document.querySelector('.hphone');
+  if(ph){ph.addEventListener('pointerenter',function(){if(timer)clearInterval(timer);});
+         ph.addEventListener('pointerleave',restart);}
+  restart();
+})();
+
+// ── one-card tour ──
+(function(){
+  var chips=document.querySelectorAll('.tchip');
+  var slides=document.querySelectorAll('.tslide');
+  var count=document.getElementById('tcount');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n=slides.length, i=0, timer=null, touched=false;
+  function show(k){
+    i=(k+n)%n;
+    slides.forEach(function(s,j){s.classList.toggle('on',j===i);});
+    chips.forEach(function(c,j){c.classList.toggle('on',j===i);});
+    count.textContent=(i+1)+' / '+n;
+  }
+  function stopAuto(){touched=true;if(timer)clearInterval(timer);}
+  chips.forEach(function(c){c.addEventListener('click',function(){stopAuto();show(+c.getAttribute('data-i'));});});
+  document.getElementById('tprev').addEventListener('click',function(){stopAuto();show(i-1);});
+  document.getElementById('tnext').addEventListener('click',function(){stopAuto();show(i+1);});
+  if(!reduced)timer=setInterval(function(){if(!touched)show(i+1);},8000);
+})();
+
+// ── The living network ──
+(function(){
+  var cv=document.getElementById('net');if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var faces=['/assets/screens/face_1.png','/assets/screens/face_2.png','/assets/screens/face_3.png','/assets/screens/face_4.png'].map(function(src){var i=new Image();i.src=src;return i;});
+  var W,H,nodes=[],edges=[],sparks=[];
+  function resize(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;build();}
+  function build(){
+    nodes=[];edges=[];sparks=[];
+    var n=Math.max(16,Math.floor(W/90));
+    for(var i=0;i<n;i++){
+      nodes.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.14*devicePixelRatio,vy:(Math.random()-.5)*.14*devicePixelRatio,
+        r:(Math.random()*3+2.5)*devicePixelRatio,face:null,glow:0});
+    }
+    for(var f=0;f<4;f++){
+      nodes.push({x:W*(.35+Math.random()*.3),y:H*(.15+Math.random()*.7),
+        vx:(Math.random()-.5)*.1*devicePixelRatio,vy:(Math.random()-.5)*.1*devicePixelRatio,
+        r:17*devicePixelRatio,face:faces[f],glow:0});
+    }
+    for(var a=0;a<nodes.length;a++){
+      var best=[],i2;
+      for(i2=0;i2<nodes.length;i2++){if(i2===a)continue;
+        var dx=nodes[a].x-nodes[i2].x,dy=nodes[a].y-nodes[i2].y;
+        best.push([dx*dx+dy*dy,i2]);}
+      best.sort(function(p,q){return p[0]-q[0];});
+      for(var b=0;b<2;b++){var pair=[Math.min(a,best[b][1]),Math.max(a,best[b][1])];
+        if(!edges.some(function(e){return e[0]===pair[0]&&e[1]===pair[1];}))edges.push(pair);}
+    }
+  }
+  function fireSpark(){
+    if(!edges.length)return;
+    var e=edges[Math.floor(Math.random()*edges.length)];
+    sparks.push({a:nodes[e[0]],b:nodes[e[1]],t:0,speed:.012+Math.random()*.012});
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    ctx.lineWidth=1*devicePixelRatio;
+    edges.forEach(function(e){
+      var a=nodes[e[0]],b=nodes[e[1]];
+      ctx.strokeStyle='rgba(232,80,58,0.22)';
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+    });
+    sparks=sparks.filter(function(s){return s.t<=1;});
+    sparks.forEach(function(s){
+      s.t+=s.speed;
+      var x=s.a.x+(s.b.x-s.a.x)*s.t,y=s.a.y+(s.b.y-s.a.y)*s.t;
+      var g=ctx.createRadialGradient(x,y,0,x,y,8*devicePixelRatio);
+      g.addColorStop(0,'rgba(255,190,150,0.95)');g.addColorStop(1,'rgba(232,80,58,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,8*devicePixelRatio,0,7);ctx.fill();
+      if(s.t>=1)s.b.glow=1;
+    });
+    nodes.forEach(function(nd){
+      nd.x+=nd.vx;nd.y+=nd.vy;
+      if(nd.x<0||nd.x>W)nd.vx*=-1;if(nd.y<0||nd.y>H)nd.vy*=-1;
+      if(nd.glow>0)nd.glow-=.02;
+      if(nd.face&&nd.face.complete&&nd.face.naturalWidth){
+        ctx.save();ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r,0,7);ctx.clip();
+        ctx.drawImage(nd.face,nd.x-nd.r,nd.y-nd.r,nd.r*2,nd.r*2);ctx.restore();
+        ctx.strokeStyle='rgba(232,80,58,'+(0.5+nd.glow*0.5)+')';
+        ctx.lineWidth=(1.5+nd.glow*3)*devicePixelRatio;
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r+2*devicePixelRatio,0,7);ctx.stroke();
+      }else{
+        ctx.fillStyle='rgba(232,140,110,'+(0.5+nd.glow*0.5)+')';
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(1+nd.glow*.8),0,7);ctx.fill();
       }
-      return '<a href="/radar/'+encodeURIComponent(r.public_slug)+'" style="text-decoration:none;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:16px;padding:16px 18px;display:block;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="color:'+lane[1]+';font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;">'+esc(lane[0])+'</span>'+chip+'</div>'
-        +'<p style="font-family:\'Cormorant Garamond\',serif;font-size:19px;line-height:1.2;color:#f5f0e8;margin:0 0 6px;">'+esc(r.title)+'</p>'
-        +'<p style="color:#8a7e72;font-size:11.5px;margin:0;">'+esc(r.source_name||'')+'</p></a>';
-    }).join('');
-  }).catch(function(){});
+      if(nd.glow>0.6){
+        ctx.strokeStyle='rgba(232,178,58,'+nd.glow*0.6+')';
+        ctx.lineWidth=1.5*devicePixelRatio;
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r+(1.4-nd.glow)*22*devicePixelRatio,0,7);ctx.stroke();
+      }
+    });
+    if(!reduced)requestAnimationFrame(tick);
+  }
+  resize();addEventListener('resize',resize);
+  if(reduced){tick();}else{tick();setInterval(fireSpark,420);}
 })();
 </script>
-<section id="install" style="padding:96px 48px;position:relative;overflow:hidden;">
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(212,168,71,0.06) 0%,rgba(232,80,58,0.06) 40%,transparent 70%);pointer-events:none;"></div>
-  <div style="max-width:920px;margin:0 auto;position:relative;z-index:1;" class="reveal">
-    <div style="text-align:center;margin-bottom:44px;">
-      <div class="section-eyebrow">Get FaceMeet</div>
-      <h2 class="section-title">Start with conversation.<br><em>Continue with trust.</em></h2>
-      <p class="section-sub" style="margin:0 auto;">The iOS beta is open, Android is live on Google Play, and the web app runs anywhere. Create your video intro and start meeting the ecosystem.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
-      <div class="beta-download-card" style="max-width:none;">
-        <div class="beta-download-title">Get FaceMeet on your phone</div>
-        <p class="beta-download-sub">Join the iOS beta or install the Android app. Create your video intro, meet founders, investors and talent, join Live Topics, and start conversations worth continuing.</p>
-        <a class="store-button primary" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer" onclick="trackDownloadClick('ios_testflight')">
-          <span><span class="store-small">iPhone — beta</span><span class="store-main">Join the iOS Beta on TestFlight</span></span>
-          <span>→</span>
-        </a>
-        <a class="store-button" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" style="margin-top:10px;" onclick="trackDownloadClick('android_play_store')">
-          <span><span class="store-small">Android app</span><span class="store-main">Download on Google Play</span></span>
-          <span>→</span>
-        </a>
-        <a class="store-button" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer" style="margin-top:10px;">
-          <span><span class="store-small">Web access</span><span class="store-main">Open FaceMeet Web</span></span>
-          <span>→</span>
-        </a>
-      </div>
-      <div class="qr-card" style="padding:28px;">
-        <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:12px;">Scan to get FaceMeet</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div style="text-align:center;">
-            <div class="qr-frame" style="margin-bottom:8px;">
-              <img alt="Scan to join the FaceMeet iOS beta on TestFlight" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Ftestflight.apple.com%2Fjoin%2FTrH8nRKr">
-            </div>
-            <div style="font-size:12.5px;font-weight:700;color:var(--cream);">iPhone — iOS Beta</div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qr-frame" style="margin-bottom:8px;">
-              <img alt="Scan to download FaceMeet on Google Play" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.ononobi.facemeet">
-            </div>
-            <div style="font-size:12.5px;font-weight:700;color:var(--cream);">Android — Google Play</div>
-          </div>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.55;margin:0;">Scan with your phone camera — iPhone opens the TestFlight beta, Android opens the official Google Play listing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<footer class="fm-site-footer">
-  <div class="fm-site-footer__brand">
-    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</div>
-  </div>
-  <div class="fm-site-footer__links">
-    <a href="/why-facemeet-exists">Why FaceMeet</a>
-    <a href="/sparks">Sparks</a>
-    <a href="/faq">FAQ</a>
-    <a href="/events">Events</a>
-    <a href="/community-guidelines">Community Guidelines</a>
-    <a href="/content-policy">Content Policy</a>
-    <a href="/moderation-policy">Moderation Policy</a>
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms of Service</a>
-    <a href="/refund-policy">Refund Policy</a>
-    <a href="/payment-terms">Payment Terms</a>
-    <a href="/child-safety">Child Safety</a>
-    <a href="mailto:hello@facemeet.app">Contact</a>
-    <a href="mailto:support@facemeet.app">Support</a>
-  </div>
-  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
-</footer>
-
-<!-- Contact Modal -->
-<div id="contact-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
-  <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
-    <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
-    <div style="font-size:44px;margin-bottom:18px;">✉️</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Get in touch</h2>
-    <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Have a question or feedback? We read every email and reply within 24 hours.</p>
-    <a href="mailto:hello@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">hello@facemeet.app</a>
-  </div>
-</div>
-
-<!-- Support Modal -->
-<div id="support-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);overflow-y:auto;backdrop-filter:blur(8px);" onclick="if(event.target===this)this.style.display='none'">
-  <div style="max-width:520px;margin:120px auto;background:#141110;border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:48px;position:relative;text-align:center;">
-    <button onclick="document.getElementById('support-modal').style.display='none'" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#8a7e72;font-size:22px;cursor:pointer;">✕</button>
-    <div style="font-size:44px;margin-bottom:18px;">🛟</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#f5f0e8;margin-bottom:10px;">Support</h2>
-    <p style="color:#8a7e72;margin-bottom:28px;line-height:1.7;font-size:14px;">Having an issue? Email our support team. We reply within 24 hours.</p>
-    <a href="mailto:support@facemeet.app" style="display:inline-block;background:#e8503a;color:white;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:600;text-decoration:none;">support@facemeet.app</a>
-  </div>
-</div>
 
 <script>
-// Navbar scroll
-window.addEventListener('scroll', () => {
-  const nb = document.getElementById('navbar');
-  if (nb) nb.classList.toggle('scrolled', window.scrollY > 40);
-});
 
-// Mobile menu
-function toggleMob() {
-  const links = document.getElementById('nav-links');
-  const btn = document.getElementById('mob-btn');
-  if (!links || !btn) return;
-  links.classList.toggle('open');
-  btn.textContent = links.classList.contains('open') ? '✕' : '☰';
-}
-function closeMob() {
-  const links = document.getElementById('nav-links');
-  const btn = document.getElementById('mob-btn');
-  if (links) links.classList.remove('open');
-  if (btn) btn.textContent = '☰';
-}
 
-function trackDownloadClick(platform) {
-  try {
-    const key = `fm_${platform}_download_clicks`;
-    const next = Number(localStorage.getItem(key) || 0) + 1;
-    localStorage.setItem(key, String(next));
-    if (window.fmTrack) window.fmTrack('click_' + platform);
-  } catch (e) {
-    // Local click tracking should never block the store link.
-  }
-}
 
-function toggleHeroSound() {
-  const video = document.getElementById('hero-video');
-  const button = document.getElementById('hero-sound-toggle');
-  if (!video || !button) return;
-  video.muted = !video.muted;
-  video.volume = 1;
-  video.play().catch(() => {});
-  button.setAttribute('aria-label', video.muted ? 'Turn hero video sound on' : 'Turn hero video sound off');
-  button.innerHTML = video.muted
-    ? '<span aria-hidden="true">🔇</span><span>Sound</span>'
-    : '<span aria-hidden="true">🔊</span><span>Sound on</span>';
-}
 
-// Active nav link on scroll
-const sections = document.querySelectorAll('section[id], div[id]');
-const navLinks = document.querySelectorAll('.nav-link');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    if (window.scrollY >= section.offsetTop - 120) current = section.id;
-  });
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    const href = link.getAttribute('href') || '';
-    if (href === '#' + current || href === '/#' + current) link.classList.add('active');
-  });
-});
 
-// Scroll reveal
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-</script>
-<script>
+// ── hero: image + copy change together ──
 (function(){
-  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
-  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
-  function send(ev){
-    try{
-      var vid=localStorage.getItem('fm_vid');
-      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
-      var q=new URLSearchParams(location.search);
-      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
-        p_referrer:(document.referrer||'').slice(0,300),
-        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
-        p_visitor:vid.slice(0,64)});
-      if(navigator.sendBeacon){
-        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
-      }else{
-        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
-      }
-    }catch(e){}
+  var copy=[["Where founders, investors and talent meet <span class=\"grad\">face to face.</span>", "FaceMeet is a video-first network for the startup ecosystem. Pitch live to investors, meet co-founders and first hires, and earn from the conversations you host \u2014 no cold outreach, no endless messages."],["Radar finds the doors — <span class=\"grad\">before they close.</span>","Grants, accelerators, competitions and investors — hunted daily, summarised with real deadlines, and shared with the people you want to meet on them."], ["When you both say yes, <span class=\"grad\">that&rsquo;s a Spark.</span>", "Mutual interest becomes a timed video call \u2014 start it now or schedule it for later. Chats unlock only after you&rsquo;ve actually met."], ["Pitch a real investor, <span class=\"grad\">not a form.</span>", "Investors here are faces you can meet. See your mutual connections and send a thirty-second video pitch straight to them."], ["Meet founders <span class=\"grad\">the human way.</span>", "Every founder is a living video with their ask right on it \u2014 customers, funding, mentorship, co-founders. Say hello already knowing how you can help."], ["Pitch Rooms and live topics \u2014 <span class=\"grad\">real rooms.</span>", "Founders pitch live to rooms of investors, mutual interest unlocks private intros, and hosts earn from the conversations they run."], ["Real people on video \u2014 <span class=\"grad\">not a pile of r&eacute;sum&eacute;s.</span>", "Our AI matching pairs you with people actually worth meeting. Recruiters pitch roles in sixty seconds; candidates answer with their face."], ["Conversations that started <span class=\"grad\">with a face.</span>", "Reactions, voice notes, photos \u2014 and one tap back into live video when typing isn&rsquo;t enough."]];
+  var slides=document.querySelectorAll('.hslide');
+  var dots=document.querySelectorAll('.hdot');
+  var swap=document.getElementById('hswap');
+  var hh=document.getElementById('hh'), hb=document.getElementById('hb');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var i=0, timer=null;
+  function show(n){
+    i=n%copy.length;
+    slides.forEach(function(sl,j){sl.classList.toggle('on',j===i);});
+    dots.forEach(function(d,j){d.classList.toggle('on',j===i);});
+    swap.style.opacity=0;
+    setTimeout(function(){hh.innerHTML=copy[i][0];hb.innerHTML=copy[i][1];swap.style.opacity=1;},300);
   }
-  window.fmTrack=send;
-  send('page_view');
+  dots.forEach(function(d){d.addEventListener('click',function(){show(+d.getAttribute('data-i'));restart();});});
+  function restart(){if(timer)clearInterval(timer);if(!reduced)timer=setInterval(function(){show(i+1);},9500);}
+  var ph=document.querySelector('.hphone');
+  if(ph){ph.addEventListener('pointerenter',function(){if(timer)clearInterval(timer);});
+         ph.addEventListener('pointerleave',restart);}
+  restart();
+})();
+
+// ── one-card tour ──
+(function(){
+  var chips=document.querySelectorAll('.tchip');
+  var slides=document.querySelectorAll('.tslide');
+  var count=document.getElementById('tcount');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n=slides.length, i=0, timer=null, touched=false;
+  function show(k){
+    i=(k+n)%n;
+    slides.forEach(function(s,j){s.classList.toggle('on',j===i);});
+    chips.forEach(function(c,j){c.classList.toggle('on',j===i);});
+    count.textContent=(i+1)+' / '+n;
+  }
+  function stopAuto(){touched=true;if(timer)clearInterval(timer);}
+  chips.forEach(function(c){c.addEventListener('click',function(){stopAuto();show(+c.getAttribute('data-i'));});});
+  document.getElementById('tprev').addEventListener('click',function(){stopAuto();show(i-1);});
+  document.getElementById('tnext').addEventListener('click',function(){stopAuto();show(i+1);});
+  if(!reduced)timer=setInterval(function(){if(!touched)show(i+1);},8000);
+})();
+
+// ── The living network ──
+(function(){
+  var cv=document.getElementById('net');if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var faces=['/assets/screens/face_1.png','/assets/screens/face_2.png','/assets/screens/face_3.png','/assets/screens/face_4.png'].map(function(src){var i=new Image();i.src=src;return i;});
+  var W,H,nodes=[],edges=[],sparks=[];
+  function resize(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;build();}
+  function build(){
+    nodes=[];edges=[];sparks=[];
+    var n=Math.max(16,Math.floor(W/90));
+    for(var i=0;i<n;i++){
+      nodes.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.14*devicePixelRatio,vy:(Math.random()-.5)*.14*devicePixelRatio,
+        r:(Math.random()*3+2.5)*devicePixelRatio,face:null,glow:0});
+    }
+    for(var f=0;f<4;f++){
+      nodes.push({x:W*(.35+Math.random()*.3),y:H*(.15+Math.random()*.7),
+        vx:(Math.random()-.5)*.1*devicePixelRatio,vy:(Math.random()-.5)*.1*devicePixelRatio,
+        r:17*devicePixelRatio,face:faces[f],glow:0});
+    }
+    for(var a=0;a<nodes.length;a++){
+      var best=[],i2;
+      for(i2=0;i2<nodes.length;i2++){if(i2===a)continue;
+        var dx=nodes[a].x-nodes[i2].x,dy=nodes[a].y-nodes[i2].y;
+        best.push([dx*dx+dy*dy,i2]);}
+      best.sort(function(p,q){return p[0]-q[0];});
+      for(var b=0;b<2;b++){var pair=[Math.min(a,best[b][1]),Math.max(a,best[b][1])];
+        if(!edges.some(function(e){return e[0]===pair[0]&&e[1]===pair[1];}))edges.push(pair);}
+    }
+  }
+  function fireSpark(){
+    if(!edges.length)return;
+    var e=edges[Math.floor(Math.random()*edges.length)];
+    sparks.push({a:nodes[e[0]],b:nodes[e[1]],t:0,speed:.012+Math.random()*.012});
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    ctx.lineWidth=1*devicePixelRatio;
+    edges.forEach(function(e){
+      var a=nodes[e[0]],b=nodes[e[1]];
+      ctx.strokeStyle='rgba(232,80,58,0.22)';
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+    });
+    sparks=sparks.filter(function(s){return s.t<=1;});
+    sparks.forEach(function(s){
+      s.t+=s.speed;
+      var x=s.a.x+(s.b.x-s.a.x)*s.t,y=s.a.y+(s.b.y-s.a.y)*s.t;
+      var g=ctx.createRadialGradient(x,y,0,x,y,8*devicePixelRatio);
+      g.addColorStop(0,'rgba(255,190,150,0.95)');g.addColorStop(1,'rgba(232,80,58,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,8*devicePixelRatio,0,7);ctx.fill();
+      if(s.t>=1)s.b.glow=1;
+    });
+    nodes.forEach(function(nd){
+      nd.x+=nd.vx;nd.y+=nd.vy;
+      if(nd.x<0||nd.x>W)nd.vx*=-1;if(nd.y<0||nd.y>H)nd.vy*=-1;
+      if(nd.glow>0)nd.glow-=.02;
+      if(nd.face&&nd.face.complete&&nd.face.naturalWidth){
+        ctx.save();ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r,0,7);ctx.clip();
+        ctx.drawImage(nd.face,nd.x-nd.r,nd.y-nd.r,nd.r*2,nd.r*2);ctx.restore();
+        ctx.strokeStyle='rgba(232,80,58,'+(0.5+nd.glow*0.5)+')';
+        ctx.lineWidth=(1.5+nd.glow*3)*devicePixelRatio;
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r+2*devicePixelRatio,0,7);ctx.stroke();
+      }else{
+        ctx.fillStyle='rgba(232,140,110,'+(0.5+nd.glow*0.5)+')';
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(1+nd.glow*.8),0,7);ctx.fill();
+      }
+      if(nd.glow>0.6){
+        ctx.strokeStyle='rgba(232,178,58,'+nd.glow*0.6+')';
+        ctx.lineWidth=1.5*devicePixelRatio;
+        ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r+(1.4-nd.glow)*22*devicePixelRatio,0,7);ctx.stroke();
+      }
+    });
+    if(!reduced)requestAnimationFrame(tick);
+  }
+  resize();addEventListener('resize',resize);
+  if(reduced){tick();}else{tick();setInterval(fireSpark,420);}
 })();
 </script>
 </body>

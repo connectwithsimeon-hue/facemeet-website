@@ -7,10 +7,10 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/redesign.css">
-<title>Payment Terms - FaceMeet</title>
-<meta name="description" content="What can be bought on FaceMeet — and what can never be.">
-<meta property="og:title" content="Payment Terms - FaceMeet">
-<meta property="og:description" content="What can be bought on FaceMeet — and what can never be.">
+<title>Get the Recruiter Seat — FaceMeet</title>
+<meta name="description" content="Request the FaceMeet Recruiter Seat — we review every request personally and reply within 24 hours.">
+<meta property="og:title" content="Get the Recruiter Seat — FaceMeet">
+<meta property="og:description" content="Request the FaceMeet Recruiter Seat — we review every request personally and reply within 24 hours.">
 <meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
 <meta property="og:type" content="website">
 </head>
@@ -25,32 +25,60 @@
   <span class="spacer"></span>
   <a class="mini" href="/#get">Get FaceMeet</a>
 </div></nav>
-<div class="wrap"><div class="pagehead" style="padding-bottom:0"><p class="k">FaceMeet policies</p></div><section style="padding:10px 0 70px"><div class="legal">Platform payments only
-    <h1>Payment Terms</h1>
-    <p>Last updated: June 2026</p>
-    <p>FaceMeet is a trusted network where meaningful connections begin through real conversations, professional introductions, communities, Live Topics, and events. FaceMeet is not an adult entertainment platform, not a webcam marketplace, not an escort marketplace, not a creator-payout platform, not a paid private-video platform, not a tipping platform, not a user monetization platform, and not a marketplace for compensated dating.</p>
-
-    <h2>What users can buy</h2>
-    <ul>
-      <li>Subscriptions such as Spark+ or Gold, billed on a recurring basis until canceled.</li>
-      <li>Spark credits or Spark bundles, which are one-time purchases used for FaceMeet platform features.</li>
-      <li>Platform-controlled access to platform connection features operated by FaceMeet.</li>
-    </ul>
-
-    <h2>What users cannot buy or sell</h2>
-    <p>FaceMeet does not allow user-to-user payments, tipping, paid private videos, paid live cam activity, paid messages, escort services, prostitution, paid dating, compensation-based dating, adult entertainment, creator adult content, OnlyFans-style promotion, or user monetization. In plain terms: no user-to-user payments, no tipping, and no paid private videos.</p>
-
-    <h2>Subscriptions and cancellations</h2>
-    <p>Subscriptions renew automatically unless canceled before the next billing date. Users can cancel in app settings or through the available billing provider or app store billing settings. Cancellation prevents future renewals but does not automatically refund past paid periods.</p>
-
-    <h2>Spark credits and bundles</h2>
-    <p>Spark credits and bundles are digital credits for platform-controlled connection features. Used digital credits are generally non-refundable. Unused credits remain available according to the applicable plan or promotion.</p>
-
-    <h2>Creator and referral promotions</h2>
-    <p>FaceMeet may run marketing referral or affiliate-style creator promotions. These promotions are for helping FaceMeet acquire verified members and are not adult creator monetization, user-to-user payments, tipping, paid private video, paid live cam activity, or ordinary user payouts.</p>
-
-    <h2>Billing support</h2>
-    <p>For billing questions or refund review, contact <a href="mailto:support@facemeet.app">support@facemeet.app</a>. See the <a href="/refund-policy">Refund Policy</a> for more detail.</p></div></section></div>
+<div class="wrap">
+  <div class="pagehead"><p class="k">FaceMeet for Recruiters</p>
+    <h1 style="font-size:clamp(30px,4.4vw,52px);margin-top:10px">Request your <span class="grad">Recruiter Seat.</span></h1>
+    <p class="sub">Tell us who you are and what you hire for. We review every request personally and reply within 24 hours — and posting roles stays free until August 18, 2026.</p></div>
+  <section style="padding:30px 0 80px">
+    <form id="seatform" class="card" style="max-width:560px;padding:30px" novalidate>
+      <label class="flabel" for="f-name">Full name</label>
+      <input class="finput" id="f-name" name="full_name" type="text" maxlength="120" required autocomplete="name">
+      <label class="flabel" for="f-email">Work email</label>
+      <input class="finput" id="f-email" name="email" type="email" maxlength="200" required autocomplete="email">
+      <label class="flabel" for="f-company">Company <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+      <input class="finput" id="f-company" name="company" type="text" maxlength="160" autocomplete="organization">
+      <label class="flabel" for="f-hiring">What are you hiring for? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+      <textarea class="finput" id="f-hiring" name="hiring_for" rows="4" maxlength="1000"></textarea>
+      <input type="text" name="website" id="f-website" tabindex="-1" autocomplete="off" style="position:absolute;left:-5000px" aria-hidden="true">
+      <button class="cta" id="f-submit" type="submit" style="margin-top:18px;width:100%">Request the Recruiter Seat</button>
+      <p id="f-msg" style="margin-top:14px;font-size:13.5px;color:var(--muted)"></p>
+    </form>
+  </section>
+</div>
+<script>
+(function(){
+  var form=document.getElementById('seatform');
+  var msg=document.getElementById('f-msg');
+  var btn=document.getElementById('f-submit');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('f-name').value.trim();
+    var email=document.getElementById('f-email').value.trim();
+    if(name.length<2){msg.textContent='Please add your name.';return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){msg.textContent='Please use a valid email address.';return;}
+    btn.disabled=true;btn.textContent='Sending\u2026';msg.textContent='';
+    fetch('https://vbaiivsvjdntzaffboue.supabase.co/functions/v1/recruiter_seat_request',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({full_name:name,email:email,
+        company:document.getElementById('f-company').value.trim(),
+        hiring_for:document.getElementById('f-hiring').value.trim(),
+        website:document.getElementById('f-website').value})
+    }).then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok&&d.ok,d:d};});})
+    .then(function(res){
+      if(res.ok){
+        form.innerHTML='<h2 style="font-size:22px">Request received.</h2>'+
+          '<p style="color:var(--muted);font-size:14px;margin-top:10px">Thank you \u2014 we review every Recruiter Seat request personally and will reply to your email within 24 hours.</p>';
+      }else{
+        btn.disabled=false;btn.textContent='Request the Recruiter Seat';
+        msg.textContent=(res.d&&res.d.error)?res.d.error:'Something went wrong \u2014 please try again or email hello@facemeet.app.';
+      }
+    }).catch(function(){
+      btn.disabled=false;btn.textContent='Request the Recruiter Seat';
+      msg.textContent='Network error \u2014 please try again or email hello@facemeet.app.';
+    });
+  });
+})();
+</script>
 <div class="bigfoot"><div class="wrap">
   <div class="fgrid">
     <div class="fbrand">
