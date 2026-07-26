@@ -76,5 +76,20 @@
   <div class="fbottom"><span>© 2026 FaceMeet.</span><span>Where founders, investors and talent meet face to face.</span></div>
 </div></div>
 
+<script>
+(function(){
+  var ua = navigator.userAgent || '';
+  var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var android = /Android/.test(ua);
+  if (!ios && !android) return;
+  var to = ios ? 'https://testflight.apple.com/join/TrH8nRKr'
+               : 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+  document.querySelectorAll('a[href="https://app.facemeet.app"]').forEach(function(a){
+    a.href = to;
+    var s = a.querySelector('small'); if (s) s.textContent = ios ? 'iPhone — beta' : 'Android';
+    var b = a.querySelector('b'); if (b) b.textContent = ios ? 'Get it on TestFlight' : 'Get it on Google Play';
+  });
+})();
+</script>
 </body>
 </html>
