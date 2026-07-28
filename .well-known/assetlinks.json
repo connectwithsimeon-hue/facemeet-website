@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ononobi.facemeet",
+      "sha256_cert_fingerprints": [
+        "27:3E:0C:F6:16:14:33:62:B2:F1:E7:1D:D6:F6:15:E2:54:1C:AA:A1:F9:F2:85:E3:83:75:ED:0A:A0:7C:99:DF"
+      ]
+    }
+  }
+]

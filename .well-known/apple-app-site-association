@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["9777KXMY5P.com.ononobi.facemeet"],
+        "appID": "9777KXMY5P.com.ononobi.facemeet",
+        "components": [
+          { "/": "/radar/*", "comment": "Radar articles open natively" },
+          { "/": "/invite/*", "comment": "Invite links open the app" },
+          { "/": "/join/*", "comment": "Referral links open the app" }
+        ],
+        "paths": ["/radar/*", "/invite/*", "/join/*"]
+      }
+    ]
+  }
+}
