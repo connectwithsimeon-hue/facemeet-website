@@ -5,6 +5,21 @@ const SUPABASE_URL = "https://vbaiivsvjdntzaffboue.supabase.co";
 const ANON =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w"; // public anon key
 
+// A slug that does not resolve must answer 404, not 200 with the page shell.
+// Serving the shell at 200 turns every invented URL into an indexable page, which
+// is how a small site collects thin-content penalties instead of traffic. The body
+// is kept so a person still sees the page's own "unavailable" state; only the status
+// code and the robots tag change, which is what crawlers read.
+async function notFound(response: Response): Promise<Response> {
+  const body = await response.text();
+  const headers = new Headers(response.headers);
+  headers.delete("content-length");
+  return new Response(
+    body.replace(/<head>/i, '<head>\n<meta name="robots" content="noindex">'),
+    { status: 404, headers },
+  );
+}
+
 export default async (request: Request, context: any) => {
   const response = await context.next();
   try {
@@ -25,7 +40,7 @@ export default async (request: Request, context: any) => {
     );
     if (!rpc.ok) return response;
     const r = await rpc.json();
-    if (!r || !r.title) return response;
+    if (!r || !r.title) return await notFound(response);
 
     const roleTitle = String(r.title).slice(0, 70);
     const poster = String(r.poster_name || "A recruiter").slice(0, 40);
@@ -46,7 +61,7 @@ export default async (request: Request, context: any) => {
       `role on video. Applying is free on FaceMeet — your video profile is ` +
       `your application.`;
     const image = String(
-      r.poster_thumbnail || "https://facemeet.app/brand/facemeet-logo.png",
+      r.poster_thumbnail || "https://facemeet.app/assets/brand/facemeet-og-hiring.png",
     );
 
     let html = await response.text();

@@ -5,6 +5,21 @@ const SUPABASE_URL = "https://vbaiivsvjdntzaffboue.supabase.co";
 const ANON =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w"; // public anon key
 
+// A slug that does not resolve must answer 404, not 200 with the page shell.
+// Serving the shell at 200 turns every invented URL into an indexable page, which
+// is how a small site collects thin-content penalties instead of traffic. The body
+// is kept so a person still sees the page's own "unavailable" state; only the status
+// code and the robots tag change, which is what crawlers read.
+async function notFound(response: Response): Promise<Response> {
+  const body = await response.text();
+  const headers = new Headers(response.headers);
+  headers.delete("content-length");
+  return new Response(
+    body.replace(/<head>/i, '<head>\n<meta name="robots" content="noindex">'),
+    { status: 404, headers },
+  );
+}
+
 export default async (request: Request, context: any) => {
   const response = await context.next();
   try {
@@ -26,7 +41,7 @@ export default async (request: Request, context: any) => {
     if (!rpc.ok) return response;
     const data = await rpc.json();
     const e = Array.isArray(data) ? data[0] : data;
-    if (!e || !e.title) return response;
+    if (!e || !e.title) return await notFound(response);
 
     const eventTitle = String(e.title).slice(0, 70);
     const host = String(
@@ -55,7 +70,7 @@ export default async (request: Request, context: any) => {
     // Best image wins: a pre-generated 1200x630 card (LinkedIn renders
     // the large card only at that size), else the host's face, else logo.
     let image = String(
-      e.host?.thumbnail_url || "https://facemeet.app/brand/facemeet-logo.png",
+      e.host?.thumbnail_url || "https://facemeet.app/assets/brand/facemeet-og-conversation.png",
     );
     let bigCard = false;
     try {

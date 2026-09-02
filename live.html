@@ -8,510 +8,167 @@
 <meta property="og:title" content="FaceMeet Live Topic">
 <meta property="og:description" content="Join a live FaceMeet conversation built around a curated topic.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-og-profile.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FaceMeet Live Topic">
 <meta name="twitter:description" content="Join a live FaceMeet conversation built around a curated topic.">
-<meta name="twitter:image" content="https://facemeet.app/assets/brand/facemeet-icon.png">
+<meta name="twitter:image" content="https://facemeet.app/assets/brand/facemeet-og-profile.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root {
-  --bg:#0a0807;
-  --surface:#141110;
-  --surface2:#1f1a17;
-  --surface3:#2a2420;
-  --coral:#e8503a;
-  --coral-light:#ff6f56;
-  --coral-dim:rgba(232,80,58,0.14);
-  --gold:#d4a847;
-  --green:#06d6a0;
-  --blue:#4cc9f0;
-  --cream:#f5f0e8;
-  --cream-dim:rgba(245,240,232,0.68);
-  --muted:#8a7e72;
-  --border:rgba(245,240,232,0.08);
-  --border2:rgba(245,240,232,0.14);
-}
-* { box-sizing:border-box; margin:0; padding:0; }
-html { min-height:100%; background:var(--bg); }
-body {
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 12% 16%, rgba(232,80,58,0.18), transparent 31%),
-    radial-gradient(circle at 82% 18%, rgba(212,168,71,0.12), transparent 30%),
-    linear-gradient(180deg, #0a0807 0%, #0d0908 58%, #080706 100%);
-  color:var(--cream);
-  font-family:'Outfit', sans-serif;
-  font-weight:300;
-  line-height:1.6;
-}
-a { color:inherit; }
-.page-shell {
-  width:100%;
-  min-height:100vh;
-  padding:28px 20px 46px;
-  overflow:hidden;
-}
-.nav {
-  width:min(1120px, 100%);
-  margin:0 auto 56px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-}
-.brand {
-  display:inline-flex;
-  align-items:center;
-  gap:12px;
-  color:var(--cream);
-  text-decoration:none;
-  font-weight:700;
-  font-size:20px;
-}
-.brand img {
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  object-fit:cover;
-  box-shadow:0 12px 30px rgba(0,0,0,0.28);
-}
-.brand span span { color:var(--coral); }
-.nav-link {
-  color:var(--cream-dim);
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-  padding:10px 16px;
-  border:1px solid var(--border2);
-  border-radius:999px;
-  background:rgba(245,240,232,0.035);
-  transition:all .2s ease;
-}
-.nav-link:hover {
-  color:var(--cream);
-  border-color:rgba(232,80,58,0.36);
-  background:rgba(232,80,58,0.08);
-}
-.topic-layout {
-  width:min(1120px, 100%);
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:minmax(0, 1fr) minmax(300px, 420px);
-  gap:56px;
-  align-items:center;
-}
-.topic-copy {
-  position:relative;
-  z-index:1;
-}
-.eyebrow {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  color:var(--coral-light);
-  background:rgba(232,80,58,0.11);
-  border:1px solid rgba(232,80,58,0.28);
-  border-radius:999px;
-  padding:8px 13px;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2.4px;
-  text-transform:uppercase;
-  margin-bottom:24px;
-}
-h1 {
-  font-family:'Cormorant Garamond', serif;
-  font-size:clamp(48px, 8vw, 86px);
-  line-height:0.92;
-  letter-spacing:-1px;
-  margin-bottom:22px;
-}
-h1 em {
-  color:var(--coral);
-  font-style:italic;
-}
-.status-body {
-  max-width:660px;
-  color:var(--cream-dim);
-  font-size:18px;
-  line-height:1.75;
-  margin-bottom:28px;
-}
-.topic-title {
-  color:var(--cream);
-  font-size:clamp(24px, 4vw, 38px);
-  line-height:1.08;
-  font-weight:700;
-  margin-bottom:14px;
-}
-.topic-prompt {
-  color:var(--cream-dim);
-  font-size:17px;
-  line-height:1.75;
-  margin-bottom:22px;
-}
-.chips {
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin:0 0 24px;
-}
-.chip {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid var(--border2);
-  border-radius:999px;
-  background:rgba(245,240,232,0.045);
-  color:var(--cream-dim);
-  padding:9px 12px;
-  font-size:13px;
-  font-weight:600;
-}
-.chip strong { color:var(--cream); font-weight:700; }
-.chip.status-live { border-color:rgba(6,214,160,0.32); color:var(--green); background:rgba(6,214,160,0.09); }
-.chip.status-ready { border-color:rgba(76,201,240,0.3); color:var(--blue); background:rgba(76,201,240,0.08); }
-.chip.status-pending { border-color:rgba(212,168,71,0.32); color:var(--gold); background:rgba(212,168,71,0.09); }
-.chip.status-ended,
-.chip.status-unavailable { border-color:rgba(245,240,232,0.14); color:var(--muted); background:rgba(245,240,232,0.035); }
-.cta-row {
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  align-items:center;
-  margin-bottom:16px;
-}
-.cta {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  min-height:52px;
-  border-radius:999px;
-  padding:14px 22px;
-  text-decoration:none;
-  border:1px solid transparent;
-  font-weight:700;
-  font-size:14px;
-  cursor:pointer;
-  font-family:'Outfit', sans-serif;
-  transition:transform .2s ease, border-color .2s ease, background .2s ease;
-}
-.cta:hover { transform:translateY(-2px); }
-.cta.primary {
-  background:linear-gradient(135deg, var(--coral), var(--coral-light));
-  color:#fff;
-  box-shadow:0 18px 40px rgba(232,80,58,0.26);
-}
-.cta.secondary,
-.cta.share {
-  background:rgba(245,240,232,0.05);
-  color:var(--cream);
-  border-color:var(--border2);
-}
-.cta.secondary:hover,
-.cta.share:hover {
-  border-color:rgba(232,80,58,0.34);
-  background:rgba(232,80,58,0.08);
-}
-.small-note {
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
-  max-width:590px;
-}
-.topic-card {
-  position:relative;
-  background:linear-gradient(180deg, rgba(245,240,232,0.08), rgba(245,240,232,0.028));
-  border:1px solid var(--border2);
-  border-radius:32px;
-  padding:24px;
-  box-shadow:0 40px 100px rgba(0,0,0,0.45);
-  backdrop-filter:blur(18px);
-  overflow:hidden;
-}
-.topic-card::before {
-  content:'';
-  position:absolute;
-  width:280px;
-  height:280px;
-  right:-110px;
-  top:-110px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(232,80,58,0.22), transparent 66%);
-  pointer-events:none;
-}
-.card-inner { position:relative; z-index:1; }
-.card-label {
-  color:var(--gold);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:16px;
-}
-.info-grid {
-  display:grid;
-  gap:12px;
-  margin-top:22px;
-}
-.info-row {
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:18px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:rgba(0,0,0,0.12);
-  padding:13px 14px;
-}
-.info-label {
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:1.3px;
-  text-transform:uppercase;
-}
-.info-value {
-  color:var(--cream-dim);
-  font-size:14px;
-  text-align:right;
-  overflow-wrap:anywhere;
-}
-.hosts {
-  margin-top:20px;
-  padding:16px;
-  border-radius:20px;
-  border:1px solid rgba(232,80,58,0.18);
-  background:rgba(232,80,58,0.055);
-}
-.hosts-title {
-  color:var(--cream);
-  font-weight:700;
-  font-size:14px;
-  margin-bottom:8px;
-}
-.hosts-list {
-  color:var(--cream-dim);
-  font-size:14px;
-  line-height:1.7;
-}
-.state-panel {
-  width:min(760px, 100%);
-  margin:0 auto;
-  text-align:center;
-  background:linear-gradient(180deg, rgba(245,240,232,0.075), rgba(245,240,232,0.028));
-  border:1px solid var(--border2);
-  border-radius:30px;
-  padding:42px 28px;
-  box-shadow:0 40px 90px rgba(0,0,0,0.38);
-}
-.spinner {
-  width:34px;
-  height:34px;
-  border:3px solid rgba(245,240,232,0.12);
-  border-top-color:var(--coral);
-  border-radius:50%;
-  margin:0 auto 20px;
-  animation:spin .8s linear infinite;
-}
-.hidden { display:none !important; }
-@keyframes spin { to { transform:rotate(360deg); } }
-@media (max-width:900px) {
-  .nav { margin-bottom:34px; }
-  .topic-layout {
-    grid-template-columns:1fr;
-    gap:30px;
-  }
-  .topic-card { order:-1; }
-}
-@media (max-width:620px) {
-  .page-shell { padding:22px 14px 34px; }
-  .nav-link { display:none; }
-  .topic-card,
-  .state-panel { border-radius:24px; padding:20px; }
-  h1 { font-size:clamp(43px, 15vw, 60px); }
-  .status-body,
-  .topic-prompt { font-size:16px; }
-  .cta-row { flex-direction:column; align-items:stretch; }
-  .cta { width:100%; }
-  .info-row { flex-direction:column; gap:4px; }
-  .info-value { text-align:left; }
-}
-</style>
-  <link rel="stylesheet" href="/site-chrome.css?v=1">
+<script>
+/* FaceMeet mobile app-link guard: on a phone, ANY link into the web app
+   (app.facemeet.app) goes to the app/store instead — never the PWA.
+   Desktop is untouched. Catches static and dynamically-added links. */
+(function(){try{
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/.test(ua);
+  if(!isIOS&&!isAndroid) return;
+  var store=isIOS?'https://apps.apple.com/us/app/facemeet-live/id6765563804':'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+  document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a[href*="app.facemeet.app"]'):null;if(a){e.preventDefault();window.location.href=store;}},true);
+  function rewrite(){var l=document.querySelectorAll('a[href*="app.facemeet.app"]');for(var i=0;i<l.length;i++)l[i].setAttribute('href',store);}
+  if(document.readyState!=='loading')rewrite();
+  document.addEventListener('DOMContentLoaded',rewrite);
+  setTimeout(rewrite,1000);
+}catch(e){}})();
+</script>
 </head>
 <body>
-<nav class="fm-site-nav" aria-label="FaceMeet site navigation">
-<style>
-.fm2-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
-.fm2-brand{display:flex;align-items:center;gap:10px;color:#f5f0e8;text-decoration:none;font-size:19px;font-weight:800}
-.fm2-brand img{width:40px;height:40px;border-radius:11px;object-fit:cover}
-.fm2-brand b{font-weight:800}.fm2-brand b span{color:#e8503a}
-.fm2-links{display:flex;align-items:center;gap:4px;margin-left:auto}
-.fm2-item{position:relative}
-.fm2-top{display:inline-flex;align-items:center;gap:5px;color:rgba(245,240,232,.75);text-decoration:none;font-size:14px;padding:9px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.fm2-top:hover{color:#f5f0e8;background:rgba(245,240,232,.06)}
-.fm2-caret{font-size:9px;opacity:.7}
-.fm2-menu{position:absolute;top:100%;left:0;min-width:190px;background:#141110;border:1px solid rgba(245,240,232,.14);border-radius:14px;padding:6px;display:none;box-shadow:0 18px 50px rgba(0,0,0,.5);z-index:60}
-.fm2-item:hover .fm2-menu,.fm2-item:focus-within .fm2-menu{display:block}
-.fm2-menu a{display:block;color:rgba(245,240,232,.78);text-decoration:none;font-size:13.5px;padding:9px 12px;border-radius:9px;white-space:nowrap}
-.fm2-menu a:hover{color:#f5f0e8;background:rgba(232,80,58,.12)}
-.fm2-cta{background:#e8503a;color:#fff !important;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;margin-left:6px}
-.fm2-burger{display:none;background:none;border:1px solid rgba(245,240,232,.18);border-radius:10px;color:#f5f0e8;font-size:17px;line-height:1;padding:8px 11px;cursor:pointer;margin-left:auto}
-.fm2-sheet{display:none;position:fixed;inset:0;background:#0a0807;z-index:9999;overflow-y:auto;padding:18px 22px 40px}
-.fm2-sheet.open{display:block}
-.fm2-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.fm2-close{background:none;border:none;color:#f5f0e8;font-size:24px;line-height:1;cursor:pointer}
-.fm2-group{color:#8a7e72;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin:18px 0 4px;font-weight:700}
-.fm2-sheet a{display:block;color:#f5f0e8;text-decoration:none;font-size:16px;padding:11px 0;border-bottom:1px solid rgba(245,240,232,.06)}
-.fm2-sheet a.fm2-cta{display:block;text-align:center;margin:22px 0 0;border-bottom:none}
-@media(max-width:900px){.fm2-links{display:none}.fm2-burger{display:block}}
-</style>
-<div class="fm2-inner">
-  <a href="/" class="fm2-brand" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-  <div class="fm2-links">
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Product <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/why-facemeet-exists">Why FaceMeet</a>
-        <a href="/#how">How it works</a>
-        <a href="/sparks">Sparks</a>
-        <a href="/#pitch-rooms">Pitch Rooms</a>
-        <a href="/#live-topics">Live Topics</a>
-      </div>
-    </div>
-    <a class="fm2-top" href="/recruiters">Recruiters</a>
-    <a class="fm2-top" href="/events">Events</a>
-    <div class="fm2-item">
-      <button class="fm2-top" type="button" aria-haspopup="true">Company <span class="fm2-caret">&#9662;</span></button>
-      <div class="fm2-menu">
-        <a href="/join">Join</a>
-        <a href="/community-guidelines">Safety</a>
-        <a href="/faq">FAQ</a>
-        <a href="mailto:hello@facemeet.app">Contact</a>
-      </div>
-    </div>
-    <a class="fm2-cta" href="/#install">Get FaceMeet</a>
+<div class="shell">
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
   </div>
-  <button class="fm2-burger" type="button" aria-label="Open menu" onclick="var s=document.getElementById('fm2Sheet');if(s.parentElement!==document.body){document.body.appendChild(s)}s.classList.toggle('open')">&#9776;</button>
-</div>
-<div class="fm2-sheet" id="fm2Sheet">
-  <div class="fm2-sheet-head">
-    <a href="/" class="fm2-brand"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><b>Face<span>Meet</span></b></a>
-    <button class="fm2-close" type="button" aria-label="Close menu" onclick="document.getElementById('fm2Sheet').classList.remove('open')">&#215;</button>
-  </div>
-  <div class="fm2-group">Product</div>
-  <a href="/why-facemeet-exists">Why FaceMeet</a>
-  <a href="/#how">How it works</a>
-  <a href="/sparks">Sparks</a>
-  <a href="/#pitch-rooms">Pitch Rooms</a>
-  <a href="/#live-topics">Live Topics</a>
-  <div class="fm2-group">Explore</div>
-  <a href="/recruiters">Recruiters</a>
-  <a href="/events">Events</a>
-  <div class="fm2-group">Company</div>
-  <a href="/join">Join</a>
-  <a href="/community-guidelines">Safety</a>
-  <a href="/faq">FAQ</a>
-  <a class="fm2-cta" href="/#install">Get FaceMeet</a>
-</div>
 </nav>
 
-<div class="page-shell">
-<section id="loading-state" class="state-panel" aria-live="polite">
-    <div class="spinner" aria-hidden="true"></div>
-    <h1>Loading <em>Live Topic.</em></h1>
-    <p class="status-body" style="margin:0 auto;">Opening a FaceMeet conversation built around a curated topic.</p>
-  </section>
+<section class="pagehead" id="loading-state" aria-live="polite">
+  <div class="wrap">
+    <p class="eyebrow rec">Live Topic</p>
+    <h1 class="ph">Loading this Live Topic.</h1>
+    <p class="lede">Opening a FaceMeet conversation built around a curated topic.</p>
+  </div>
+</section>
 
-  <main id="topic-state" class="topic-layout hidden">
-    <section class="topic-copy" aria-label="Live Topic details">
-      <div class="eyebrow">Live Topic</div>
-      <div class="chips" id="topic-chips"></div>
-      <h1 id="status-headline">Join the <em>conversation.</em></h1>
-      <p class="status-body" id="status-body">Open FaceMeet to join the conversation.</p>
-      <div class="topic-title" id="topic-title">Curated FaceMeet topic</div>
-      <p class="topic-prompt" id="topic-prompt"></p>
-      <div class="cta-row">
-        <a class="cta primary" href="https://app.facemeet.app" id="open-app-link">Open in FaceMeet</a>
-        <a class="cta secondary" href="https://app.facemeet.app" id="join-app-link">Join FaceMeet</a>
-        <button class="cta share" type="button" id="share-link">Share</button>
+<main id="topic-state" class="hidden">
+
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow rec">Live Topic</p>
+      <div class="meta-row" id="topic-chips"></div>
+      <h1 class="ph" id="status-headline">Join the conversation.</h1>
+      <p class="lede" id="status-body">Open FaceMeet to join the conversation.</p>
+      <div class="herocta" style="justify-content:flex-start;margin-top:26px">
+        <a class="btn btn-dark btn-lg" href="https://app.facemeet.app" id="open-app-link">Open in FaceMeet</a>
+        <a class="btn btn-line btn-lg" href="https://app.facemeet.app" id="join-app-link">Join FaceMeet</a>
+        <button class="btn btn-line btn-lg" type="button" id="share-link">Share</button>
       </div>
-      <p class="small-note">Install the app to request to join, co-host Live Topics, or discover trusted conversations built around shared intent.</p>
-    </section>
-
-    <aside class="topic-card" aria-label="Live Topic summary">
-      <div class="card-inner">
-        <div class="card-label">Conversation Card</div>
-        <div class="topic-title" id="card-title">FaceMeet Live Topic</div>
-        <p class="topic-prompt" id="card-description"></p>
-        <div class="hosts hidden" id="hosts-panel">
-          <div class="hosts-title">Hosts</div>
-          <div class="hosts-list" id="hosts-list"></div>
-        </div>
-        <div class="info-grid">
-          <div class="info-row">
-            <div class="info-label">Status</div>
-            <div class="info-value" id="info-status">Unavailable</div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">Category</div>
-            <div class="info-value" id="info-category">Curated topic</div>
-          </div>
-          <div class="info-row">
-            <div class="info-label">Time</div>
-            <div class="info-value" id="info-time">Open FaceMeet for details</div>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <section id="not-found-state" class="state-panel hidden">
-    <h1>Live Topic <em>not found.</em></h1>
-    <p class="status-body" style="margin-left:auto;margin-right:auto;">This conversation may have ended or the link may be invalid.</p>
-    <div class="cta-row" style="justify-content:center;">
-      <a class="cta primary" href="https://app.facemeet.app" id="not-found-open-app-link">Open FaceMeet</a>
-      <a class="cta secondary" href="/">Back to FaceMeet</a>
     </div>
   </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow">The topic</p>
+        <h2 id="topic-title">Curated FaceMeet topic</h2>
+        <p class="lede" id="topic-prompt"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="night">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow">Conversation card</p>
+        <h2 id="card-title">FaceMeet Live Topic</h2>
+        <p class="lede" id="card-description"></p>
+        <div id="hosts-panel" class="hidden" style="margin-top:24px">
+          <p class="eyebrow">Hosts</p>
+          <p class="lede" id="hosts-list"></p>
+        </div>
+      </div>
+      <div class="beats dark-beats">
+        <div class="beat"><span class="n">Status</span><h3 id="info-status">Unavailable</h3></div>
+        <div class="beat"><span class="n">Category</span><h3 id="info-category">Curated topic</h3></div>
+        <div class="beat"><span class="n">Time</span><h3 id="info-time">Open FaceMeet for details</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <div class="wrap">
+      <h2>Join the conversation on FaceMeet.</h2>
+      <p class="lede">Install the app to request to join, co-host Live Topics, or discover trusted conversations built around shared intent.</p>
+      <div class="herocta">
+        <a class="btn btn-dark btn-lg" href="/get">Get FaceMeet</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section id="not-found-state" class="close hidden">
+  <div class="wrap">
+    <p class="eyebrow">Live Topic</p>
+    <h2>Live Topic not found.</h2>
+    <p class="lede">This conversation may have ended or the link may be invalid.</p>
+    <div class="herocta">
+      <a class="btn btn-dark btn-lg" href="https://app.facemeet.app" id="not-found-open-app-link">Open FaceMeet</a>
+      <a class="btn btn-line btn-lg" href="/">Back to FaceMeet</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
+  </div>
+</footer>
 </div>
 
-<footer class="fm-site-footer">
-  <div class="fm-site-footer__brand">
-    <a href="/" class="fm-site-footer__brand-mark" aria-label="FaceMeet home"><img src="/assets/brand/facemeet-icon.png" alt="FaceMeet"><span>Face<span>Meet</span></span></a>
-    <div class="fm-site-footer__tagline">Meaningful connections begin through real conversations, trusted communities, Live Topics, and events.</div>
-  </div>
-  <div class="fm-site-footer__links">
-    <a href="/why-facemeet-exists">Why FaceMeet</a>
-    <a href="/sparks">Sparks</a>
-    <a href="/faq">FAQ</a>
-    <a href="/events">Events</a>
-    <a href="/community-guidelines">Community Guidelines</a>
-    <a href="/content-policy">Content Policy</a>
-    <a href="/moderation-policy">Moderation Policy</a>
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms of Service</a>
-    <a href="/refund-policy">Refund Policy</a>
-    <a href="/payment-terms">Payment Terms</a>
-    <a href="/child-safety">Child Safety</a>
-    <a href="mailto:hello@facemeet.app">Contact</a>
-    <a href="mailto:support@facemeet.app">Support</a>
-  </div>
-  <div class="fm-site-footer__copy">© 2026 FaceMeet.</div>
-</footer>
+<script>
+(function(){
+  var n=document.querySelector('nav');
+  if(n) addEventListener('scroll',function(){ n.classList.toggle('scrolled',scrollY>8); },{passive:true});
+})();
+</script>
 <script>
 const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
 const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
 const PWA_URL = 'https://app.facemeet.app';
-const IOS_APP_STORE_URL = 'https://testflight.apple.com/join/TrH8nRKr';  // TestFlight until App Store approval
+const IOS_APP_STORE_URL = 'https://apps.apple.com/us/app/facemeet-live/id6765563804';  // Live App Store listing
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: false, autoRefreshToken: false }
 });

@@ -8,52 +8,130 @@
 <meta property="og:title" content="Open Role on FaceMeet">
 <meta property="og:description" content="Watch the recruiter pitch this role on video, salary included. Applying is free on FaceMeet.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://facemeet.app/brand/facemeet-logo.png">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-og-hiring.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--bg:#0a0807;--coral:#e8503a;--coral-light:#ff6f56;--cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.68);--muted:#8a7e72;--border2:rgba(245,240,232,0.14);--surface:rgba(245,240,232,0.05);--green:#7fd6a8;--green-bg:#12251a;--green-border:#2f7d59}
-*{box-sizing:border-box;margin:0;padding:0}
-html{min-height:100%;background:var(--bg)}
-body{min-height:100vh;background:radial-gradient(circle at 12% 16%,rgba(232,80,58,.18),transparent 31%),linear-gradient(180deg,#0a0807,#080706);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6}
-.shell{width:min(760px,100%);margin:0 auto;padding:34px 20px 60px}
-.eyebrow{display:inline-flex;color:var(--coral-light);background:rgba(232,80,58,.11);border:1px solid rgba(232,80,58,.28);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:22px}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-height:1.04;margin-bottom:10px}
-.poster{color:var(--cream);font-weight:600;font-size:16px;margin-bottom:16px}
-.videobox{width:100%;border-radius:18px;overflow:hidden;background:#000;margin:6px 0 18px;border:1px solid var(--border2)}
-.videobox video{display:block;width:100%;max-height:62vh;background:#000}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.chip{display:inline-flex;align-items:center;border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;background:#1d1d22;border:1px solid #34343a;color:#ccc}
-.chip.salary{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
-.chip.salary.unset{background:#1d1d22;border-color:#34343a;color:var(--muted)}
-.desc{color:var(--cream-dim);font-size:16px;line-height:1.75;margin:0 0 26px;white-space:pre-line}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;border-radius:999px;padding:14px 26px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;border:1px solid transparent;font-family:'Outfit',sans-serif;margin-right:10px;margin-bottom:10px}
-.cta.primary{background:linear-gradient(135deg,var(--coral),var(--coral-light));color:#fff}
-.cta.ghost{background:var(--surface);color:var(--cream);border-color:var(--border2)}
-.hidden{display:none!important}
-.note{color:var(--muted);font-size:13px;margin-top:6px}
-</style>
+<script>
+/* FaceMeet mobile app-link guard: on a phone, ANY link into the web app
+   (app.facemeet.app) goes to the app/store instead — never the PWA.
+   Desktop is untouched. Catches static and dynamically-added links. */
+(function(){try{
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/.test(ua);
+  if(!isIOS&&!isAndroid) return;
+  var store=isIOS?'https://apps.apple.com/us/app/facemeet-live/id6765563804':'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+  document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a[href*="app.facemeet.app"]'):null;if(a){e.preventDefault();window.location.href=store;}},true);
+  function rewrite(){var l=document.querySelectorAll('a[href*="app.facemeet.app"]');for(var i=0;i<l.length;i++)l[i].setAttribute('href',store);}
+  if(document.readyState!=='loading')rewrite();
+  document.addEventListener('DOMContentLoaded',rewrite);
+  setTimeout(rewrite,1000);
+}catch(e){}})();
+</script>
 </head>
 <body>
 <div class="shell">
-  <div class="eyebrow">Open Role</div>
-  <div id="state-loading"><h1>Loading <em>role.</em></h1></div>
-  <main id="state-role" class="hidden">
-    <h1 id="ro-title"></h1>
-    <div class="poster" id="ro-poster"></div>
-    <div class="videobox hidden" id="ro-videobox"><video id="ro-video" controls playsinline preload="metadata"></video></div>
-    <div class="chips" id="ro-chips"></div>
-    <p class="desc" id="ro-desc"></p>
-    <a class="cta primary" id="ro-cta" href="https://app.facemeet.app">Apply free on FaceMeet</a>
-    <a class="cta ghost" href="https://facemeet.app/recruiters">Hiring? Post your role</a>
-    <p class="note">Applying is free. Your FaceMeet video profile is your application — no cover letter, no resume upload.</p>
-  </main>
-  <div id="state-missing" class="hidden"><h1>This role is <em>no longer open.</em></h1>
-    <p class="desc">More roles are open on FaceMeet, where recruiters pitch on video and salary honesty is the rule.</p>
-    <a class="cta primary" href="https://app.facemeet.app">Browse open roles</a>
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
   </div>
+</nav>
+
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">Open Role</p>
+
+    <div id="state-loading">
+      <h1 class="ph">Loading the role.</h1>
+      <p class="lede">Fetching this role from FaceMeet.</p>
+    </div>
+
+    <main id="state-role" class="hidden">
+      <h1 class="ph" id="ro-title"></h1>
+      <p class="lede" id="ro-poster"></p>
+      <div class="videobox hidden" id="ro-videobox"><video id="ro-video" controls playsinline preload="metadata"></video></div>
+      <div class="chips meta-row" id="ro-chips" style="margin-top:22px"></div>
+      <div class="prose"><p id="ro-desc" style="white-space:pre-line"></p></div>
+      <div class="herocta" style="justify-content:flex-start;margin-top:26px">
+        <a class="btn btn-dark btn-lg" id="ro-cta" href="https://app.facemeet.app">Apply free on FaceMeet</a>
+        <a class="btn btn-line btn-lg" href="https://facemeet.app/recruiters">Hiring? Post your role</a>
+      </div>
+      <p class="lede" style="font-size:14px;margin-top:18px;color:var(--ink-4)">Applying is free. Your FaceMeet video profile is your application — no cover letter, no resume upload.</p>
+    </main>
+
+    <div id="state-missing" class="hidden">
+      <h1 class="ph">This role is no longer open.</h1>
+      <p class="lede">More roles are open on FaceMeet, where recruiters pitch on video and salary honesty is the rule.</p>
+      <div class="herocta" style="justify-content:flex-start;margin-top:26px">
+        <a class="btn btn-dark btn-lg" href="https://app.facemeet.app">Browse open roles</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="shead"><p class="eyebrow">Applying</p><h2>Answer the role on camera.</h2>
+      <p class="lede">There is no form to fill in. You watch the recruiter explain the role, then reply with video.</p></div>
+    <div class="beats">
+      <div class="beat"><span class="n">WATCH</span><h3>The role, on video</h3><p>A recruiter pitches this role on camera, salary included — not a job ad.</p></div>
+      <div class="beat"><span class="n">ANSWER</span><h3>Your profile is the application</h3><p>A 30-second video profile — no cover letter, no resume upload.</p></div>
+      <div class="beat"><span class="n">SALARY</span><h3>Stated up front</h3><p>The post carries a salary range, or it says the salary is not disclosed yet.</p></div>
+      <div class="beat"><span class="n">FREE</span><h3>Applying costs nothing</h3><p>There is no charge to apply to a role on FaceMeet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2>Answer this role with a face.</h2>
+    <p class="lede">Free to join.</p>
+    <div class="stores">
+      <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="150" height="50"></a>
+      <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="169" height="65"></a>
+    </div>
+    <div class="herocta" style="margin-top:20px">
+      <a class="btn btn-line btn-lg" href="/get">Get FaceMeet &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
+  </div>
+</footer>
 </div>
 <script>
 const SUPABASE_URL='https://vbaiivsvjdntzaffboue.supabase.co';
@@ -98,7 +176,23 @@ async function load(){
     document.getElementById('ro-desc').textContent=r.description||'';
     const cta=document.getElementById('ro-cta');
     const isAndroid=/android/i.test(navigator.userAgent);
-    cta.href=isAndroid?GOOGLE_PLAY_URL:'https://app.facemeet.app/roles/'+encodeURIComponent(slug);
+    const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    const APP_STORE='https://apps.apple.com/us/app/facemeet-live/id6765563804';
+    const store=isAndroid?GOOGLE_PLAY_URL:APP_STORE;
+    if(isAndroid||isIOS){
+      // Try to open the installed app ON THIS ROLE (works from WhatsApp/IG
+      // in-app browsers too); fall back to the store if it isn't installed.
+      cta.href=store;
+      cta.addEventListener('click',function(e){
+        e.preventDefault();
+        var opened=false;
+        var t=setTimeout(function(){if(!opened)window.location.href=store;},1200);
+        document.addEventListener('visibilitychange',function(){if(document.hidden){opened=true;clearTimeout(t);}});
+        window.location.href='facemeet://roles/'+encodeURIComponent(slug);
+      });
+    } else {
+      cta.href='https://app.facemeet.app/roles/'+encodeURIComponent(slug);
+    }
     show('state-role');
   }catch(e){console.warn('role load failed',e);show('state-missing');}
 }
@@ -126,6 +220,32 @@ load();
   }
   window.fmTrack=send;
   send('page_view');
+})();
+</script>
+<script>
+/* Page chrome only. Deliberately does NOT touch the .pagehead states — the
+   role, loading and unavailable blocks are swapped by the loader above, so
+   giving them a reveal transition would fade the role in after the data has
+   already landed. Only the static sections below the fold animate. */
+(function(){
+  var nav=document.querySelector('nav');
+  addEventListener('scroll',function(){ nav.classList.toggle('scrolled',scrollY>8); },{passive:true});
+  var els=[].slice.call(document.querySelectorAll('.tint .shead > *,.beat,.close .wrap > *'));
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  els.forEach(function(e){ e.classList.add('rv'); });
+  if(reduce){ els.forEach(function(e){e.classList.add('in')}); }
+  else{
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){
+        if(!x.isIntersecting) return;
+        var sib=[].slice.call(x.target.parentNode.children).filter(function(n){return n.classList.contains('rv')});
+        x.target.style.transitionDelay=Math.min(sib.indexOf(x.target),6)*70+'ms';
+        x.target.classList.add('in'); io.unobserve(x.target);
+      });
+    },{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+    setTimeout(function(){ els.forEach(function(e){ e.classList.add('in'); }); },2600);
+  }
 })();
 </script>
 </body>

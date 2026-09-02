@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<title>Connect on FaceMeet</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<div class="shell">
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
+  </div>
+</nav>
+
+<section class="pagehead">
+  <div class="wrap" style="max-width:620px;text-align:center">
+    <p class="eyebrow">Scan to connect</p>
+    <h1 class="ph" id="head" style="max-width:20ch;margin:0 auto 14px">You scanned a Face<span style="color:var(--rec)">Meet</span> code</h1>
+    <p class="lede" id="sub" style="margin:0 auto">One moment&hellip;</p>
+
+    <div id="codewrap" class="hide" style="margin:32px auto 0;max-width:460px;background:var(--night);border-radius:18px;padding:24px 18px 26px;box-shadow:0 0 0 1px var(--night-line),0 30px 70px -30px rgba(13,17,22,.45)">
+      <p class="eyebrow" style="color:var(--rec-2);margin-bottom:12px">Your connection code</p>
+      <div class="mono" id="code" style="color:#fff;font-size:clamp(40px,11vw,62px);line-height:1.15;letter-spacing:.12em;padding-left:.12em;word-break:break-word"></div>
+    </div>
+
+    <div style="margin-top:28px">
+      <a class="btn btn-dark btn-lg" id="get" href="/get">Get FaceMeet</a>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="shead c">
+      <p class="eyebrow">What happens next</p>
+      <h2>You don't have to find each other again.</h2>
+      <p class="lede">Your connection code is what joins the two of you once FaceMeet is installed, so neither of you has to remember anything.</p>
+    </div>
+    <div class="beats">
+      <div class="beat"><span class="n">SCANNED</span><h3>The code outlives the scan</h3><p>A connection code is made the moment someone scans, so it does not matter that you are both about to walk away.</p></div>
+      <div class="beat"><span class="n">NOTIFIED</span><h3>They know you scanned</h3><p>The person on the other side is told straight away, so they can note where you met while you are still standing together.</p></div>
+      <div class="beat"><span class="n">INSTALL</span><h3>Get the app</h3><p>FaceMeet is free to join, on iPhone and Android.</p></div>
+      <div class="beat"><span class="n">ENTER</span><h3>Use the code</h3><p>On Android it is carried over for you. On iPhone, open Scan to Connect and tap &ldquo;Have a connection code?&rdquo;.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
+  </div>
+</footer>
+</div>
+
+<script>
+/* A scan by someone who does NOT have FaceMeet used to produce nothing at all.
+   connect_qr_tokens live 90 seconds and connect_in_person refuses an
+   unauthenticated caller, so by the time this person installed and signed up
+   the token was long dead — this page used to tell them to "ask them to show
+   their code again", by which point both people have left.
+
+   Now the scan itself mints a durable claim. The member on the other side is
+   notified immediately so they can add where you met while you are still
+   standing together, and this code completes the connection after install. */
+(function () {
+  var SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+
+  var head = document.getElementById('head');
+  var sub = document.getElementById('sub');
+  var getBtn = document.getElementById('get');
+  var codeWrap = document.getElementById('codewrap');
+  var codeEl = document.getElementById('code');
+
+  // A refresh is the same person; a different scan is not. The code is
+  // remembered per token so reloading does not mint a second claim, while
+  // three people scanning the same QR still each get their own.
+  function remembered(tok) {
+    try { return sessionStorage.getItem('fm_claim_' + tok); } catch (e) { return null; }
+  }
+  function remember(tok, code) {
+    try { sessionStorage.setItem('fm_claim_' + tok, code); } catch (e) {}
+  }
+
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(ua);
+  var token = (location.pathname.match(/\/c\/([a-f0-9]+)/) || [])[1] || '';
+
+  function fallback(msg) {
+    sub.textContent = msg ||
+      'Get FaceMeet and ask them to show their code again.';
+  }
+
+  if (!token) { fallback(); return; }
+
+  // Until the claim exists there is nothing for this button to carry, and a
+  // tap here used to send someone to the store with no code at all.
+  getBtn.style.opacity = '0.45';
+  getBtn.style.pointerEvents = 'none';
+  getBtn.textContent = 'One moment\u2026';
+  function armButton(href, label) {
+    getBtn.href = href;
+    getBtn.textContent = label;
+    getBtn.style.opacity = '1';
+    getBtn.style.pointerEvents = 'auto';
+  }
+
+  // If FaceMeet is already installed the deep link wins and this page is gone
+  // in under two seconds — a member never needs a claim code.
+  var leaving = false;
+  var claimed = false;
+  if (isIOS || isAndroid) {
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        leaving = true;
+      } else if (!claimed) {
+        // They came back — the app did not take over (a lock screen, a call,
+        // an app switch). Clear the latch and get them their code.
+        leaving = false;
+        requestClaim();
+      }
+    });
+    window.location.href = 'facemeet://c/' + token;
+  }
+
+  function requestClaim() {
+    if (leaving || claimed) return;
+    var prior = remembered(token);
+    if (prior) { claimed = true; show(prior, null); return; }
+    claimed = true;
+    fetch(SUPABASE_URL + '/rest/v1/rpc/connect_claim_open', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ p_token: token })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || d.ok !== true || !d.claim_code) {
+          claimed = false;
+          fallback(d && d.error === 'expired'
+            ? 'That code has expired. Get FaceMeet and ask them to show it again.'
+            : null);
+          armButton('/get', 'Get FaceMeet');
+          return;
+        }
+        remember(token, d.claim_code);
+        show(d.claim_code, d.owner_name);
+      })
+      .catch(function () {
+        claimed = false;
+        fallback();
+        armButton('/get', 'Get FaceMeet');
+      });
+  }
+
+  function show(code, ownerName) {
+    if (ownerName) {
+      head.textContent = ownerName + ' wants to connect on FaceMeet';
+    }
+    sub.textContent = isAndroid
+      ? 'Install FaceMeet and your code is carried over automatically. ' +
+        'It stays valid for 14 days, so you do not have to find each other again.'
+      : 'Install FaceMeet, sign up, then open Scan to Connect and tap ' +
+        '"Have a connection code?". Valid for 14 days — you do not have to ' +
+        'find each other again.';
+    codeEl.textContent = code;
+    codeWrap.className = '';
+    // Android carries the code through the Play install referrer. Apple
+    // strips referrers, so on iOS it has to be typed.
+    armButton('/get?ref=' + encodeURIComponent(code), 'Get FaceMeet');
+  }
+
+  setTimeout(requestClaim, (isIOS || isAndroid) ? 1700 : 0);
+})();
+</script>
+<script>
+(function(){
+  var nav=document.querySelector('nav');
+  addEventListener('scroll',function(){ nav.classList.toggle('scrolled',scrollY>8); },{passive:true});
+})();
+</script>
+</body>
+</html>
