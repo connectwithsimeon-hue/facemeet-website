@@ -8,9 +8,12 @@
         "components": [
           { "/": "/radar/*", "comment": "Radar articles open natively" },
           { "/": "/invite/*", "comment": "Invite links open the app" },
-          { "/": "/join/*", "comment": "Referral links open the app" }
+          { "/": "/join/*", "comment": "Referral links open the app" },
+          { "/": "/roles/*", "comment": "Open roles open natively" },
+          { "/": "/p/*", "comment": "Public profiles open natively" },
+          { "/": "/c/*", "comment": "Scan-to-connect tokens open the app" }
         ],
-        "paths": ["/radar/*", "/invite/*", "/join/*"]
+        "paths": ["/radar/*", "/invite/*", "/join/*", "/roles/*", "/p/*", "/c/*"]
       }
     ]
   }

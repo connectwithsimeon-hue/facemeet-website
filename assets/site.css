@@ -1,0 +1,802 @@
+
+/* ===========================================================================
+   FaceMeet v4
+   The cheapness was flat white with nothing in it. Premium comes from depth:
+   a soft light field, a fine grain, layered surfaces, and one dark section
+   where the product glows. No stock people, no placeholder faces — the
+   material is speech, because that is what the matching actually reads.
+=========================================================================== */
+:root{
+  --white:#FFFFFF; --paper:#F5F7F9; --paper-2:#EBEFF3;
+  --line:#DFE5EB; --line-weak:#EEF1F4;
+  --ink:#0D1116; --ink-2:#333B45; --ink-3:#5F6874; --ink-4:#949DAA;
+  --rec:#F0563C; --rec-soft:#FEF0ED; --rec-2:#FD7459; --rec-wash:#FDEFEC;
+  --live:#12A150;
+  --night:#0B0E12; --night-2:#12171D; --night-line:#212831; --night-ink:#98A3B2;
+  --ring:0 0 0 1px rgba(13,17,22,.08);
+  --lift:0 8px 18px rgba(13,17,22,.04), 0 20px 44px rgba(13,17,22,.05), 0 44px 74px rgba(13,17,22,.02);
+  --lift-lg:0 10px 24px rgba(13,17,22,.07), 0 32px 64px rgba(13,17,22,.09), 0 70px 110px rgba(13,17,22,.05);
+}
+*{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--white);color:var(--ink);
+  font-family:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;font-size:15.5px;line-height:1.6;
+  letter-spacing:-.004em;overflow-x:hidden;overflow-x:clip;
+}
+h1,h2,h3{margin:0;font-weight:500;text-wrap:balance}
+h1{line-height:1.04;letter-spacing:-.03em;font-weight:500}
+.h1 .l1,h1 .l1{display:block;font-size:clamp(22px,2.7vw,36px);color:var(--ink-3);letter-spacing:-.022em;margin-bottom:6px}
+h1 .l2{display:block;font-size:clamp(38px,5.6vw,68px);letter-spacing:-.034em}
+h2{font-size:clamp(28px,3.3vw,44px);line-height:1.05;letter-spacing:-.028em}
+h3{font-size:17px;line-height:1.3;letter-spacing:-.014em;font-weight:600}
+p{margin:0}a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,92vw);margin:0 auto;position:relative;z-index:1}
+.mono{font-family:"Geist Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.02em;font-weight:500}
+
+
+
+/* ===== live layer ==========================================================
+   A professional network is people connected across places, so the hero is
+   drawn as orbit arcs with signals travelling between the profiles. Kept
+   very faint — it should register as atmosphere, never as a diagram. */
+.livelayer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.livelayer svg{width:100%;height:100%;display:block}
+.orbits ellipse{fill:none;stroke:var(--line);stroke-width:1;opacity:.5}
+.routes path{fill:none;stroke:var(--line);stroke-width:1.15;opacity:.55}
+.nodes circle{fill:var(--rec);opacity:.4}
+
+@media (prefers-reduced-motion:no-preference){
+  /* a signal runs the length of each route, staggered so they never sync */
+  .routes path{
+    stroke:url(#sig);stroke-width:1.8;opacity:1;
+    stroke-dasharray:70 620;stroke-dashoffset:690;
+    animation:signal 6.5s cubic-bezier(.5,0,.5,1) infinite;
+  }
+  .routes path:nth-child(2){animation-delay:1.1s}
+  .routes path:nth-child(3){animation-delay:2.2s}
+  .routes path:nth-child(4){animation-delay:3.3s}
+  .routes path:nth-child(5){animation-delay:4.4s}
+  .routes path:nth-child(6){animation-delay:5.5s}
+  .nodes circle{animation:nodePulse 3.4s ease-in-out infinite}
+  .nodes circle:nth-child(2){animation-delay:.5s}
+  .nodes circle:nth-child(3){animation-delay:1s}
+  .nodes circle:nth-child(4){animation-delay:1.5s}
+  .nodes circle:nth-child(5){animation-delay:2s}
+  .nodes circle:nth-child(6){animation-delay:2.5s}
+  .orbits ellipse{animation:orbitBreathe 22s ease-in-out infinite alternate}
+  .orbits ellipse:nth-child(2){animation-delay:-7s}
+  .orbits ellipse:nth-child(3){animation-delay:-14s}
+}
+@keyframes signal{to{stroke-dashoffset:0}}
+@keyframes nodePulse{0%,100%{opacity:.25;r:3}50%{opacity:.85;r:4.5}}
+@keyframes orbitBreathe{to{transform:scale(1.025)}}
+.orbits{transform-origin:600px 330px}
+.orbits ellipse{transform-origin:600px 330px}
+
+/* the static routes stay visible under the animated signal */
+.livelayer svg::before{content:none}
+.routes{filter:none}
+@media (max-width:1100px){.livelayer{opacity:.5}}
+
+/* ===== the Outcrowd device: the page floats as a card on a grey ground ====
+   Plus flanking objects at different focal depths. Theirs are abstract 3D
+   shapes; ours are video profiles, because depth-of-field on faces is the
+   same premium technique built from the product's own material. */
+body{background:#E8EBEE}
+.shell{background:var(--white);border-radius:26px;overflow:hidden;overflow:clip;margin:14px;
+  box-shadow:0 1px 2px rgba(13,17,22,.06),0 30px 70px -30px rgba(13,17,22,.22)}
+nav{border-radius:26px 26px 0 0}
+.navlinks a{padding:8px 15px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-weak);transition:.16s}
+.navlinks a:hover{box-shadow:inset 0 0 0 1px var(--line);background:var(--paper)}
+
+/* floating profiles around the headline */
+.floaters{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.fl{position:absolute;border-radius:14px;overflow:hidden;background:#0C1014;
+  background-size:cover;background-position:center 20%;
+  box-shadow:0 10px 30px rgba(13,17,22,.13),0 40px 70px -30px rgba(13,17,22,.3)}
+.fl::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);border-radius:14px}
+.fl .d{position:absolute;left:7px;bottom:6px;font-family:"Geist Mono",ui-monospace,monospace;font-size:8.5px;
+  color:#fff;background:rgba(8,11,14,.55);border-radius:3px;padding:1.5px 5px}
+/* depth: the far ones are smaller, softer and dimmer */
+.fl.far{filter:blur(7px) saturate(.85);opacity:.55}
+.fl.mid{filter:blur(2.5px) saturate(.95);opacity:.8}
+@media (prefers-reduced-motion:no-preference){
+  .fl{animation:drift var(--t,17s) ease-in-out infinite alternate}
+}
+@keyframes drift{to{transform:translateY(var(--dy,-16px)) translateX(var(--dx,7px))}}
+@media (max-width:1100px){.floaters{display:none}}
+
+/* --- grain: the single detail that separates rendered from designed ------ */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;opacity:.028;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+}
+
+.rec{display:inline-flex;align-items:center;gap:6px;color:var(--rec)}
+.rec::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+@media (prefers-reduced-motion:no-preference){.rec::before{animation:blink 2s ease-in-out infinite}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.22}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:"Geist";
+  font-size:14.5px;font-weight:500;padding:13px 20px;border-radius:8px;border:0;cursor:pointer;
+  transition:background .16s,transform .16s,box-shadow .16s}
+.btn-dark{background:var(--ink);color:#fff;box-shadow:0 1px 2px rgba(13,17,22,.2)}
+.btn-dark:hover{background:#242C36}
+.btn-line{background:rgba(255,255,255,.7);color:var(--ink-2);box-shadow:var(--ring);backdrop-filter:blur(8px)}
+.btn-line:hover{background:#fff}
+.btn-glow{background:#fff;color:var(--night)}
+.btn-ghost-d{background:transparent;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.22)}
+.btn:active{transform:translateY(1px)}
+.btn-lg{padding:15px 26px;font-size:15px}
+
+nav{position:sticky;top:0;z-index:70;background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid transparent;transition:border-color .2s}
+nav.scrolled{border-bottom-color:var(--line-weak);background:rgba(255,255,255,.93);box-shadow:0 6px 20px -14px rgba(13,17,22,.45)}
+nav .wrap{display:flex;align-items:center;gap:30px;height:66px}
+.mark{display:inline-flex;align-items:center}
+.mark img{height:34px;width:auto;display:block}
+footer .mark img{height:30px}
+.mark i{font-style:normal;color:var(--rec)}
+.navlinks{display:flex;gap:24px}
+.navlinks a{font-size:14px;color:var(--ink-3);transition:color .16s}
+.navlinks a:hover{color:var(--ink)}
+.navcta{margin-left:auto;display:flex;gap:9px}
+
+/* ---- hero: light field + animated type --------------------------------- */
+.hero{position:relative;padding:96px 0 104px;text-align:center;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;left:50%;top:-28%;transform:translateX(-50%);
+  width:1100px;height:760px;pointer-events:none;
+  background:
+    radial-gradient(42% 46% at 50% 42%, rgba(232,80,58,.13), transparent 70%),
+    radial-gradient(38% 40% at 26% 28%, rgba(96,138,255,.10), transparent 70%),
+    radial-gradient(40% 44% at 76% 32%, rgba(18,161,80,.07), transparent 70%);
+  filter:blur(18px);
+}
+.hero .wrap{max-width:1000px;position:relative;z-index:2}
+.kicker{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border-radius:999px;
+  background:rgba(255,255,255,.72);box-shadow:var(--ring);backdrop-filter:blur(8px);margin-bottom:28px}
+.h1line{display:block}
+.rot{display:inline-block;position:relative;overflow:hidden;height:1em;vertical-align:bottom;
+  color:var(--rec);text-align:left}
+.rot span{display:block;animation:rotIn .55s cubic-bezier(.22,.61,.36,1)}
+@keyframes rotIn{from{transform:translateY(104%);opacity:0}}
+.hero .sub{font-size:clamp(17px,1.9vw,20px);color:var(--ink-3);max-width:46ch;margin:24px auto 0;line-height:1.5}
+.hero .sub b{color:var(--ink);font-weight:600}
+.herocta{display:flex;gap:11px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+.trust{display:flex;gap:26px;justify-content:center;margin-top:44px;flex-wrap:wrap;color:var(--ink-4)}
+
+
+/* Official store badges. Google's artwork carries ~10% internal padding and
+   Apple's carries none, so Google is set taller and pulled back to make the
+   two read as the same size. */
+.stores{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:34px;flex-wrap:wrap}
+.stores a{display:inline-flex;transition:transform .16s,opacity .16s}
+.stores a:hover{transform:translateY(-2px)}
+.b-ios{height:48px;width:auto;display:block}
+.b-play{height:70px;width:auto;display:block;margin:-11px}
+
+/* ---- speech field: what the matching actually reads --------------------- */
+.said{padding:0 0 100px;position:relative}
+.saidwrap{position:relative;height:230px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.lane{display:flex;gap:12px;width:max-content;padding:7px 0}
+.q{display:inline-flex;align-items:center;gap:9px;padding:11px 16px;border-radius:999px;
+  background:var(--white);box-shadow:var(--ring),0 2px 8px rgba(13,17,22,.04);
+  font-size:14.5px;color:var(--ink-2);white-space:nowrap;transition:.3s}
+.q .mono{color:var(--ink-4)}
+.q.hit{background:var(--ink);color:#fff;box-shadow:0 6px 20px rgba(13,17,22,.22)}
+.q.hit .mono{color:var(--rec-2)}
+@media (prefers-reduced-motion:no-preference){
+  .lane.a{animation:slideL 46s linear infinite}
+  .lane.b{animation:slideR 58s linear infinite}
+  .lane.c{animation:slideL 52s linear infinite}
+}
+@keyframes slideL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes slideR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+section{padding:104px 0}
+.shead{max-width:60ch;margin-bottom:48px}
+.shead.c{margin-inline:auto;text-align:center}
+.shead h2{margin-bottom:14px}
+.eyebrow{font-family:"Geist Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--rec);margin-bottom:15px;font-weight:500}
+.lede{font-size:17px;line-height:1.55;color:var(--ink-3);max-width:56ch}
+.shead.c .lede{margin-inline:auto}
+
+/* ---- the night section: AI sourcing, watchable ------------------------- */
+.night{background:var(--night);color:#fff;position:relative;overflow:hidden}
+.night::before{
+  content:"";position:absolute;left:50%;top:-10%;transform:translateX(-50%);
+  width:1200px;height:900px;pointer-events:none;
+  background:radial-gradient(40% 42% at 50% 40%, rgba(232,80,58,.16), transparent 72%),
+             radial-gradient(34% 36% at 22% 20%, rgba(96,138,255,.10), transparent 72%);
+  filter:blur(10px);
+}
+.night h2{color:#fff}
+.night .lede{color:var(--night-ink)}
+.night .eyebrow{color:var(--rec-2)}
+
+.reel{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center}
+.steps{display:flex;flex-direction:column;gap:3px}
+.st{display:grid;grid-template-columns:24px 1fr;gap:14px;align-items:start;padding:15px 16px;
+  border-radius:11px;position:relative;transition:background .35s}
+.st.live{background:rgba(255,255,255,.045)}
+.st .num{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;color:#5C6672;padding-top:2px;transition:color .3s}
+.st.live .num{color:var(--rec-2)}
+.st .tt{font-size:15px;font-weight:500;transition:color .3s;color:#8F99A6}
+.st.live .tt{color:#fff}
+.st .ss{font-size:13px;color:#68727F;margin-top:3px;line-height:1.45}
+.st .prog{position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:var(--rec);
+  transform:scaleX(0);transform-origin:left;border-radius:2px}
+.st.live .prog{animation:prog 3.2s linear forwards}
+@keyframes prog{to{transform:scaleX(1)}}
+
+.screen{position:relative;border-radius:16px;background:var(--night-2);
+  box-shadow:0 0 0 1px var(--night-line), 0 40px 90px -30px rgba(0,0,0,.8);
+  padding:20px;min-height:396px;overflow:hidden}
+.pane{position:absolute;inset:20px;opacity:0;transform:translateY(8px);
+  transition:opacity .5s cubic-bezier(.22,.61,.36,1),transform .5s cubic-bezier(.22,.61,.36,1)}
+.pane.on{opacity:1;transform:none}
+.plabel{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;color:#5C6672;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:14px}
+
+/* pane: brief */
+.brief{border-radius:12px;background:#0B0E12;box-shadow:0 0 0 1px var(--night-line);padding:16px}
+.brief .bar{height:8px;border-radius:4px;background:#1D242C;margin-bottom:9px}
+.brief .bar.s{width:62%}
+.brief .rolebar{display:inline-block;margin-top:6px;padding:5px 11px;border-radius:6px;
+  background:rgba(232,80,58,.14);color:var(--rec-2);font-size:12.5px}
+.wavef{display:flex;gap:3px;align-items:flex-end;height:26px;margin-top:16px}
+.wavef i{width:3px;border-radius:2px;background:var(--rec);height:22%}
+@media (prefers-reduced-motion:no-preference){.pane.on .wavef i{animation:wv 1.1s ease-in-out infinite}}
+@keyframes wv{0%,100%{height:18%}50%{height:100%}}
+
+/* pane: sourcing */
+.srcgrid{display:grid;grid-template-columns:repeat(9,1fr);gap:7px}
+.sd{aspect-ratio:1;border-radius:4px;background:#1B222A;transition:background .4s,transform .4s}
+.sd.f{background:var(--rec);transform:scale(1.15)}
+.srcnote{margin-top:16px;font-size:13px;color:#68727F}
+
+/* pane: invite */
+.inv{border-radius:11px;background:#0B0E12;box-shadow:0 0 0 1px var(--night-line);padding:15px;margin-bottom:9px}
+.inv .from{font-size:11.5px;color:#5C6672;margin-bottom:7px;font-family:"Geist Mono",ui-monospace,monospace}
+.inv .msg{font-size:13.5px;color:#C7CED7;line-height:1.5}
+.inv .thumb{margin-top:11px;height:60px;border-radius:8px;background:linear-gradient(150deg,#2A323C,#12171D);
+  display:grid;place-items:center}
+.inv .thumb::after{content:"";border-left:11px solid rgba(255,255,255,.9);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+
+/* pane: replies */
+.reps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.rp{border-radius:9px;background:#0B0E12;box-shadow:0 0 0 1px var(--night-line);overflow:hidden}
+.rp .tb{aspect-ratio:4/5;background:linear-gradient(150deg,#2A323C,#0F1419);position:relative}
+.rp .tb::after{content:"";position:absolute;left:6px;bottom:6px;font-family:"Geist Mono",ui-monospace,monospace;
+  font-size:8.5px;color:rgba(255,255,255,.55);content:"0:30"}
+.rp .nm{padding:7px 8px;font-size:10.5px;color:#8F99A6}
+
+/* pane: score */
+.scr{border-radius:11px;background:#0B0E12;box-shadow:0 0 0 1px var(--night-line);padding:13px 15px;margin-bottom:8px;
+  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.scr .who{font-size:13.5px;color:#DCE2E9}
+.scr .ev{font-size:11.5px;color:#68727F;margin-top:3px}
+.scr .pc{font-family:"Geist Mono",ui-monospace,monospace;font-size:15px;color:var(--live);font-weight:500}
+.scr .bar{grid-column:1/-1;height:3px;border-radius:2px;background:#1B222A;overflow:hidden}
+.scr .bar i{display:block;height:100%;background:var(--live);transform-origin:left;transform:scaleX(0)}
+.pane.on .scr .bar i{animation:fillb 1s cubic-bezier(.22,.61,.36,1) forwards}
+@keyframes fillb{to{transform:scaleX(var(--w))}}
+
+/* pane: the twenty */
+.tw20{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.t2{aspect-ratio:4/5;border-radius:7px;background:linear-gradient(150deg,#2A323C,#0F1419);
+  box-shadow:0 0 0 1px rgba(255,255,255,.05);position:relative}
+.t2 .p{position:absolute;left:5px;bottom:5px;font-family:"Geist Mono",ui-monospace,monospace;font-size:8px;color:var(--live)}
+.t20cap{margin-top:15px;font-size:13px;color:#68727F}
+
+
+/* Real people in the tiles. The set is eight portraits; at tile size the
+   repeat is invisible, and a face beats a grey rectangle in every case. */
+.face{background-size:cover;background-position:center 22%}
+.pane .brief-card{border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--night-line);
+  position:relative;width:216px;margin:0 auto}
+.pane .brief-card .fimg{aspect-ratio:3/4;background-position:center 18%}
+.pane .brief-card .recdot{position:absolute;left:11px;top:11px;display:inline-flex;align-items:center;gap:6px;
+  background:rgba(8,11,14,.62);border-radius:5px;padding:4px 9px;color:#fff;
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.06em;backdrop-filter:blur(6px)}
+.pane .brief-card .recdot::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rec)}
+@media (prefers-reduced-motion:no-preference){.pane.on .brief-card .recdot::before{animation:blink 1.4s ease-in-out infinite}}
+.pane .brief-card .cap{position:absolute;left:0;right:0;bottom:0;padding:40px 13px 13px;color:#fff;
+  background:linear-gradient(transparent,rgba(8,11,14,.92));font-size:12.5px;line-height:1.4}
+
+/* searching: the tiles flicker between the brand orange and black as the
+   sweep passes over them */
+.sd{aspect-ratio:1;border-radius:5px;background-size:cover;background-position:center 22%;
+  position:relative;overflow:hidden;filter:grayscale(1) brightness(.5)}
+.sd::after{content:"";position:absolute;inset:0;background:var(--rec);opacity:0;transition:opacity .25s}
+@media (prefers-reduced-motion:no-preference){
+  .pane.on .sd{animation:scanTile 2.4s ease-in-out infinite}
+}
+@keyframes scanTile{
+  0%,100%{filter:grayscale(1) brightness(.5)}
+  42%{filter:grayscale(0) brightness(1)}
+}
+.sd.f{filter:none}
+.sd.f::after{opacity:.32}
+
+/* replies: faces speaking */
+.rp .tb{aspect-ratio:4/5;background-size:cover;background-position:center 20%;position:relative}
+.rp .tb .d{position:absolute;left:5px;bottom:5px;font-family:"Geist Mono",ui-monospace,monospace;font-size:8px;
+  color:#fff;background:rgba(8,11,14,.6);border-radius:3px;padding:1px 4px}
+
+/* scored rows carry a face */
+.scr{grid-template-columns:34px 1fr auto}
+.scr .av{width:34px;height:34px;border-radius:50%;background-size:cover;background-position:center 20%}
+.scr .bar{grid-column:1/-1}
+
+/* the shortlist tiles are people */
+.t2{background-size:cover;background-position:center 20%}
+
+/* ---- light sections ---------------------------------------------------- */
+.tint{background:var(--paper);border-block:1px solid var(--line-weak)}
+.beats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.beat{padding:28px 26px 30px;border-left:1px solid var(--line)}
+.beat:first-child{border-left:0;padding-left:0}
+.beat .n{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;color:var(--ink-4);letter-spacing:.11em;display:block;margin-bottom:13px}
+.beat h3{margin-bottom:7px}
+.beat p{font-size:14px;color:var(--ink-3);line-height:1.55}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card{background:var(--white);border-radius:13px;padding:24px 22px;box-shadow:var(--ring);transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--ring),var(--lift)}
+.card .who{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--rec);display:block;margin-bottom:13px}
+.card h3{margin-bottom:7px}
+.card p{font-size:14px;color:var(--ink-3);line-height:1.55}
+
+
+.photo{margin:0;border-radius:16px;overflow:hidden;box-shadow:var(--ring),var(--lift);position:relative}
+.photo img{width:100%;height:auto;display:block}
+/* a whisper of the brand red over the photograph so it belongs to the page */
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(232,80,58,.07));pointer-events:none}
+.photo-wide{margin:44px 0 0;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--night-line),0 40px 90px -30px rgba(0,0,0,.8)}
+.photo-wide img{width:100%;height:auto;display:block}
+.dinner{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center}
+.soon{display:inline-block;font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);background:var(--paper-2);padding:5px 11px;border-radius:5px;margin-bottom:15px}
+.wait{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.wait input{flex:1 1 150px;min-width:0;padding:13px 15px;border-radius:9px;border:0;box-shadow:var(--ring);
+  font-family:"Geist";font-size:14.5px;background:var(--white)}
+.wait input::placeholder{color:var(--ink-4)}
+.table{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.seat{aspect-ratio:1;border-radius:50%;background:var(--paper-2)}
+.seat.taken{background:linear-gradient(150deg,#3A424E,#0F1419)}
+
+.close{text-align:center;padding:110px 0;position:relative;overflow:hidden}
+.close::before{content:"";position:absolute;left:50%;top:10%;transform:translateX(-50%);width:900px;height:520px;
+  background:radial-gradient(40% 44% at 50% 50%, rgba(232,80,58,.10), transparent 70%);filter:blur(16px);pointer-events:none}
+.close .lede{margin:15px auto 30px}
+
+footer{border-top:1px solid var(--line-weak);padding:48px 0;background:var(--paper)}
+.fgrid{display:grid;grid-template-columns:1.7fr repeat(3,1fr);gap:32px}
+footer h4{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin:0 0 13px;font-weight:500}
+footer a{display:block;font-size:14px;color:var(--ink-3);margin-bottom:8px}
+footer a:hover{color:var(--ink)}
+.fnote{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-4)}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1)}
+.rv.in{opacity:1;transform:none}
+:focus-visible{outline:2px solid var(--rec);outline-offset:3px;border-radius:5px}
+
+@media (max-width:960px){
+  .reel,.dinner{grid-template-columns:1fr;gap:36px}
+  .beats,.cards{grid-template-columns:1fr 1fr}
+  .beat{border-left:0;border-top:1px solid var(--line);padding-left:0}
+  /* The links used to be display:none here with no replacement, so a phone had no
+     route to any section at all. Now they wrap under the logo and scroll. */
+  nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px}
+  .navlinks{order:3;width:100%;overflow-x:auto;gap:6px;padding-bottom:2px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{white-space:nowrap;font-size:13.5px;padding:7px 12px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  section{padding:66px 0}.hero{padding:60px 0 70px}
+  .srcgrid{grid-template-columns:repeat(7,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ---- interior pages ------------------------------------------------------
+   Shared by every page so the theme holds together: a quieter page head,
+   a readable prose measure, and the beat grid usable on the dark band. */
+.pagehead{padding:86px 0 66px;position:relative;overflow:hidden}
+.pagehead::before{
+  content:"";position:absolute;left:50%;top:-40%;transform:translateX(-50%);
+  width:900px;height:620px;pointer-events:none;
+  background:radial-gradient(42% 46% at 50% 50%, rgba(240,86,60,.10), transparent 70%);filter:blur(18px);
+}
+.pagehead .wrap{position:relative;z-index:1}
+h1.ph{font-size:clamp(32px,4.4vw,54px);line-height:1.05;letter-spacing:-.032em;font-weight:500;max-width:20ch;margin-bottom:16px}
+.pagehead .lede{font-size:17.5px}
+.prose{max-width:62ch}
+.prose p{font-size:17px;line-height:1.65;color:var(--ink-2);margin-bottom:20px}
+.dark-beats{border-top-color:var(--night-line);grid-template-columns:repeat(3,1fr)}
+.dark-beats .beat{border-left-color:var(--night-line)}
+.dark-beats .beat:nth-child(4){border-left:0;padding-left:0}
+.dark-beats .beat h3{color:#fff}
+.dark-beats .beat p{color:var(--night-ink)}
+.dark-beats .beat .n{color:var(--rec-2)}
+/* The page you are on. This has to be obviously different from :hover, which also
+   paints a pale pill, so it takes the accent rather than another grey. */
+nav a[aria-current="page"]{color:var(--rec);background:var(--rec-soft);
+  box-shadow:inset 0 0 0 1px rgba(240,86,60,.28)}
+nav a[aria-current="page"]:hover{color:var(--rec);background:var(--rec-soft)}
+@media (max-width:960px){
+  .dark-beats{grid-template-columns:1fr 1fr}
+  .pagehead{padding:52px 0 44px}
+}
+
+/* ---- policy pages -------------------------------------------------------- */
+.legalprose{max-width:72ch}
+.legalprose h2{font-size:20px;line-height:1.3;letter-spacing:-.016em;font-weight:600;margin:38px 0 12px;color:var(--ink)}
+.legalprose h3{font-size:16.5px;margin:26px 0 9px}
+.legalprose p{font-size:16px;line-height:1.68;color:var(--ink-2);margin-bottom:16px}
+.legalprose ul,.legalprose ol{margin:0 0 18px;padding-left:20px}
+.legalprose li{font-size:16px;line-height:1.65;color:var(--ink-2);margin-bottom:8px}
+.legalprose a{color:var(--rec);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.legalprose a:hover{color:var(--rec-deep,#C43D28)}
+.legalprose strong{color:var(--ink);font-weight:600}
+.legalprose table{width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px}
+.legalprose th,.legalprose td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line-weak)}
+.legalprose th{font-weight:600;color:var(--ink)}
+
+/* ---- the definition in the footer ---------------------------------------- */
+.fdef{font-size:13.5px;line-height:1.6;color:var(--ink-3);max-width:46ch;margin-top:13px}
+
+/* ===== mobile ==============================================================
+   Everything below 720px: one column, tighter rhythm, no decoration that
+   costs more than it gives on a phone. */
+@media (max-width:720px){
+  body{font-size:15px}
+  .shell{margin:8px;border-radius:18px}
+  nav{border-radius:18px 18px 0 0}
+  nav .wrap{height:58px;gap:14px}
+  .mark img{height:28px}
+  .navcta .btn-line{display:none}
+  .btn{padding:11px 15px;font-size:14px}
+  .btn-lg{padding:13px 18px;font-size:14.5px}
+
+  .hero{padding:34px 0 46px}
+  h1 .l1{font-size:19px;margin-bottom:4px}
+  h1 .l2{font-size:34px}
+  .hero .sub{font-size:16px;max-width:34ch}
+  .livelayer{opacity:.35}
+  .stores{gap:8px}
+  .b-ios{height:42px}.b-play{height:61px;margin:-9.5px}
+
+  .said{padding-bottom:56px}
+  .saidwrap{height:170px}
+  .q{font-size:13px;padding:9px 13px}
+
+  section{padding:52px 0}
+  .shead{margin-bottom:30px}
+  h2{font-size:26px}
+  .lede{font-size:15.5px}
+  h1.ph{font-size:29px}
+  .pagehead{padding:38px 0 32px}
+
+  .beats,.dark-beats,.cards{grid-template-columns:1fr}
+  .beat{border-left:0;border-top:1px solid var(--line);padding:20px 0 22px}
+  .beat:first-child{border-top:0}
+  .dark-beats .beat{border-left:0;border-top:1px solid var(--night-line)}
+  .dark-beats .beat:nth-child(4){padding-left:0}
+  .card{padding:20px 18px}
+
+  .reel{gap:26px}
+  .screen{min-height:330px;padding:15px}
+  .pane{inset:15px}
+  .srcgrid{grid-template-columns:repeat(6,1fr);gap:5px}
+  .reps{grid-template-columns:repeat(3,1fr)}
+  .rp:nth-child(n+7){display:none}
+  .tw20{grid-template-columns:repeat(4,1fr)}
+  .t2:nth-child(n+17){display:none}
+  .st{padding:12px 12px}
+  .st .tt{font-size:14px}.st .ss{font-size:12.5px}
+
+  .dinner{gap:26px}
+  .wait{flex-direction:column}
+  .wait input,.wait .btn{width:100%}
+  .photo img{border-radius:12px}
+
+  .close{padding:56px 0}
+  .prose p,.legalprose p,.legalprose li{font-size:15.5px}
+  .legalprose h2{font-size:18px;margin-top:30px}
+
+  footer{padding:34px 0}
+  .fgrid{grid-template-columns:1fr;gap:26px}
+  footer h4{margin-bottom:10px}
+  .fdef{max-width:none}
+}
+@media (max-width:400px){
+  h1 .l2{font-size:29px}
+  .b-ios{height:38px}.b-play{height:55px;margin:-8.5px}
+  .srcgrid{grid-template-columns:repeat(5,1fr)}
+  .tw20{grid-template-columns:repeat(3,1fr)}
+  .t2:nth-child(n+13){display:none}
+}
+
+/* ---- FAQ accordion -------------------------------------------------------- */
+.faqlist{max-width:76ch}
+details.faq{border-bottom:1px solid var(--line-weak);padding:2px 0}
+details.faq summary{
+  list-style:none;cursor:pointer;padding:18px 34px 18px 0;position:relative;
+  font-size:16.5px;font-weight:500;letter-spacing:-.012em;color:var(--ink);
+}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{
+  content:"";position:absolute;right:6px;top:50%;width:9px;height:9px;
+  border-right:1.6px solid var(--ink-4);border-bottom:1.6px solid var(--ink-4);
+  transform:translateY(-60%) rotate(45deg);transition:transform .2s;
+}
+details.faq[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+details.faq summary:hover{color:var(--rec)}
+details.faq p{font-size:15.5px;line-height:1.65;color:var(--ink-3);padding:0 34px 20px 0;margin:0}
+
+/* ---- dynamic pages: state switching, people rows, meta chips --------------
+   The data-driven pages (replay, profile, event) render their markup from
+   JavaScript, so these class names are contracts with those scripts, not
+   decoration. .hidden is how every one of them swaps between the loading,
+   loaded and unavailable states; .person / .pf / .chip are emitted from
+   template strings at runtime. Defined once here so every such page agrees. */
+.hidden{display:none!important}
+.people-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin:26px 0 22px}
+.host-block,.person{display:flex;align-items:center;gap:12px}
+.host-photo,.host-photo-fallback,.person img,.person .pf{
+  width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;
+  background:var(--paper-2);box-shadow:var(--ring)}
+.host-photo-fallback,.person .pf{display:flex;align-items:center;justify-content:center;
+  color:var(--ink-3);font-size:19px;font-weight:600}
+.host-name{display:block;font-size:16px;font-weight:600;letter-spacing:-.014em;color:var(--ink);line-height:1.3}
+.host-role{font-size:13px;color:var(--ink-4);line-height:1.4}
+a.host-block:hover .host-name{color:var(--rec)}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;
+  background:var(--white);box-shadow:var(--ring);font-size:13.5px;color:var(--ink-2);white-space:nowrap}
+@media (max-width:720px){
+  .people-row{gap:12px 18px;margin:20px 0 18px}
+  .host-photo,.host-photo-fallback,.person img,.person .pf{width:44px;height:44px;font-size:17px}
+  .chip{font-size:12.5px;padding:6px 11px}
+}
+
+/* ---- role page: salary chip + the recruiter's video frame -----------------
+   .chip.salary is emitted from role.html's chip() at runtime — the ".unset"
+   variant is the honest "not disclosed yet" state, so it must read as neutral
+   rather than as a figure. The video frame stays dark because it is a player. */
+.chip.salary{color:#0B7A3C;background:rgba(18,161,80,.08);box-shadow:0 0 0 1px rgba(18,161,80,.26)}
+.chip.salary.unset{color:var(--ink-4);background:var(--paper);box-shadow:var(--ring)}
+.videobox{border-radius:16px;overflow:hidden;background:var(--night);margin:26px 0 0;
+  box-shadow:0 0 0 1px var(--night-line),0 30px 70px -30px rgba(13,17,22,.45)}
+.videobox video{display:block;width:100%;max-height:62vh;background:#000}
+@media (max-width:720px){.videobox{border-radius:12px;margin-top:20px}}
+/* event.html builds its host row from its own template string, which emits
+   .face / .face-fallback rather than .person img / .pf — same treatment. */
+.people-row .face{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;
+  background:var(--paper-2);box-shadow:var(--ring)}
+.people-row .face-fallback{display:flex;align-items:center;justify-content:center;
+  color:var(--ink-3);font-size:19px;font-weight:600}
+@media (max-width:720px){
+  .people-row .face{width:44px;height:44px;font-size:17px}
+}
+
+/* ---- live topic page: status tones on .chip -------------------------------
+   live.html's statusConfig() emits one of five tone class names into the
+   chip template string, so these names are a contract with that script.
+   Live reads green, pending reads brand red, ready reads blue, and the two
+   finished states read neutral — never louder than the topic itself. */
+.chip strong{font-weight:600;color:var(--ink)}
+.chip.status-live{color:#0B7A3C;background:rgba(18,161,80,.08);box-shadow:0 0 0 1px rgba(18,161,80,.26)}
+.chip.status-live strong{color:#0B7A3C}
+.chip.status-ready{color:#33499E;background:rgba(96,138,255,.09);box-shadow:0 0 0 1px rgba(96,138,255,.28)}
+.chip.status-ready strong{color:#33499E}
+.chip.status-pending{color:var(--rec);background:var(--rec-wash);box-shadow:0 0 0 1px rgba(240,86,60,.26)}
+.chip.status-pending strong{color:var(--rec)}
+.chip.status-ended,.chip.status-unavailable{color:var(--ink-3);background:var(--paper);box-shadow:0 0 0 1px var(--line)}
+.chip.status-ended strong,.chip.status-unavailable strong{color:var(--ink-2)}
+
+/* ---- public profile (/p/<slug>) -------------------------------------------
+   The most shared surface on the site: a member sends this link instead of a
+   LinkedIn URL. .media-badge and .media-placeholder are written into
+   #profile-media by profile.html's renderMedia(), so those two names are a
+   contract with that script and must not be renamed. The frame itself stays
+   dark because it is a video player, not a page panel. */
+.pcard{width:min(100%,392px);background:var(--white);border-radius:18px;padding:14px;
+  box-shadow:var(--ring),var(--lift)}
+.media-frame{position:relative;aspect-ratio:4/5;border-radius:13px;overflow:hidden;background:var(--night)}
+.media-frame video,.media-frame img{display:block;width:100%;height:100%;object-fit:cover;background:var(--night)}
+.media-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  padding:26px;text-align:center;color:var(--night-ink);font-size:13.5px;line-height:1.5}
+.media-badge{position:absolute;left:11px;top:11px;display:inline-flex;align-items:center;gap:6px;
+  padding:4px 9px;border-radius:5px;background:rgba(8,11,14,.62);backdrop-filter:blur(6px);color:#fff;
+  font-family:"Geist Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.media-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rec)}
+.psum{padding:16px 6px 4px}
+.profile-name{margin:0;font-size:26px;line-height:1.14;letter-spacing:-.024em;font-weight:500}
+.profile-meta{margin-top:5px;font-size:13.5px;color:var(--ink-3)}
+.chip.intent-badge{margin-top:13px;max-width:100%;color:var(--rec);background:var(--rec-wash);
+  box-shadow:0 0 0 1px rgba(240,86,60,.22)}
+.chip.intent-badge span{flex:none;width:17px;height:17px;display:inline-flex;align-items:center;
+  justify-content:center;border-radius:50%;background:rgba(240,86,60,.16);font-size:11px;line-height:1}
+.pcopy h2{margin-bottom:15px}
+.pcopy h2 em{color:var(--rec);font-style:italic}
+.bio-label{font-family:"Geist Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-4);font-weight:500;margin:26px 0 8px}
+.bio-text{font-size:16px;line-height:1.65;color:var(--ink-2);max-width:52ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 13px}
+.small-note{font-size:13.5px;color:var(--ink-4)}
+.copy-link{border:0;padding:0;background:none;cursor:pointer;color:var(--ink-3);
+  font-family:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;font-size:13.5px;
+  text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--line)}
+.copy-link:hover{color:var(--rec)}
+.play-mark{position:relative;display:inline-flex;flex:none;width:13px;height:15px;
+  clip-path:polygon(0 0,100% 50%,0 100%)}
+.play-mark::before{content:"";position:absolute;inset:0;background:var(--rec)}
+.btn-dark .play-mark::before{background:var(--rec-2)}
+@media (max-width:960px){.pcard{margin:0 auto}}
+@media (max-width:720px){
+  .cta-row{gap:8px;margin-top:24px}
+  .cta-row .btn{width:100%}
+  .psum{padding:14px 4px 2px}
+  .profile-name{font-size:23px}
+}
+
+/* ---- Radar item page (/radar/<slug>) --------------------------------------
+   radar-detail.html is a push-notification and shared-link destination, so it
+   renders from JavaScript: the meta chips are written into #meta-row from a
+   template string that emits .mchip (with .deadline and .amount variants), and
+   the lane name — grants, accelerators, investors, events, talks — is added as
+   a class onto the #lane-chip eyebrow. Both are contracts with that script, so
+   the names are defined here rather than on the page. Chips wrap rather than
+   run off the screen, because the amount text comes from the source. */
+.mchip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;
+  background:var(--white);box-shadow:var(--ring);font-size:13.5px;color:var(--ink-2);overflow-wrap:anywhere}
+.mchip.deadline{color:var(--rec);background:var(--rec-wash);box-shadow:0 0 0 1px rgba(240,86,60,.26);font-weight:500}
+.mchip.amount{color:#0B7A3C;background:rgba(18,161,80,.08);box-shadow:0 0 0 1px rgba(18,161,80,.26);font-weight:500}
+.eyebrow.grants{color:#8A6410}
+.eyebrow.accelerators{color:#0B7A3C}
+.eyebrow.investors{color:#33499E}
+.eyebrow.events{color:#0F7A7A}
+.eyebrow.talks{color:#7A3FA8}
+/* "N members are on this" — the reason the page is worth opening, so it reads
+   as a signal rather than a footnote. Hidden until the count is known. */
+.radar-members{display:inline-flex;align-items:flex-start;gap:9px;padding:9px 15px;border-radius:16px;
+  font-size:14px;line-height:1.45;color:var(--ink-2);background:var(--rec-wash);
+  box-shadow:0 0 0 1px rgba(240,86,60,.22)}
+.radar-members::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--rec);margin-top:7px}
+@media (max-width:720px){
+  .mchip{font-size:12.5px;padding:6px 11px}
+  .radar-members{font-size:13.5px;padding:8px 13px}
+}
+
+/* ---- connect.html (/c/<token>) --------------------------------------------
+   The QR landing page toggles its code panel with `codeWrap.className = ''`,
+   which wipes every class off #codewrap — so this is the one class it may
+   carry, and all of that panel's own styling lives inline on the element
+   where the wipe cannot reach it. Name is a contract with connect.html. */
+.hide{display:none}
+
+/* Two-up variant of .beats. The base grid is four columns, so a two-item row
+   left the right half of the section empty — visible on the Sparks seats block. */
+.beats.two{grid-template-columns:repeat(2,1fr)}
+@media (max-width:720px){.beats.two{grid-template-columns:1fr}}
+
+/* ---------------------------------------------------------------------------
+   Mobile nav overlap fix (appended last so it wins at equal specificity).
+
+   The 960px block wraps the nav links onto their own row and sets
+   nav .wrap{height:auto}. The 720px block AFTER it re-clamped
+   nav .wrap{height:58px}, so on a phone the wrapped links row rendered
+   outside the nav's painted background and sat on top of the hero headline.
+
+   Sign in is restored on mobile too: it is now the only route from the
+   marketing site to the hiring dashboard, so hiding it stranded recruiters.
+   --------------------------------------------------------------------------- */
+@media (max-width:960px){
+  nav .wrap{height:auto;min-height:0;flex-wrap:wrap;
+    padding-top:10px;padding-bottom:10px;row-gap:9px}
+  .navlinks{order:3;width:100%;display:flex;overflow-x:auto;gap:6px;
+    padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{white-space:nowrap;font-size:13.5px;padding:7px 12px}
+}
+@media (max-width:720px){
+  nav .wrap{height:auto;min-height:0}
+  .navcta{margin-left:auto;gap:7px}
+  .navcta .btn-line{display:inline-flex}
+  .navcta .btn{padding:9px 12px;font-size:13.5px}
+  .mark img{height:26px}
+}
+@media (max-width:400px){
+  .navcta .btn-line{padding:9px 10px}
+  .navcta .btn-dark{padding:9px 11px}
+}
+
+/* ===========================================================================
+   MOBILE PASS
+   The site was drawn desktop-first and scaled down, which reads as a desktop
+   page squeezed onto a phone rather than a page designed for one. This block
+   is last in the file, so it wins at equal specificity.
+   =========================================================================== */
+
+/* The rotating word was clipping. .rot is height:1em with overflow:hidden, but
+   1em is the glyph em box, not the line box — so ascenders and descenders got
+   cut. Give it room and stop the span inheriting a taller line-height. */
+.rot{height:1.16em;line-height:1.16}
+.rot span{line-height:1.16}
+
+@media (max-width:720px){
+  /* Hero: a phone screen is tall and narrow. Less air above, a type scale that
+     fits the width, and a measure that breaks in sensible places. */
+  .hero{padding:22px 0 40px}
+  h1 .l1{font-size:16.5px;margin-bottom:5px;letter-spacing:-.01em}
+  h1 .l2{font-size:31px;line-height:1.1;letter-spacing:-.026em}
+  .hero .sub{font-size:15.5px;max-width:31ch;margin-top:18px;line-height:1.52}
+
+  /* Both calls to action, full width and stacked. Thumbs, not cursors. */
+  .herocta{margin-top:24px;gap:9px}
+  .herocta .btn{width:100%;justify-content:center;padding:14px 18px;font-size:15px}
+  .stores{margin-top:22px}
+
+  /* The floating profile images are decoration that costs layout on a phone. */
+  .floaters,.livelayer{display:none}
+
+  /* Sections: tighter rhythm so a thumb reaches the next idea sooner. */
+  section{padding:44px 0}
+  .wrap{padding-left:18px;padding-right:18px}
+  .shead{margin-bottom:22px}
+  h2{font-size:24px;line-height:1.14}
+  .lede{font-size:15.5px}
+
+  /* The spoken-line ticker runs off both edges by design. Fade the edges so it
+     reads as a moving strip rather than text that has been cut off. */
+  .said{padding-bottom:44px;position:relative}
+  .said::before,.said::after{content:"";position:absolute;top:0;bottom:0;width:34px;
+    z-index:2;pointer-events:none}
+  .said::before{left:0;background:linear-gradient(90deg,var(--white),transparent)}
+  .said::after{right:0;background:linear-gradient(270deg,var(--white),transparent)}
+  .saidwrap{height:150px}
+  .q{font-size:12.5px;padding:8px 12px}
+
+  /* Stacked content, comfortable spacing, honest tap targets. */
+  .beats,.cards,.fgrid{grid-template-columns:1fr;gap:0}
+  .beat{padding:18px 0}
+  .card{padding:18px}
+  .btn{min-height:44px}
+  .faqlist summary{padding-top:16px;padding-bottom:16px}
+
+  /* The page card itself should hug the screen, not float in a wide gutter. */
+  .shell{margin:6px;border-radius:16px}
+  nav{border-radius:16px 16px 0 0}
+}
+
+@media (max-width:400px){
+  h1 .l2{font-size:28px}
+  .hero .sub{max-width:28ch}
+  .wrap{padding-left:15px;padding-right:15px}
+  h2{font-size:22px}
+}
+
+/* Left-aligned hero on a phone. Centred type is a desktop instinct: on a narrow
+   column it forces the eye to re-find the start of every line, and a ragged
+   centre reads as unsettled. Flush left gives one consistent starting edge. */
+@media (max-width:720px){
+  .hero{text-align:left}
+  .hero .sub{margin-left:0;margin-right:0}
+  .herocta{justify-content:flex-start}
+  .stores{justify-content:flex-start}
+  .said .shead,.said .shead.c{margin-inline:0;text-align:left}
+}
+
+/* The ticker label is centred by an inline style on its wrap in index.html, so
+   nothing in this file could reach it. Left-aligning it on mobile to match the
+   hero above needs the specificity of !important; the alternative is editing
+   the inline style out of every page that carries the section. */
+@media (max-width:720px){
+  .said > .wrap[style]{text-align:left !important;margin-bottom:20px !important}
+}

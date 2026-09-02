@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>On FaceMeet Radar</title>
+<meta name="description" content="Grants, accelerators, investors, and AI news — verified and tracked on FaceMeet Radar.">
+<meta property="og:title" content="On FaceMeet Radar">
+<meta property="og:description" content="Grants, accelerators, investors, and AI news — verified and tracked on FaceMeet Radar.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-og-radar.png">
+<meta property="og:url" content="https://facemeet.app/radar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="On FaceMeet Radar">
+<meta name="twitter:description" content="Grants, accelerators, investors, and AI news — verified and tracked on FaceMeet Radar.">
+<link rel="canonical" href="https://facemeet.app/radar">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* FaceMeet mobile app-link guard: on a phone, ANY link into the web app
+   (app.facemeet.app) goes to the app/store instead — never the PWA.
+   Desktop is untouched. Catches static and dynamically-added links. */
+(function(){try{
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/.test(ua);
+  if(!isIOS&&!isAndroid) return;
+  var store=isIOS?'https://apps.apple.com/us/app/facemeet-live/id6765563804':'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+  document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a[href*="app.facemeet.app"]'):null;if(a){e.preventDefault();window.location.href=store;}},true);
+  function rewrite(){var l=document.querySelectorAll('a[href*="app.facemeet.app"]');for(var i=0;i<l.length;i++)l[i].setAttribute('href',store);}
+  if(document.readyState!=='loading')rewrite();
+  document.addEventListener('DOMContentLoaded',rewrite);
+  setTimeout(rewrite,1000);
+}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="shell">
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
+  </div>
+</nav>
+
+<section id="loading-state" class="pagehead" aria-live="polite">
+  <div class="wrap">
+    <p class="eyebrow">FaceMeet Radar</p>
+    <h1 class="ph">Opening this Radar item.</h1>
+    <p class="lede">Loading it from FaceMeet Radar.</p>
+  </div>
+</section>
+
+<main id="item-state" class="hidden">
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow" id="lane-chip">On FaceMeet Radar</p>
+      <h1 class="ph" id="item-title"></h1>
+      <p class="lede" id="item-summary"></p>
+      <div class="meta-row" id="meta-row" style="margin-top:22px"></div>
+      <p class="radar-members hidden" id="members-line"></p>
+      <div class="herocta" style="justify-content:flex-start;margin-top:30px">
+        <a class="btn btn-dark btn-lg" href="https://app.facemeet.app" id="open-app-link">Continue in FaceMeet</a>
+        <a class="btn btn-line btn-lg" href="#" id="source-link" target="_blank" rel="noopener noreferrer">Read the source</a>
+      </div>
+      <p class="small-note" id="source-note" style="margin-top:18px"></p>
+    </div>
+  </section>
+
+  <section class="night">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow">What Radar is</p>
+        <h2>The read that leads to a meeting.</h2>
+        <p class="lede">Radar tracks grants, accelerators, investors, events and AI news — verified, summarised and served daily inside FaceMeet. Every item also shows the members going after it.</p>
+      </div>
+      <div class="beats dark-beats">
+        <div class="beat"><span class="n">SUMMARISED</span><h3>The real source, one tap away</h3><p>Each item carries a plain summary and a link to where it came from, so you can check it yourself before you act on it.</p></div>
+        <div class="beat"><span class="n">DEADLINED</span><h3>Pinned until it passes</h3><p>Where there is a closing date, Radar counts it down for you — and takes the item off the feed once it has gone.</p></div>
+        <div class="beat"><span class="n">SHARED</span><h3>See who else is on it</h3><p>Mark an item interested or applying and your face joins it. Meet the other members going after the same thing, face to face.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="shead" style="margin-bottom:0">
+        <p class="eyebrow">Get FaceMeet</p>
+        <h2>Radar lives in the app.</h2>
+        <p class="lede">Get FaceMeet on your phone, or continue in the browser, to read the full feed in your lanes and meet the people working on the same things you are.</p>
+      </div>
+      <div class="stores" style="justify-content:flex-start;margin-top:26px">
+        <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="150" height="50"></a>
+        <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="169" height="65"></a>
+      </div>
+      <div class="herocta" style="justify-content:flex-start;margin-top:12px">
+        <a class="btn btn-line" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer">Continue on the web &rarr;</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section id="not-found-state" class="pagehead hidden">
+  <div class="wrap">
+    <p class="eyebrow">FaceMeet Radar</p>
+    <h1 class="ph">This item has moved on.</h1>
+    <p class="lede">It may have passed its deadline or been archived. Radar keeps scanning — the current feed is in the app.</p>
+    <div class="herocta" style="justify-content:flex-start;margin-top:30px">
+      <a class="btn btn-dark btn-lg" href="https://app.facemeet.app" id="not-found-open-app-link">Open FaceMeet</a>
+      <a class="btn btn-line btn-lg" href="/radar">What Radar is &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  var n=document.querySelector('nav');
+  addEventListener('scroll',function(){ n.classList.toggle('scrolled',scrollY>8); },{passive:true});
+})();
+</script>
+<script>
+const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+const PWA_URL = 'https://app.facemeet.app';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
+
+const LANES = {
+  ai_news: ['AI · News', ''],
+  grants: ['Grant', 'grants'],
+  accelerators: ['Accelerator', 'accelerators'],
+  investors: ['Investors', 'investors'],
+  events: ['Event', 'events'],
+  talks: ['Talk', 'talks'],
+};
+
+function slugFromPath() {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  const i = parts.indexOf('radar');
+  if (i >= 0 && parts[i + 1]) return decodeURIComponent(parts[i + 1]);
+  // Fallback for local preview and direct-file testing.
+  return new URLSearchParams(window.location.search).get('slug') || '';
+}
+const itemSlug = slugFromPath();
+const refCode = new URLSearchParams(window.location.search).get('ref') || '';
+
+function joinUrl() {
+  const ua = String(navigator.userAgent || '').toLowerCase();
+  if (ua.includes('android')) return GOOGLE_PLAY_URL;
+  var isIOS = /iphone|ipad|ipod/.test(ua) ||
+    (ua.includes('macintosh') && navigator.maxTouchPoints > 1);
+  if (isIOS) return 'https://apps.apple.com/us/app/facemeet-live/id6765563804';
+  const params = new URLSearchParams();
+  if (itemSlug) { params.set('intent', 'radar'); params.set('slug', itemSlug); }
+  if (refCode) params.set('ref', refCode);
+  const q = params.toString();
+  return q ? `${PWA_URL}/?${q}` : PWA_URL;
+}
+
+function show(id) {
+  ['loading-state', 'item-state', 'not-found-state'].forEach(s =>
+    document.getElementById(s).classList.toggle('hidden', s !== id));
+}
+
+function daysUntil(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return Math.floor((d.getTime() - Date.now()) / 86400000);
+}
+
+async function init() {
+  document.getElementById('open-app-link').href = joinUrl();
+  document.getElementById('not-found-open-app-link').href = joinUrl();
+  if (!itemSlug) { show('not-found-state'); return; }
+  let row = null;
+  try {
+    const { data, error } = await supabaseClient.rpc('get_public_radar_item', { p_slug: itemSlug });
+    if (!error) row = Array.isArray(data) ? data[0] : data;
+  } catch (_) {}
+  if (!row || !row.title) { show('not-found-state'); return; }
+
+  const [laneLabel, laneClass] = LANES[row.lane] || ['On FaceMeet Radar', ''];
+  const chip = document.getElementById('lane-chip');
+  chip.textContent = `${laneLabel} · FaceMeet Radar`;
+  if (laneClass) chip.classList.add(laneClass);
+
+  document.getElementById('item-title').textContent = row.title;
+  const summary = document.getElementById('item-summary');
+  if (row.summary) summary.textContent = row.summary; else summary.classList.add('hidden');
+
+  const chips = [];
+  const dl = row.deadline_at ? daysUntil(row.deadline_at) : null;
+  if (dl !== null && dl >= 0) {
+    const label = dl === 0 ? 'Closes today' : dl === 1 ? 'Closes tomorrow' : `Closes in ${dl} days`;
+    chips.push(`<span class="mchip deadline">&#9203; ${label}</span>`);
+  }
+  if (row.amount) chips.push(`<span class="mchip amount">${String(row.amount).replace(/</g, '&lt;')}</span>`);
+  try {
+    const host = new URL(row.source_url).hostname.replace(/^www\./, '');
+    chips.push(`<span class="mchip">${host}</span>`);
+  } catch (_) {}
+  if (row.published_at) {
+    const d = new Date(row.published_at);
+    if (!Number.isNaN(d.getTime()))
+      chips.push(`<span class="mchip">${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>`);
+  }
+  document.getElementById('meta-row').innerHTML = chips.join('');
+
+  const going = Number(row.interested_count || 0) + Number(row.applying_count || 0);
+  if (going > 0) {
+    const line = document.getElementById('members-line');
+    line.textContent = going === 1
+      ? '1 FaceMeet member is on this — meet them in the app.'
+      : `${going} FaceMeet members are on this — meet them in the app.`;
+    line.classList.remove('hidden');
+  }
+
+  const src = document.getElementById('source-link');
+  if (row.source_url && /^https?:\/\//i.test(row.source_url)) src.href = row.source_url;
+  else src.classList.add('hidden');
+  if (row.source_name)
+    document.getElementById('source-note').textContent =
+      `Sourced from ${row.source_name} and verified by FaceMeet Radar.`;
+
+  const pageTitle = `${String(row.title).slice(0, 80)} · FaceMeet Radar`;
+  document.title = pageTitle;
+  const canonical = `https://facemeet.app/radar/${encodeURIComponent(itemSlug)}`;
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonical);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonical);
+  show('item-state');
+}
+init();
+</script>
+</body>
+</html>

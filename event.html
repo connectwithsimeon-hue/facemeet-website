@@ -8,63 +8,120 @@
 <meta property="og:title" content="FaceMeet Live Conversation">
 <meta property="og:description" content="A scheduled live conversation on FaceMeet, the trusted network for real conversations.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-replay-card.png">
+<meta property="og:image" content="https://facemeet.app/assets/brand/facemeet-og-conversation.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--bg:#0a0807;--coral:#e8503a;--coral-light:#ff6f56;--cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.68);--muted:#8a7e72;--border2:rgba(245,240,232,0.14);--surface:rgba(245,240,232,0.05)}
-*{box-sizing:border-box;margin:0;padding:0}
-html{min-height:100%;background:var(--bg)}
-body{min-height:100vh;background:radial-gradient(circle at 12% 16%,rgba(232,80,58,.18),transparent 31%),linear-gradient(180deg,#0a0807,#080706);color:var(--cream);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6}
-.shell{width:min(760px,100%);margin:0 auto;padding:34px 20px 60px}
-.eyebrow{display:inline-flex;color:var(--coral-light);background:rgba(232,80,58,.11);border:1px solid rgba(232,80,58,.28);border-radius:999px;padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:22px}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,58px);line-height:1.04;margin-bottom:16px}
-.faces{display:flex;align-items:center;margin:6px 0 14px}
-.face{width:86px;height:86px;border-radius:50%;border:3px solid var(--bg);object-fit:cover;background:#231f1c;box-shadow:0 0 0 2px rgba(232,80,58,.55)}
-.face+.face{margin-left:-20px}
-.face-fallback{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:var(--coral-light)}
-.meta{color:var(--cream-dim);font-size:16px;margin-bottom:8px}
-.hosts{color:var(--cream);font-weight:600;margin-bottom:6px}
-.desc{color:var(--cream-dim);font-size:16px;line-height:1.75;margin:18px 0 26px}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;border-radius:999px;padding:14px 26px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;border:1px solid transparent;font-family:'Outfit',sans-serif;margin-right:10px;margin-bottom:10px}
-.cta.primary{background:linear-gradient(135deg,var(--coral),var(--coral-light));color:#fff}
-.cta.ghost{background:var(--surface);color:var(--cream);border-color:var(--border2)}
-.get-app{margin-top:18px;padding-top:18px;border-top:1px solid var(--border2)}
-.get-app p{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:12px}
-.stores{display:flex;flex-wrap:wrap;gap:10px}
-.store{display:inline-flex;align-items:center;gap:9px;min-height:48px;border-radius:12px;padding:10px 18px;text-decoration:none;font-weight:600;font-size:13.5px;background:var(--surface);color:var(--cream);border:1px solid var(--border2)}
-.store svg{width:18px;height:18px;fill:currentColor;flex:none}
-.hidden{display:none!important}
-.note{color:var(--muted);font-size:13px;margin-top:16px}
-</style>
+<script>
+/* FaceMeet mobile app-link guard: on a phone, ANY link into the web app
+   (app.facemeet.app) goes to the app/store instead — never the PWA.
+   Desktop is untouched. Catches static and dynamically-added links. */
+(function(){try{
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/.test(ua);
+  if(!isIOS&&!isAndroid) return;
+  var store=isIOS?'https://apps.apple.com/us/app/facemeet-live/id6765563804':'https://play.google.com/store/apps/details?id=com.ononobi.facemeet';
+  document.addEventListener('click',function(e){var t=e.target;var a=t&&t.closest?t.closest('a[href*="app.facemeet.app"]'):null;if(a){e.preventDefault();window.location.href=store;}},true);
+  function rewrite(){var l=document.querySelectorAll('a[href*="app.facemeet.app"]');for(var i=0;i<l.length;i++)l[i].setAttribute('href',store);}
+  if(document.readyState!=='loading')rewrite();
+  document.addEventListener('DOMContentLoaded',rewrite);
+  setTimeout(rewrite,1000);
+}catch(e){}})();
+</script>
 </head>
 <body>
 <div class="shell">
-  <div class="eyebrow">Scheduled Live Conversation</div>
-  <div id="state-loading"><h1>Loading <em>conversation.</em></h1></div>
-  <main id="state-event" class="hidden">
-    <div class="faces" id="ev-faces"></div>
-    <h1 id="ev-title"></h1>
-    <div class="hosts" id="ev-hosts"></div>
-    <div class="meta" id="ev-when"></div>
-    <div class="meta" id="ev-interested"></div>
-    <p class="desc" id="ev-desc"></p>
-    <a class="cta primary" id="ev-cta" href="https://app.facemeet.app">Open in FaceMeet</a>
-    <button class="cta ghost" id="ev-cal" type="button">Add to Calendar (.ics)</button>
-    <div class="get-app">
-      <p>Get the FaceMeet app</p>
-      <div class="stores">
-        <a class="store" href="https://testflight.apple.com/join/TrH8nRKr" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_ios')"><svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>iPhone · TestFlight</a>
-        <a class="store" href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_android')"><svg viewBox="0 0 24 24"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.7.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg>Android · Google Play</a>
-        <a class="store" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_web')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.02a15.7 15.7 0 0 0-1.1-5.06A8.03 8.03 0 0 1 19.93 11zM12 4.04c.83 1.2 1.48 2.94 1.83 4.96h-3.66c.35-2.02 1-3.76 1.83-4.96zM4.07 13h3.02c.14 1.8.52 3.53 1.1 5.06A8.03 8.03 0 0 1 4.07 13zm3.02-2H4.07a8.03 8.03 0 0 1 4.12-5.06A15.7 15.7 0 0 0 7.09 11zm4.91 8.96c-.83-1.2-1.48-2.94-1.83-4.96h3.66c-.35 2.02-1 3.76-1.83 4.96zm2.09-6.96H9.91A13.7 13.7 0 0 1 9.86 11h4.28a13.7 13.7 0 0 1-.05 2zm.72 6.02c.58-1.53.96-3.26 1.1-5.06h3.02a8.03 8.03 0 0 1-4.12 5.06z"/></svg>Continue on the web</a>
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
+  </div>
+</nav>
+
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">Scheduled Live Conversation</p>
+
+    <div id="state-loading">
+      <h1 class="ph">Loading conversation.</h1>
+    </div>
+
+    <main id="state-event" class="hidden">
+      <div class="people-row" id="ev-faces"></div>
+      <h1 class="ph" id="ev-title"></h1>
+      <p class="lede" id="ev-hosts" style="margin:12px 0 20px"></p>
+      <div class="meta-row">
+        <span class="chip" id="ev-when"></span>
+        <span class="chip" id="ev-interested"></span>
+      </div>
+      <div class="prose"><p id="ev-desc"></p></div>
+      <div class="herocta" style="justify-content:flex-start;margin-top:10px">
+        <a class="btn btn-dark btn-lg" id="ev-cta" href="https://app.facemeet.app">Open in FaceMeet</a>
+        <button class="btn btn-line btn-lg" id="ev-cal" type="button">Add to Calendar (.ics)</button>
+      </div>
+
+      <div style="margin-top:40px;padding-top:28px;border-top:1px solid var(--line)">
+        <p class="mono" style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.12em">Get the FaceMeet app</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:14px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" target="_blank" rel="noopener noreferrer" aria-label="Download on the App Store" onclick="window.fmTrack&&fmTrack('event_store_ios')"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="150" height="50"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" target="_blank" rel="noopener noreferrer" aria-label="Get it on Google Play" onclick="window.fmTrack&&fmTrack('event_store_android')"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="169" height="65"></a>
+        </div>
+        <div style="margin-top:12px">
+          <a class="btn btn-line" href="https://app.facemeet.app" target="_blank" rel="noopener noreferrer" onclick="window.fmTrack&&fmTrack('event_store_web')">Continue on the web</a>
+        </div>
+      </div>
+
+      <p class="fdef" style="margin-top:26px">Live conversations happen inside FaceMeet — the trusted network for real conversations.</p>
+    </main>
+
+    <div id="state-missing" class="hidden">
+      <h1 class="ph">This conversation is unavailable.</h1>
+      <p class="lede">The link may have expired, or the conversation was removed.</p>
+      <div class="herocta" style="justify-content:flex-start;margin-top:26px">
+        <a class="btn btn-dark btn-lg" href="/events">See what's coming up</a>
+        <a class="btn btn-line btn-lg" href="/get">Get FaceMeet</a>
       </div>
     </div>
-    <p class="note">Live conversations happen inside FaceMeet — the trusted network for real conversations.</p>
-  </main>
-  <div id="state-missing" class="hidden"><h1>This conversation is <em>unavailable.</em></h1></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
+  </div>
+</footer>
 </div>
+
 <script>
 const SUPABASE_URL='https://vbaiivsvjdntzaffboue.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
@@ -165,6 +222,9 @@ load();
   window.fmTrack=send;
   send('page_view');
 })();
+</script>
+<script>
+(function(){var n=document.querySelector('nav');if(!n)return;addEventListener('scroll',function(){n.classList.toggle('scrolled',scrollY>8);},{passive:true});})();
 </script>
 </body>
 </html>

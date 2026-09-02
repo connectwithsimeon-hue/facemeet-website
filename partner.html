@@ -1,343 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FaceMeet Partner Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg:#110f19;
-      --surface:#1c1827;
-      --surface2:#272134;
-      --cream:#fff6e7;
-      --muted:#a99eb8;
-      --coral:#ff6f61;
-      --gold:#f7c948;
-      --green:#38d39f;
-      --blue:#64b5f6;
-      --border:rgba(255,255,255,.1);
-    }
-    * { box-sizing:border-box; }
-    body {
-      margin:0;
-      min-height:100vh;
-      background:var(--bg);
-      color:var(--cream);
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    a { color:inherit; }
-    .shell { min-height:100vh; display:grid; grid-template-columns:280px 1fr; }
-    .sidebar { border-right:1px solid var(--border); background:#171320; padding:24px; }
-    .brand { font-size:28px; font-weight:900; letter-spacing:.2px; }
-    .brand span { color:var(--coral); }
-    .tag { color:var(--muted); margin-top:4px; font-size:13px; }
-    .side-card { margin-top:24px; padding:16px; border:1px solid var(--border); background:var(--surface); border-radius:8px; }
-    .side-label { color:var(--muted); font-size:11px; text-transform:uppercase; font-weight:800; }
-    .side-value { margin-top:6px; font-size:15px; font-weight:800; }
-    .main { padding:28px; }
-    .topbar { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:24px; }
-    h1 { margin:0; font-size:32px; line-height:1.1; }
-    .sub { margin-top:8px; color:var(--muted); max-width:760px; line-height:1.5; }
-    .login-wrap { min-height:100vh; display:grid; place-items:center; padding:24px; }
-    .login-card { width:min(440px, 100%); background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; }
-    .login-card h1 { font-size:28px; }
-    .field { width:100%; border:1px solid var(--border); background:var(--surface2); color:var(--cream); border-radius:8px; padding:12px 14px; font-size:14px; margin-top:12px; }
-    .btn { border:0; border-radius:8px; padding:11px 15px; font-weight:800; color:#130f19; background:var(--cream); cursor:pointer; }
-    .btn.primary { background:var(--coral); color:white; }
-    .btn.ghost { background:transparent; color:var(--cream); border:1px solid var(--border); }
-    .btn:disabled { opacity:.55; cursor:not-allowed; }
-    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:20px; }
-    .stat { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; }
-    .stat-value { font-size:24px; font-weight:900; }
-    .stat-label { color:var(--muted); font-size:12px; margin-top:4px; }
-    .panel { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; margin-bottom:18px; }
-    .panel-title { font-size:18px; font-weight:900; }
-    .panel-sub { color:var(--muted); margin-top:4px; font-size:13px; line-height:1.5; }
-    table { width:100%; border-collapse:collapse; margin-top:14px; }
-    th, td { text-align:left; border-bottom:1px solid var(--border); padding:12px; font-size:13px; vertical-align:top; }
-    th { color:var(--muted); text-transform:uppercase; font-size:11px; letter-spacing:.04em; }
-    .status { margin-top:12px; color:var(--muted); font-size:13px; }
-    .error { color:var(--coral); }
-    .success { color:var(--green); }
-    .hidden { display:none !important; }
-    @media (max-width:900px) {
-      .shell { grid-template-columns:1fr; }
-      .sidebar { border-right:0; border-bottom:1px solid var(--border); }
-      .stats { grid-template-columns:1fr 1fr; }
-      .topbar { flex-direction:column; }
-    }
-    @media (max-width:560px) {
-      .stats { grid-template-columns:1fr; }
-      .main { padding:18px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,follow">
+<title>Partner Dashboard — FaceMeet</title>
+<meta name="description" content="Sign in to the FaceMeet regional partner dashboard to review assigned campaign activity, revenue and payout status.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-  <div class="login-wrap" id="login-screen">
-    <div class="login-card">
-      <div class="brand">Face<span>Meet</span></div>
-      <div class="tag">Regional Partner Dashboard</div>
-      <h1 style="margin-top:24px;">Partner Login</h1>
-      <p class="sub">Sign in with the partner account issued by FaceMeet. Partners only see their own assigned campaign and revenue summaries.</p>
-      <input class="field" id="partner-email" type="email" placeholder="Email" autocomplete="email" />
-      <input class="field" id="partner-password" type="password" placeholder="Password" autocomplete="current-password" />
-      <button class="btn primary" style="width:100%;margin-top:16px;" onclick="partnerLogin()">Sign In</button>
-      <button class="btn ghost" style="width:100%;margin-top:10px;" onclick="sendPasswordReset()">Send Password Reset</button>
-      <div class="status error" id="login-error"></div>
+<div class="shell">
+<nav>
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+    <div class="navlinks"><a href="/meet-founders">Meet founders</a><a href="/meet-investors">Meet investors</a><a href="/ai-sourcing">AI talent sourcing</a><a href="/events">Events</a></div>
+    <div class="navcta"><a class="btn btn-line" href="/signin">Sign in</a><a class="btn btn-dark" href="/get">Get FaceMeet</a></div>
+  </div>
+</nav>
+
+<section class="pagehead" id="login-screen">
+  <div class="wrap">
+    <p class="eyebrow">Regional Partner Dashboard</p>
+    <h1 class="ph">Partner Login</h1>
+    <p class="lede">Sign in with the partner account issued by FaceMeet. Partners only see their own assigned campaign and revenue summaries.</p>
+    <div class="prose">
+      <div class="wait"><input id="partner-email" style="flex:1 1 auto" type="email" placeholder="Email" aria-label="Email" autocomplete="email"></div>
+      <div class="wait"><input id="partner-password" style="flex:1 1 auto" type="password" placeholder="Password" aria-label="Password" autocomplete="current-password"></div>
+      <div class="wait">
+        <button class="btn btn-dark" onclick="partnerLogin()">Sign In</button>
+        <button class="btn btn-line" onclick="sendPasswordReset()">Send Password Reset</button>
+      </div>
+      <p id="login-error"></p>
     </div>
   </div>
+</section>
 
-  <div class="shell hidden" id="dashboard">
-    <aside class="sidebar">
-      <div class="brand">Face<span>Meet</span></div>
-      <div class="tag">Partner Dashboard</div>
-      <div class="side-card">
-        <div class="side-label">Partner</div>
-        <div class="side-value" id="partner-name">—</div>
-      </div>
-      <div class="side-card">
-        <div class="side-label">Primary Region</div>
-        <div class="side-value" id="partner-country">—</div>
-      </div>
-      <div class="side-card">
-        <div class="side-label">Access</div>
-        <div class="side-value">Restricted partner view</div>
-      </div>
-    </aside>
-    <main class="main">
-      <div class="topbar">
-        <div>
-          <h1>Your FaceMeet Partner Performance</h1>
-          <div class="sub">This dashboard summarizes your assigned campaign activity, net revenue, earned partner share, and payout status.</div>
-        </div>
-        <div class="row">
-          <button class="btn ghost" onclick="loadPartnerDashboard()">Refresh</button>
-          <button class="btn ghost" onclick="partnerLogout()">Sign Out</button>
+<div id="dashboard" hidden>
+
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow">Partner Dashboard</p>
+      <h1 class="ph">Your FaceMeet Partner Performance</h1>
+      <p class="lede">This dashboard summarizes your assigned campaign activity, net revenue, earned partner share, and payout status.</p>
+      <div class="prose">
+        <div class="wait">
+          <button class="btn btn-line" onclick="loadPartnerDashboard()">Refresh</button>
+          <button class="btn btn-line" onclick="partnerLogout()">Sign Out</button>
         </div>
       </div>
-      <div class="row" style="margin-bottom:18px;">
-        <input class="field" style="width:auto;margin-top:0;" id="partner-start-date" type="date" />
-        <input class="field" style="width:auto;margin-top:0;" id="partner-end-date" type="date" />
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="cards">
+        <div class="card"><span class="who">Partner</span><h3 id="partner-name">—</h3></div>
+        <div class="card"><span class="who">Primary Region</span><h3 id="partner-country">—</h3></div>
+        <div class="card"><span class="who">Access</span><h3>Restricted partner view</h3></div>
       </div>
-      <section class="stats">
-        <div class="stat"><div class="stat-value" id="partner-registrations">—</div><div class="stat-label">Attributed Registrations</div></div>
-        <div class="stat"><div class="stat-value" id="partner-gross">—</div><div class="stat-label">Gross Revenue</div></div>
-        <div class="stat"><div class="stat-value" id="partner-net">—</div><div class="stat-label">Net Revenue</div></div>
-        <div class="stat"><div class="stat-value" id="partner-pending">—</div><div class="stat-label">Pending Partner Balance</div></div>
-      </section>
-      <section class="panel">
-        <div class="panel-title">Campaign Summary</div>
-        <div class="panel-sub">Revenue is shown after platform fees and recorded cost adjustments where available.</div>
-        <div id="partner-summary-body"><div class="status">Loading partner summary...</div></div>
-      </section>
-      <section class="panel">
-        <div class="panel-title">Payout History</div>
-        <div class="panel-sub">Payout records are updated by FaceMeet admin after manual review.</div>
-        <div id="partner-payout-body"><div class="status">Loading payouts...</div></div>
-      </section>
-      <section class="panel">
-        <div class="panel-title">Change Password</div>
-        <div class="panel-sub">Use this after your first login or anytime you need to rotate your password.</div>
-        <div class="row" style="margin-top:12px;">
-          <input class="field" style="width:min(320px,100%);margin-top:0;" id="new-password" type="password" placeholder="New password" autocomplete="new-password" />
-          <button class="btn primary" onclick="changePartnerPassword()">Update Password</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="prose">
+        <div class="wait">
+          <input id="partner-start-date" style="flex:1 1 auto" type="date" aria-label="Start date">
+          <input id="partner-end-date" style="flex:1 1 auto" type="date" aria-label="End date">
         </div>
-        <div class="status" id="password-status"></div>
-      </section>
-    </main>
+      </div>
+      <div class="beats">
+        <div class="beat"><span class="n">Attributed Registrations</span><h3 id="partner-registrations">—</h3></div>
+        <div class="beat"><span class="n">Gross Revenue</span><h3 id="partner-gross">—</h3></div>
+        <div class="beat"><span class="n">Net Revenue</span><h3 id="partner-net">—</h3></div>
+        <div class="beat"><span class="n">Pending Partner Balance</span><h3 id="partner-pending">—</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="shead">
+        <h2>Campaign Summary</h2>
+        <p class="lede">Revenue is shown after platform fees and recorded cost adjustments where available.</p>
+      </div>
+      <div class="legalprose" id="partner-summary-body" style="overflow-x:auto"><p class="lede">Loading partner summary...</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="shead">
+        <h2>Payout History</h2>
+        <p class="lede">Payout records are updated by FaceMeet admin after manual review.</p>
+      </div>
+      <div class="legalprose" id="partner-payout-body" style="overflow-x:auto"><p class="lede">Loading payouts...</p></div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="shead">
+        <h2>Change Password</h2>
+        <p class="lede">Use this after your first login or anytime you need to rotate your password.</p>
+      </div>
+      <div class="prose">
+        <div class="wait">
+          <input id="new-password" style="flex:1 1 auto" type="password" placeholder="New password" aria-label="New password" autocomplete="new-password">
+          <button class="btn btn-dark" onclick="changePartnerPassword()">Update Password</button>
+        </div>
+        <p id="password-status"></p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="mark" href="/"><img src="/brand/facemeet-lockup.png" alt="FaceMeet"></a>
+        <p class="fdef">FaceMeet is a professional network where your profile is a 30&#8209;second video instead of a résumé. Founders, investors, talent, mentors and recruiters find each other by what they actually said on camera — and for hiring, a recorded brief becomes a ranked shortlist of people worth meeting.</p>
+        <div class="stores" style="justify-content:flex-start;margin-top:18px">
+          <a href="https://apps.apple.com/us/app/facemeet-live/id6765563804" aria-label="Download on the App Store"><img class="b-ios" src="/assets/badges/appstore.svg" alt="Download on the App Store" width="120" height="40" style="height:38px"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.ononobi.facemeet" aria-label="Get it on Google Play"><img class="b-play" src="/assets/badges/googleplay.png" alt="Get it on Google Play" width="135" height="52" style="height:56px"></a>
+        </div>
+      </div>
+      <div><h4>Product</h4>
+        <a href="/how-it-works">How it works</a><a href="/for-hiring">AI sourcing</a>
+        <a href="/sparks">Sparks</a><a href="/radar">Radar</a><a href="/events">Events</a>
+        <a href="/recruiters">Recruiters</a><a href="/pricing">Pricing</a><a href="/get">Download</a></div>
+      <div><h4>Community</h4>
+        <a href="/dinners">Dinners</a><a href="/why">Why FaceMeet</a>
+        <a href="/community-guidelines">Community Guidelines</a><a href="/content-policy">Content Policy</a>
+        <a href="/moderation-policy">Moderation Policy</a><a href="/child-safety">Child Safety</a>
+        <a href="/faq">FAQ</a><a href="/partners">Partner with us</a></div>
+      <div><h4>Legal &amp; contact</h4>
+        <a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
+        <a href="/refund-policy">Refund Policy</a><a href="/payment-terms">Payment Terms</a>
+        <a href="/contact">Contact</a><a href="mailto:support@facemeet.app">Support</a></div>
+    </div>
+    <p class="fnote">© 2026 FaceMeet</p>
   </div>
-
-  <script>
-    const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-    });
-
-    let partnerProfile = null;
-
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>"']/g, char => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[char]));
-    }
-
-    function centsToMoney(cents, currency='USD') {
-      return (Number(cents || 0) / 100).toLocaleString(undefined, { style: 'currency', currency });
-    }
-
-    function dateValue(id) {
-      return (document.getElementById(id)?.value || '').trim() || null;
-    }
-
-    async function rpc(functionName, params={}) {
-      const { data, error } = await supabaseClient.rpc(functionName, params);
-      if (error) throw error;
-      return data;
-    }
-
-    async function partnerLogin() {
-      const email = document.getElementById('partner-email').value.trim();
-      const password = document.getElementById('partner-password').value.trim();
-      setText('login-error', '');
-      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-      if (error) {
-        setText('login-error', 'Incorrect email, password, or partner access.');
-        return;
-      }
-      await loadPartnerDashboard();
-    }
-
-    async function sendPasswordReset() {
-      const email = document.getElementById('partner-email').value.trim();
-      if (!email) {
-        setText('login-error', 'Enter your email before requesting a password reset.');
-        return;
-      }
-      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: `${location.origin}/partner`
-      });
-      setText('login-error', error ? 'Password reset could not be sent.' : 'Password reset email sent if this partner account exists.');
-    }
-
-    async function partnerLogout() {
-      await supabaseClient.auth.signOut();
-      location.reload();
-    }
-
-    async function changePartnerPassword() {
-      const password = document.getElementById('new-password').value.trim();
-      const status = document.getElementById('password-status');
-      status.className = 'status';
-      if (password.length < 8) {
-        status.className = 'status error';
-        status.textContent = 'Use at least 8 characters.';
-        return;
-      }
-      const { error } = await supabaseClient.auth.updateUser({ password });
-      if (error) {
-        status.className = 'status error';
-        status.textContent = 'Password could not be updated.';
-        return;
-      }
-      document.getElementById('new-password').value = '';
-      status.className = 'status success';
-      status.textContent = 'Password updated.';
-    }
-
-    async function loadPartnerDashboard() {
-      const { data: sessionData } = await supabaseClient.auth.getSession();
-      if (!sessionData.session) {
-        document.getElementById('login-screen').classList.remove('hidden');
-        document.getElementById('dashboard').classList.add('hidden');
-        return;
-      }
-      try {
-        const summaryRows = await rpc('partner_get_my_revenue_summary', {
-          p_start_date: dateValue('partner-start-date'),
-          p_end_date: dateValue('partner-end-date')
-        });
-        const summary = Array.isArray(summaryRows) ? summaryRows[0] : null;
-        if (!summary) throw new Error('Partner access unavailable');
-        partnerProfile = summary;
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('dashboard').classList.remove('hidden');
-        setText('partner-name', summary.partner_name || 'Partner');
-        setText('partner-country', summary.default_country || '—');
-        setText('partner-registrations', Number(summary.attributed_users || 0).toLocaleString());
-        setText('partner-gross', centsToMoney(summary.gross_revenue_cents));
-        setText('partner-net', centsToMoney(summary.net_revenue_cents));
-        setText('partner-pending', centsToMoney(summary.pending_payout_cents));
-        renderPartnerSummary(summary);
-        await loadPayouts(summary.partner_id);
-      } catch (error) {
-        console.error(error);
-        await supabaseClient.auth.signOut();
-        setText('login-error', 'Your account is not active for the partner dashboard yet.');
-        document.getElementById('login-screen').classList.remove('hidden');
-        document.getElementById('dashboard').classList.add('hidden');
-      }
-    }
-
-    function renderPartnerSummary(summary) {
-      document.getElementById('partner-summary-body').innerHTML = `<table>
-        <thead><tr><th>Active Campaigns</th><th>Gross Revenue</th><th>Platform Fees</th><th>Net Revenue</th><th>Earned</th><th>Paid</th></tr></thead>
-        <tbody><tr>
-          <td>${Number(summary.active_campaigns || 0).toLocaleString()}</td>
-          <td>${centsToMoney(summary.gross_revenue_cents)}</td>
-          <td>${centsToMoney(summary.platform_fee_cents)}</td>
-          <td>${centsToMoney(summary.net_revenue_cents)}</td>
-          <td>${centsToMoney(summary.partner_earned_cents)}</td>
-          <td>${centsToMoney(summary.paid_cents)}</td>
-        </tr></tbody>
-      </table>`;
-    }
-
-    async function loadPayouts(partnerId) {
-      const { data, error } = await supabaseClient
-        .from('partner_payouts')
-        .select('payout_period_start,payout_period_end,amount_cents,currency,status,payment_reference,paid_at,created_at')
-        .eq('partner_id', partnerId)
-        .order('created_at', { ascending: false })
-        .limit(50);
-      if (error) {
-        document.getElementById('partner-payout-body').innerHTML = '<div class="status error">Payout history is unavailable right now.</div>';
-        return;
-      }
-      if (!data || !data.length) {
-        document.getElementById('partner-payout-body').innerHTML = '<div class="status">No payout records yet.</div>';
-        return;
-      }
-      let html = '<table><thead><tr><th>Period</th><th>Amount</th><th>Status</th><th>Reference</th><th>Paid</th></tr></thead><tbody>';
-      data.forEach(row => {
-        html += `<tr>
-          <td>${escapeHtml(row.payout_period_start || '—')} to ${escapeHtml(row.payout_period_end || '—')}</td>
-          <td>${centsToMoney(row.amount_cents, row.currency || 'USD')}</td>
-          <td>${escapeHtml(row.status || 'pending')}</td>
-          <td>${escapeHtml(row.payment_reference || '—')}</td>
-          <td>${escapeHtml(row.paid_at ? new Date(row.paid_at).toLocaleDateString() : '—')}</td>
-        </tr>`;
-      });
-      html += '</tbody></table>';
-      document.getElementById('partner-payout-body').innerHTML = html;
-    }
-
-    loadPartnerDashboard();
-  </script>
+</footer>
+</div>
 <script>
 (function(){
-  var EP='https://vbaiivsvjdntzaffboue.supabase.co/rest/v1/rpc/record_site_event';
-  var AK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
-  function send(ev){
-    try{
-      var vid=localStorage.getItem('fm_vid');
-      if(!vid){vid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);localStorage.setItem('fm_vid',vid);}
-      var q=new URLSearchParams(location.search);
-      var body=JSON.stringify({p_event:ev,p_page:location.pathname,
-        p_referrer:(document.referrer||'').slice(0,300),
-        p_source:(q.get('utm_source')||q.get('src')||'').slice(0,80),
-        p_visitor:vid.slice(0,64)});
-      if(navigator.sendBeacon){
-        navigator.sendBeacon(EP+'?apikey='+AK,new Blob([body],{type:'application/json'}));
-      }else{
-        fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','apikey':AK},body:body,keepalive:true});
-      }
-    }catch(e){}
+  var n=document.querySelector('nav');
+  addEventListener('scroll',function(){ n.classList.toggle('scrolled',scrollY>8); },{passive:true});
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=[].slice.call(document.querySelectorAll('.shead > *,.beat,.card,.prose > *,.close .wrap > *'));
+  els.forEach(function(e){ e.classList.add('rv'); });
+  if(reduce){ els.forEach(function(e){e.classList.add('in')}); }
+  else{
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){
+        if(!x.isIntersecting) return;
+        var sib=[].slice.call(x.target.parentNode.children).filter(function(n){return n.classList.contains('rv')});
+        x.target.style.transitionDelay=Math.min(sib.indexOf(x.target),6)*70+'ms';
+        x.target.classList.add('in'); io.unobserve(x.target);
+      });
+    },{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+    setTimeout(function(){ els.forEach(function(e){ e.classList.add('in'); }); },2600);
   }
-  window.fmTrack=send;
-  send('page_view');
 })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://vbaiivsvjdntzaffboue.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiYWlpdnN2amRudHphZmZib3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODk2NjQsImV4cCI6MjA5MTc2NTY2NH0.ZNzIdnuQXf69nLmo7FafLASNOG6_2m36JZQKCIQzK-w';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
+
+  let partnerProfile = null;
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function showLogin(show) {
+    document.getElementById('login-screen').hidden = !show;
+    document.getElementById('dashboard').hidden = show;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  function centsToMoney(cents, currency='USD') {
+    return (Number(cents || 0) / 100).toLocaleString(undefined, { style: 'currency', currency });
+  }
+
+  function dateValue(id) {
+    return (document.getElementById(id)?.value || '').trim() || null;
+  }
+
+  async function rpc(functionName, params={}) {
+    const { data, error } = await supabaseClient.rpc(functionName, params);
+    if (error) throw error;
+    return data;
+  }
+
+  async function partnerLogin() {
+    const email = document.getElementById('partner-email').value.trim();
+    const password = document.getElementById('partner-password').value.trim();
+    setText('login-error', '');
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      setText('login-error', 'Incorrect email, password, or partner access.');
+      return;
+    }
+    await loadPartnerDashboard();
+  }
+
+  async function sendPasswordReset() {
+    const email = document.getElementById('partner-email').value.trim();
+    if (!email) {
+      setText('login-error', 'Enter your email before requesting a password reset.');
+      return;
+    }
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: `${location.origin}/partner`
+    });
+    setText('login-error', error ? 'Password reset could not be sent.' : 'Password reset email sent if this partner account exists.');
+  }
+
+  async function partnerLogout() {
+    await supabaseClient.auth.signOut();
+    location.reload();
+  }
+
+  async function changePartnerPassword() {
+    const password = document.getElementById('new-password').value.trim();
+    if (password.length < 8) {
+      setText('password-status', 'Use at least 8 characters.');
+      return;
+    }
+    const { error } = await supabaseClient.auth.updateUser({ password });
+    if (error) {
+      setText('password-status', 'Password could not be updated.');
+      return;
+    }
+    document.getElementById('new-password').value = '';
+    setText('password-status', 'Password updated.');
+  }
+
+  async function loadPartnerDashboard() {
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    if (!sessionData.session) {
+      showLogin(true);
+      return;
+    }
+    try {
+      const summaryRows = await rpc('partner_get_my_revenue_summary', {
+        p_start_date: dateValue('partner-start-date'),
+        p_end_date: dateValue('partner-end-date')
+      });
+      const summary = Array.isArray(summaryRows) ? summaryRows[0] : null;
+      if (!summary) throw new Error('Partner access unavailable');
+      partnerProfile = summary;
+      showLogin(false);
+      setText('partner-name', summary.partner_name || 'Partner');
+      setText('partner-country', summary.default_country || '—');
+      setText('partner-registrations', Number(summary.attributed_users || 0).toLocaleString());
+      setText('partner-gross', centsToMoney(summary.gross_revenue_cents));
+      setText('partner-net', centsToMoney(summary.net_revenue_cents));
+      setText('partner-pending', centsToMoney(summary.pending_payout_cents));
+      renderPartnerSummary(summary);
+      await loadPayouts(summary.partner_id);
+    } catch (error) {
+      console.error(error);
+      await supabaseClient.auth.signOut();
+      setText('login-error', 'Your account is not active for the partner dashboard yet.');
+      showLogin(true);
+    }
+  }
+
+  function renderPartnerSummary(summary) {
+    document.getElementById('partner-summary-body').innerHTML = `<table>
+      <thead><tr><th>Active Campaigns</th><th>Gross Revenue</th><th>Platform Fees</th><th>Net Revenue</th><th>Earned</th><th>Paid</th></tr></thead>
+      <tbody><tr>
+        <td>${Number(summary.active_campaigns || 0).toLocaleString()}</td>
+        <td>${centsToMoney(summary.gross_revenue_cents)}</td>
+        <td>${centsToMoney(summary.platform_fee_cents)}</td>
+        <td>${centsToMoney(summary.net_revenue_cents)}</td>
+        <td>${centsToMoney(summary.partner_earned_cents)}</td>
+        <td>${centsToMoney(summary.paid_cents)}</td>
+      </tr></tbody>
+    </table>`;
+  }
+
+  async function loadPayouts(partnerId) {
+    const { data, error } = await supabaseClient
+      .from('partner_payouts')
+      .select('payout_period_start,payout_period_end,amount_cents,currency,status,payment_reference,paid_at,created_at')
+      .eq('partner_id', partnerId)
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (error) {
+      document.getElementById('partner-payout-body').innerHTML = '<p class="lede">Payout history is unavailable right now.</p>';
+      return;
+    }
+    if (!data || !data.length) {
+      document.getElementById('partner-payout-body').innerHTML = '<p class="lede">No payout records yet.</p>';
+      return;
+    }
+    let html = '<table><thead><tr><th>Period</th><th>Amount</th><th>Status</th><th>Reference</th><th>Paid</th></tr></thead><tbody>';
+    data.forEach(row => {
+      html += `<tr>
+        <td>${escapeHtml(row.payout_period_start || '—')} to ${escapeHtml(row.payout_period_end || '—')}</td>
+        <td>${centsToMoney(row.amount_cents, row.currency || 'USD')}</td>
+        <td>${escapeHtml(row.status || 'pending')}</td>
+        <td>${escapeHtml(row.payment_reference || '—')}</td>
+        <td>${escapeHtml(row.paid_at ? new Date(row.paid_at).toLocaleDateString() : '—')}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('partner-payout-body').innerHTML = html;
+  }
+
+  loadPartnerDashboard();
 </script>
 </body>
 </html>

@@ -1,4 +1,16 @@
 [[edge_functions]]
+  function = "get-track"
+  path = "/get"
+
+[[edge_functions]]
+  function = "intro-watch"
+  path = "/i/*"
+
+[[edge_functions]]
+  function = "tighten-watch"
+  path = "/t/*"
+
+[[edge_functions]]
   function = "profile-og"
   path = "/p/*"
 
@@ -21,6 +33,12 @@
 [functions]
   directory = "netlify/functions"
 
+# Yara Stage 4 render worker: ffmpeg-static's linux binary must ship inside
+# the function bundle (installed with npm_config_platform=linux).
+[functions."tighten-video-background"]
+  node_bundler = "esbuild"
+  included_files = ["node_modules/ffmpeg-static/ffmpeg"]
+
 [functions."scheduled-spark-reminder"]
   schedule = "*/5 * * * *"
 
@@ -28,15 +46,59 @@
   schedule = "*/5 * * * *"
 
 
+# marketing pages (v4 theme)
+[[redirects]]
+  from = "/how-it-works"
+  to = "/how-it-works.html"
+  status = 200
+
+[[redirects]]
+  from = "/for-hiring"
+  to = "/for-hiring.html"
+  status = 200
+
+[[redirects]]
+  from = "/dinners"
+  to = "/dinners.html"
+  status = 200
+
+[[redirects]]
+  from = "/download"
+  to = "/get"
+  status = 301
+
+[[redirects]]
+  from = "/partners"
+  to = "/partners.html"
+  status = 200
+
+[[redirects]]
+  from = "/post-a-role"
+  to = "/post-a-role.html"
+  status = 200
+
+[[redirects]]
+  from = "/why"
+  to = "/why.html"
+  status = 200
+
+# Invite links carry a referral code and route to the right store per device
+# (iPhone → App Store, Android → Play with referrer, desktop → web app) via /get.
+
 [[redirects]]
   from = "/invite/*"
-  to = "https://app.facemeet.app/?ref=:splat"
+  to = "/get?ref=:splat"
   status = 302
 
 [[redirects]]
   from = "/invite"
-  to = "https://app.facemeet.app/"
+  to = "/get"
   status = 302
+
+[[redirects]]
+  from = "/c/*"
+  to = "/connect.html"
+  status = 200
 
 [[redirects]]
   from = "/p/*"
@@ -60,12 +122,12 @@
 
 [[redirects]]
   from = "/radar"
-  to = "/radar.html"
+  to = "/radar-home.html"
   status = 200
 
 [[redirects]]
   from = "/radar/*"
-  to = "/radar.html"
+  to = "/radar-detail.html"
   status = 200
 
 [[redirects]]
@@ -89,9 +151,50 @@
   status = 200
 
 [[redirects]]
-  from = "/join"
-  to = "/join.html"
+  from = "/signin"
+  to = "/signin.html"
   status = 200
+
+[[redirects]]
+  from = "/meet-founders"
+  to = "/meet-founders.html"
+  status = 200
+
+[[redirects]]
+  from = "/meet-investors"
+  to = "/meet-investors.html"
+  status = 200
+
+[[redirects]]
+  from = "/ai-sourcing"
+  to = "/ai-sourcing.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/recruiter-seat"
+  to = "/recruiter-seat.html"
+  status = 200
+
+[[redirects]]
+  from = "/join"
+  to = "/get"
+  status = 301
+
+[[redirects]]
+  from = "/join/*"
+  to = "/get?ref=:splat"
+  status = 302
+
+[[redirects]]
+  from = "%s"
+  to = "/get"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/pricing"
@@ -140,8 +243,8 @@
 
 [[redirects]]
   from = "/why-facemeet-exists"
-  to = "/why-facemeet-exists.html"
-  status = 200
+  to = "/why"
+  status = 301
 
 [[redirects]]
   from = "/sparks"
@@ -155,8 +258,14 @@
 
 [[redirects]]
   from = "/creators"
-  to = "/creators.html"
-  status = 200
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "%s"
+  to = "/"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/events"
@@ -167,6 +276,14 @@
   from = "/events/*"
   to = "/event.html"
   status = 200
+
+# Bare /roles has no index page yet, so the splat below was serving the empty
+# role.html shell at 200 — a phantom page. Until a real index exists, send it to
+# the hiring page.
+[[redirects]]
+  from = "/roles"
+  to = "/for-hiring"
+  status = 301
 
 [[redirects]]
   from = "/roles/*"
@@ -200,3 +317,40 @@
   [headers.values]
     Content-Type = "application/json"
     Cache-Control = "public, max-age=300"
+
+# retired mockups: send any old bookmark to the live site rather than a 404
+[[redirects]]
+  from = "%s"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "%s"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "%s"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "%s"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "%s"
+  to = "/get"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "%s"
+  to = "/why"
+  status = 301
+  force = true

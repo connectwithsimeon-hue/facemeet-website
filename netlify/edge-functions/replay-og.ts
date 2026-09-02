@@ -9,6 +9,21 @@ const ANON =
 const escapeAttr = (v: string) =>
   v.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
+// A slug that does not resolve must answer 404, not 200 with the page shell.
+// Serving the shell at 200 turns every invented URL into an indexable page, which
+// is how a small site collects thin-content penalties instead of traffic. The body
+// is kept so a person still sees the page's own "unavailable" state; only the status
+// code and the robots tag change, which is what crawlers read.
+async function notFound(response: Response): Promise<Response> {
+  const body = await response.text();
+  const headers = new Headers(response.headers);
+  headers.delete("content-length");
+  return new Response(
+    body.replace(/<head>/i, '<head>\n<meta name="robots" content="noindex">'),
+    { status: 404, headers },
+  );
+}
+
 export default async (request: Request, context: any) => {
   const response = await context.next();
   try {
@@ -30,7 +45,7 @@ export default async (request: Request, context: any) => {
     if (!rpc.ok) return response;
     const data = await rpc.json();
     const r = Array.isArray(data) ? data[0] : data;
-    if (!r || !r.title) return response;
+    if (!r || !r.title) return await notFound(response);
 
     const replayTitle = String(r.title).slice(0, 70);
     const host = String(r.host_name || "a FaceMeet member").slice(0, 40);
@@ -45,7 +60,7 @@ export default async (request: Request, context: any) => {
       `FaceMeet, the startup network where trust is built face to face.`;
     const image = String(r.host_photo_url || "").startsWith("https://")
       ? String(r.host_photo_url)
-      : "https://facemeet.app/assets/brand/facemeet-replay-card.png";
+      : "https://facemeet.app/assets/brand/facemeet-og-conversation.png";
 
     let html = await response.text();
     const tags = [

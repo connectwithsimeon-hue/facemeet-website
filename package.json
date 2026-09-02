@@ -1,0 +1,7 @@
+{
+  "name": "facemeet-website",
+  "private": true,
+  "dependencies": {
+    "ffmpeg-static": "5.2.0"
+  }
+}
